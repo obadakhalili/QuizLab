@@ -3,12 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "node server",
+    "dev": "concurrently \"npm run server\" \"npm run serve\"",
+    "server": "env-cmd -f config/.env nodemon server/db/connect.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "argon2": "^0.26.2",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.15.0",
+    "cookie-parser": "^1.4.5",
     "core-js": "^3.6.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.20",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuex": "^3.4.0"
