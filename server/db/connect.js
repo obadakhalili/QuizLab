@@ -8,7 +8,7 @@ const { connect } = require("mongoose");
       useCreateIndex: true
     });
     console.log("Connected to database");
-    require("../index.js");
+    require("../");
   } catch (e) {
     console.log("Database connection failure\n", e);
     process.exit(1);
