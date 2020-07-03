@@ -2,7 +2,7 @@ const { connect } = require("mongoose");
 
 (async () => {
   try {
-    await connect("mongodb://127.0.0.1/quizlab", {
+    await connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true
