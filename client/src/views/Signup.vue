@@ -63,8 +63,10 @@ export default {
           message: `${this.firstname}, Welcome to Quizlab! You will be redirected in a second`,
           color: "success"
         });
-        this.$store.dispatch("updateAlerts", []);
-        // redirect to dashboard
+        setTimeout(() => {
+          this.$store.dispatch("updateAlerts", []);
+          this.$router.push("/dashboard");
+        }, 1000);
       } catch (errors) {
         this.$store.dispatch(
           "updateAlerts",

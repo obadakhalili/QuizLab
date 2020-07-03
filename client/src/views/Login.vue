@@ -43,7 +43,7 @@ export default {
           password: this.password
         });
         this.$store.dispatch("updateAlerts", []);
-        // redirect to dashbaord
+        this.$router.push("/dashboard");
       } catch (e) {
         this.$store.dispatch("updateAlerts", {
           message: e,

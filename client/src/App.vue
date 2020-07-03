@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Sidebar />
+    <Sidebar v-if="$router.currentRoute.meta.private" />
     <b-container>
       <b-alert
         v-for="({ message, color }, index) in alerts"
