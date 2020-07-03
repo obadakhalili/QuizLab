@@ -8,7 +8,8 @@
     "server": "env-cmd -f config/.env nodemon server/db/connect.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint:client": "vue-cli-service lint client/src",
+    "lint:server": "vue-cli-service lint server"
   },
   "dependencies": {
     "argon2": "^0.26.2",
@@ -43,7 +44,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,vue}": [
-      "vue-cli-service lint",
+      "npm run lint:client",
+      "npm run lint:server",
       "git add"
     ]
   }

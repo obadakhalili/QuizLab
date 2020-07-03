@@ -67,7 +67,11 @@ export default {
           this.$store.dispatch("updateAlerts", []);
           this.$router.push("/dashboard");
         }, 1000);
-      } catch (errors) {
+      } catch ({
+        response: {
+          data: { errors }
+        }
+      }) {
         this.$store.dispatch(
           "updateAlerts",
           errors.map(e => {

@@ -44,9 +44,9 @@ export default {
         });
         this.$store.dispatch("updateAlerts", []);
         this.$router.push("/dashboard");
-      } catch (e) {
+      } catch ({ response: { data: message } }) {
         this.$store.dispatch("updateAlerts", {
-          message: e,
+          message,
           color: "danger"
         });
       }

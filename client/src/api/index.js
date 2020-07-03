@@ -8,7 +8,7 @@ function signup(body) {
         localStorage.setItem("name", name);
         resolve();
       })
-      .catch(e => reject(e.response.data.errors));
+      .catch(reject);
   });
 }
 
@@ -20,7 +20,7 @@ function login(body) {
         localStorage.setItem("name", name);
         resolve();
       })
-      .catch(e => reject(e.response.data));
+      .catch(reject);
   });
 }
 
