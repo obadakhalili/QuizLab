@@ -9,12 +9,18 @@ const mutations = {
     } else {
       state.alerts = payload;
     }
+  },
+  DELETE_ALERT(state, index) {
+    state.alerts.splice(index, 1);
   }
 };
 
 const actions = {
   updateAlerts({ commit }, payload) {
     commit("UPDATE_ALERT", payload);
+  },
+  deleteAlert({ commit }, index) {
+    commit("DELETE_ALERT", index);
   }
 };
 

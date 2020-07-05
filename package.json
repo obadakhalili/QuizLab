@@ -8,23 +8,24 @@
     "server": "env-cmd -f config/.env nodemon server/db/connect.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "lint:client": "vue-cli-service lint client/src",
     "lint:server": "vue-cli-service lint server"
   },
   "dependencies": {
     "argon2": "^0.26.2",
-    "axios": "^0.19.2",
-    "bootstrap": "^4.5.0",
-    "bootstrap-vue": "^2.15.0",
     "cookie-parser": "^1.4.5",
-    "core-js": "^3.6.5",
+    "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.20",
-    "vue": "^2.6.11",
-    "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "multer": "^1.4.2",
+    "sharp": "^0.25.4"
   },
   "devDependencies": {
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-plugin-router": "~4.4.0",
@@ -37,16 +38,13 @@
     "eslint-plugin-vue": "^6.2.2",
     "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue}": [
-      "npm run lint:client",
-      "npm run lint:server",
-      "git add"
-    ]
+    "vue-template-compiler": "^2.6.11",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.5.0",
+    "bootstrap-vue": "^2.15.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.29",
+    "@fortawesome/free-regular-svg-icons": "^5.13.1",
+    "@fortawesome/free-solid-svg-icons": "^5.13.1",
+    "@fortawesome/vue-fontawesome": "^0.1.10"
   }
 }

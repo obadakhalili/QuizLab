@@ -12,7 +12,7 @@ const userSchema = new Schema({
       },
       message: "Not a valid name"
     },
-    maxlength: [30, "Name should not be more than 30 characters"]
+    maxlength: [18, "Name should not be more than 18 characters long"]
   },
   email: {
     type: String,
@@ -32,11 +32,14 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Password is required"],
     minlength: [7, "Password must have a minimum length of 7"]
-  }
+  },
+  avatar: Buffer
 });
 
 userSchema.pre("save", async function(next) {
-  this.password = await hash(this.password);
+  if (this.isModified("password")) {
+    this.password = await hash(this.password);
+  }
   next();
 });
 
@@ -47,7 +50,7 @@ class UserMethods {
   static async findByCredentials({ email, password }) {
     const user = await User.findOne({ email });
     if (!user || !(await verify(user.password, password))) {
-      throw 401;
+      throw "Bad Credentials";
     }
     return user;
   }

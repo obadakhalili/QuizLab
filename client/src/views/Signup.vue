@@ -1,14 +1,14 @@
 <template>
-  <form @submit.prevent="signup">
+  <form @submit.prevent="signup" class="mt-5 mb-3 mx-auto">
+    <h3>Sign Up</h3>
     <b-form-group>
-      <h3>Sign up</h3>
       <label>Name</label>
       <b-input
         v-model="firstname"
         class="mb-2"
-        placeholder="Firstname"
+        placeholder="First name"
       ></b-input>
-      <b-input v-model="lastname" placeholder="Lastname"></b-input>
+      <b-input v-model="lastname" placeholder="Last name"></b-input>
       <small>
         Firstname and Lastname together shouldn't be more than 35 characters
         long
@@ -61,7 +61,7 @@ export default {
         });
         this.$store.dispatch("updateAlerts", {
           message: `${this.firstname}, Welcome to Quizlab! You will be redirected in a second`,
-          color: "success"
+          color: "info"
         });
         setTimeout(() => {
           this.$store.dispatch("updateAlerts", []);

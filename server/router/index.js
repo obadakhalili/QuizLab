@@ -1,4 +1,4 @@
-const usersRouter = require("./users.js");
+const userRouter = require("./user.js");
 // const { join } = require("path");
 const { Router } = require("express");
 
@@ -8,6 +8,6 @@ const router = new Router();
 // res.sendFile("index.html", { root: join(__dirname, "../../client/public") });
 // });
 
-router.use("/users", usersRouter);
+router.use("/user", userRouter);
 
 module.exports = router;

@@ -1,14 +1,17 @@
 <template>
   <div id="app">
-    <Sidebar v-if="$router.currentRoute.meta.private" />
+    <Navigators v-if="$router.currentRoute.meta.private" />
     <b-container>
       <b-alert
         v-for="({ message, color }, index) in alerts"
         :key="index"
-        class="my-3"
         :variant="color"
         show
+        class="mt-3"
       >
+        <button @click="deleteAlert(index)" type="button" class="close">
+          ×
+        </button>
         {{ message }}
       </b-alert>
       <router-view></router-view>
@@ -17,21 +20,21 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Sidebar from "./components/Sidebar.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
   computed: mapGetters(["alerts"]),
+  methods: mapActions(["deleteAlert"]),
   components: {
-    Sidebar
+    Navigators: () => import("./components/Navigators.vue")
   }
 };
 </script>
 
-<style scoped>
-form {
-  max-width: 500px;
-  margin: 50px auto;
+<style>
+form,
+hr {
+  max-width: 575px;
 }
 </style>

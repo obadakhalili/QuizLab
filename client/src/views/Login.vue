@@ -1,6 +1,6 @@
 <template>
-  <form @submit.prevent="login">
-    <h3>Log in</h3>
+  <form @submit.prevent="login" class="mt-5 mb-3 mx-auto">
+    <h3>Log In</h3>
     <b-form-group>
       <label>Email</label>
       <b-input
@@ -42,7 +42,7 @@ export default {
           email: this.email,
           password: this.password
         });
-        this.$store.dispatch("updateAlerts", []);
+        // this.$store.dispatch("updateAlerts", []);
         this.$router.push("/dashboard");
       } catch ({ response: { data: message } }) {
         this.$store.dispatch("updateAlerts", {

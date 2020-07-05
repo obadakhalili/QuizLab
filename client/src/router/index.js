@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import axios from "axios";
 import routes from "./routes.js";
-import { isAuth } from "@/helpers";
+import store from "@/store";
+import { findCookie } from "@/helpers";
 
 Vue.use(VueRouter);
 
@@ -12,17 +14,20 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, _, next) => {
+  store.dispatch("updateAlerts", []);
   if (to.matched.some(match => match.path === "*")) {
     next();
   } else {
+    const isAuthenticated = findCookie("token-header.payload") ?? false;
     if (to.meta.private) {
-      if (isAuth()) {
+      if (isAuthenticated) {
+        axios.defaults.headers.common.pseudorandom = findCookie("pseudorandom");
         next();
       } else {
         next("/login");
       }
     } else {
-      if (isAuth()) {
+      if (isAuthenticated) {
         next("/dashboard");
       } else {
         next();
