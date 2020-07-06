@@ -40,13 +40,13 @@ export default {
   props: ["name"],
   computed: {
     initials() {
-      return this.name[0] + this.name.slice(this.name.indexOf(" ") + 1)[0];
+      return this.name[0] + this.name.split(" ")[1][0];
     }
   },
   methods: {
     async logout() {
-      await API.logout();
-      localStorage.removeItem("name");
+      await API("/user/logout", "get");
+      localStorage.removeItem("user");
       this.$router.push("/login");
     }
   }

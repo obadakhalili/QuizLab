@@ -47,6 +47,17 @@ class UserMethods {
   async generateAuthToken() {
     return await sign({ _id: this._id }, process.env.JWT_SECRET);
   }
+  // toJSON() {
+  //   const userObject = this.toObject();
+  //   const [firstname, lastname] = userObject.name.split(" ");
+  //   userObject.firstname = firstname;
+  //   userObject.lastname = lastname;
+  //   const unwantedFields = ['_id', 'name', 'avatar', 'password', '__v'];
+  //   for (let field of unwantedFields) {
+  //     userObject[field] = undefined;
+  //   }
+  //   return userObject;
+  // }
   static async findByCredentials({ email, password }) {
     const user = await User.findOne({ email });
     if (!user || !(await verify(user.password, password))) {

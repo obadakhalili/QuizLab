@@ -1,22 +1,19 @@
 const User = require("../db/models/User.js");
-const {
-  setPseudorandomAndSignatureCookies,
-  setTokenHeaderAndPayloadCookie
-} = require("../helpers");
 const sharp = require("sharp");
 
-exports.login = async (req, res) => {
+exports.login = async (req, res, next) => {
   try {
     const user = await User.findByCredentials(req.body);
     const [header, payload, signature] = (await user.generateAuthToken()).split(
       "."
     );
-    setPseudorandomAndSignatureCookies(signature, res);
-    setTokenHeaderAndPayloadCookie(`${header}.${payload}`, res);
-    res.send(user.name);
+    req.signature = signature;
+    req.tokenHeaderAndPayload = `${header}.${payload}`;
+    req.user = user;
+    next();
   } catch (e) {
     if (e === "Bad Credentials") {
-      res.status(401).send(e);
+      res.status(400).send(e);
     } else {
       res.status(500).send("Internal Server Error");
     }
@@ -32,13 +29,8 @@ exports.logout = (_, res) => {
 
 exports.signup = async (req, res) => {
   try {
-    const user = await new User(req.body).save();
-    const [header, payload, signature] = (await user.generateAuthToken()).split(
-      "."
-    );
-    setPseudorandomAndSignatureCookies(signature, res);
-    setTokenHeaderAndPayloadCookie(`${header}.${payload}`, res);
-    res.send(user.name);
+    await new User(req.body).save();
+    res.end();
   } catch (e) {
     const errors = [];
     let status = 400;
@@ -68,8 +60,15 @@ exports.updateAccount = async (req, res) => {
     }
   }
   try {
+    const userIsModified = allowedUpdates.some(update =>
+      req.user.isModified(update)
+    );
     await req.user.save();
-    res.end();
+    if (userIsModified) {
+      res.send("Updates were taken");
+    } else {
+      res.send("No new updates");
+    }
   } catch (e) {
     const errors = [];
     let status = 400;
@@ -97,7 +96,6 @@ exports.deleteAccount = async (req, res) => {
 };
 
 exports.getAvatar = async (req, res) => {
-  setTokenHeaderAndPayloadCookie(req.tokenHeaderAndPayload, res);
   res.set("Content-Type", "image/png");
   res.send(req.user.avatar);
 };
@@ -112,7 +110,6 @@ exports.updateAvatar = async (req, res) => {
       .png()
       .toBuffer();
     await req.user.save();
-    setTokenHeaderAndPayloadCookie(req.tokenHeaderAndPayload, res);
     res.end();
   } catch (e) {
     if (e === "You probably should upload a photo first") {
@@ -126,7 +123,6 @@ exports.deleteAvatar = async (req, res) => {
   try {
     req.user.avatar = undefined;
     await req.user.save();
-    setTokenHeaderAndPayloadCookie(req.tokenHeaderAndPayload, res);
     res.send("Deleted Successfully");
   } catch {
     res.status(500).send("Internal Server Error");

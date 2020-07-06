@@ -9,7 +9,12 @@ const {
   updateAvatar,
   deleteAvatar
 } = require("../controllers/user.js");
-const { auth, validatePseudorandom } = require("../middlewares");
+const {
+  auth,
+  validatePseudorandom,
+  setPseudorandomAndSignatureCookies,
+  setHeaderAndPayloadCookie
+} = require("../middlewares");
 const { Router } = require("express");
 const multer = require("multer");
 
@@ -26,15 +31,23 @@ const upload = multer({
   }
 });
 
-router.post("/login", login); // public
-router.get("/logout", logout);
+router.post(
+  "/login",
+  login,
+  setPseudorandomAndSignatureCookies,
+  setHeaderAndPayloadCookie,
+  (req, res) => {
+    res.json(req.user);
+  }
+); // public
+router.get("/logout", logout); // public
 
 router
   .route("/")
   .post(signup) // public
-  .get(auth, validatePseudorandom, getAccount) // private
-  .patch(auth, validatePseudorandom, updateAccount) // private
-  .delete(auth, validatePseudorandom, deleteAccount); // private
+  .get(auth, validatePseudorandom, setHeaderAndPayloadCookie, getAccount) // private
+  .patch(auth, validatePseudorandom, setHeaderAndPayloadCookie, updateAccount) // private
+  .delete(auth, validatePseudorandom, setHeaderAndPayloadCookie, deleteAccount); // private
 
 router // private
   .route("/avatar")
@@ -42,12 +55,13 @@ router // private
   .post(
     auth,
     validatePseudorandom,
+    setHeaderAndPayloadCookie,
     upload.single("avatar"),
     updateAvatar,
-    ({ message }, _0, res, _1) => {
+    ({ message }, req, res, next) => {
       res.status(400).send(message);
     }
   )
-  .delete(auth, validatePseudorandom, deleteAvatar);
+  .delete(auth, validatePseudorandom, setHeaderAndPayloadCookie, deleteAvatar);
 
 module.exports = router;

@@ -1,84 +1,17 @@
 import axios from "axios";
+import router from "../router";
 
-const API = {};
-
-// users API routes
-
-API.login = body => {
+export default function API(url, method, body, headers) {
   return new Promise((resolve, reject) => {
-    axios
-      .post("/api/user/login", body)
-      .then(({ data: name }) => {
-        localStorage.setItem("name", name);
-        resolve();
-      })
-      .catch(reject);
-  });
-};
-
-API.logout = () => {
-  return new Promise(resolve => {
-    axios.get("/api/user/logout").then(resolve);
-  });
-};
-
-API.signup = body => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post("/api/user", body)
-      .then(({ data: name }) => {
-        localStorage.setItem("name", name);
-        resolve();
-      })
-      .catch(reject);
-  });
-};
-
-API.getAccount = () => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get("/api/user")
+    axios[method]("/api" + url, body, headers)
       .then(resolve)
-      .catch(reject);
+      .catch(async e => {
+        if (e.response.status === 401) {
+          await API("/user/logout", "get");
+          localStorage.removeItem("user");
+          router.push("/login");
+        }
+        reject(e);
+      });
   });
-};
-
-API.updateAccount = body => {
-  return new Promise((resolve, reject) => {
-    axios
-      .patch("/api/user", body)
-      .then(resolve)
-      .catch(reject);
-  });
-};
-
-API.deleteAccount = body => {
-  return new Promise((resolve, reject) => {
-    axios
-      .delete("/api/user", body)
-      .then(resolve)
-      .catch(reject);
-  });
-};
-
-API.updateAvatar = avatar => {
-  return new Promise((resolve, reject) => {
-    axios
-      .post("/api/user/avatar", avatar, {
-        "Content-Type": "multipart/form-data"
-      })
-      .then(resolve)
-      .catch(reject);
-  });
-};
-
-API.deleteAvatar = () => {
-  return new Promise((resolve, reject) => {
-    axios
-      .delete("/api/user/avatar")
-      .then(resolve)
-      .catch(reject);
-  });
-};
-
-export default API;
+}

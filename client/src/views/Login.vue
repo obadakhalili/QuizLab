@@ -38,11 +38,11 @@ export default {
   methods: {
     async login() {
       try {
-        await API.login({
+        const { data } = await API("/user/login", "post", {
           email: this.email,
           password: this.password
         });
-        // this.$store.dispatch("updateAlerts", []);
+        localStorage.setItem("user", JSON.stringify(data));
         this.$router.push("/dashboard");
       } catch ({ response: { data: message } }) {
         this.$store.dispatch("updateAlerts", {

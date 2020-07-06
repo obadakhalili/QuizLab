@@ -12,16 +12,19 @@ import Navbar from "./Navbar.vue";
 export default {
   name: "Navigators",
   created() {
-    this.name = localStorage.getItem("name") ?? "";
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.firstname = user?.firstname;
+    this.lastname = user?.lastname;
   },
   data() {
     return {
-      name: ""
+      firstname: "",
+      lastname: ""
     };
   },
   computed: {
-    firstname() {
-      return this.name.split(" ")[0];
+    name() {
+      return `${this.firstname} ${this.lastname}`;
     }
   },
   components: {

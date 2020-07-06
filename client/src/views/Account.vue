@@ -55,13 +55,10 @@ import API from "@/api";
 export default {
   name: "Account",
   async created() {
-    const {
-      data: { name, email }
-    } = await API.getAccount();
-    const splitedName = name.split(" ");
-    this.firstname = splitedName[0];
-    this.lastname = splitedName[1];
-    this.email = email;
+    const user = JSON.parse(localStorage.getItem("user"));
+    this.firstname = user?.firstname;
+    this.lastname = user?.lastname;
+    this.email = user?.email;
   },
   data() {
     return {
@@ -79,7 +76,7 @@ export default {
       const formData = new FormData();
       formData.set("avatar", this.avatar);
       try {
-        await API.updateAvatar(formData);
+        await API("/user/avatar", "post", formData);
         this.$store.dispatch("updateAlerts", {
           message: "Photo uploaded successfully",
           color: "success"
@@ -95,7 +92,7 @@ export default {
     },
     async deleteAvatar() {
       try {
-        const { data: message } = await API.deleteAvatar();
+        const { data: message } = await API("/user/avatar", "delete");
         this.$store.dispatch("updateAlerts", {
           message,
           color: "success"
@@ -108,15 +105,16 @@ export default {
       }
     },
     async updateAccount() {
+      // ...
       try {
-        await API.updateAccount({
+        const { data: message } = await API("/user", "patch", {
           name: `${this.firstname} ${this.lastname}`,
           email: this.email,
           password: this.password || undefined
         });
         this.$store.dispatch("updateAlerts", {
-          message: "Updates were taken successfully",
-          color: "success"
+          message,
+          color: "info"
         });
       } catch ({
         response: {
@@ -136,9 +134,9 @@ export default {
     },
     async deleteAccount() {
       try {
-        await API.deleteAccount();
-        await API.logout();
-        localStorage.removeItem("name");
+        await API("/user", "delete");
+        await API("/user/logout", "get");
+        localStorage.removeItem("user");
         this.$router.push("/login");
       } catch {
         this.$store.dispatch("updateAlerts", {

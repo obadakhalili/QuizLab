@@ -54,27 +54,20 @@ export default {
   methods: {
     async signup() {
       try {
-        await API.signup({
+        await API("/user", "post", {
           name: `${this.firstname} ${this.lastname}`,
           email: this.email,
           password: this.password
         });
+        this.$router.push("/login");
         this.$store.dispatch("updateAlerts", {
-          message: `${this.firstname}, Welcome to Quizlab! You will be redirected in a second`,
+          message: `${this.firstname}, Welcome to Quizlab! Please login`,
           color: "info"
         });
-        setTimeout(() => {
-          this.$store.dispatch("updateAlerts", []);
-          this.$router.push("/dashboard");
-        }, 1000);
-      } catch ({
-        response: {
-          data: { errors }
-        }
-      }) {
+      } catch (e) {
         this.$store.dispatch(
           "updateAlerts",
-          errors.map(e => {
+          e.response.data.errors.map(e => {
             return {
               message: e,
               color: "danger"

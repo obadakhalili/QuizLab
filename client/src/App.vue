@@ -2,32 +2,27 @@
   <div id="app">
     <Navigators v-if="$router.currentRoute.meta.private" />
     <b-container>
-      <b-alert
-        v-for="({ message, color }, index) in alerts"
+      <AlertBox
+        v-for="(alert, index) in alerts"
         :key="index"
-        :variant="color"
-        show
-        class="mt-3"
-      >
-        <button @click="deleteAlert(index)" type="button" class="close">
-          ×
-        </button>
-        {{ message }}
-      </b-alert>
+        :index="index"
+        :alert="alert"
+      />
       <router-view></router-view>
     </b-container>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
+import AlertBox from "./components/AlertBox.vue";
 
 export default {
   name: "App",
   computed: mapGetters(["alerts"]),
-  methods: mapActions(["deleteAlert"]),
   components: {
-    Navigators: () => import("./components/Navigators.vue")
+    AlertBox,
+    Navigators: () => import("./components/Navigators")
   }
 };
 </script>

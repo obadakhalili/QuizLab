@@ -22,3 +22,27 @@ exports.validatePseudorandom = (req, res, next) => {
   }
   next();
 };
+
+exports.setPseudorandomAndSignatureCookies = (req, res, next) => {
+  const isProduction = process.env.NODE_ENV === "production";
+  res.cookie("token-signature", req.signature, {
+    httpOnly: true,
+    sameSite: true,
+    secure: isProduction
+  });
+  const pseudorandom = Math.floor(Math.random() * 1000000000);
+  res.cookie("pseudorandom", pseudorandom, {
+    sameSite: true,
+    secure: isProduction
+  });
+  next();
+};
+
+exports.setHeaderAndPayloadCookie = (req, res, next) => {
+  res.cookie("token-header.payload", req.tokenHeaderAndPayload, {
+    sameSite: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 1000 * 60 * 30 // 30 mins
+  });
+  next();
+};
