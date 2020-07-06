@@ -105,7 +105,6 @@ export default {
       }
     },
     async updateAccount() {
-      // ...
       try {
         const { data: message } = await API("/user", "patch", {
           name: `${this.firstname} ${this.lastname}`,
