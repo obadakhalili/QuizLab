@@ -36,6 +36,7 @@
         <label>Password</label>
         <b-input
           v-model="password"
+          type="password"
           placeholder="Enter a new password"
         ></b-input>
       </b-form-group>
