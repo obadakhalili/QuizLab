@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from "../router";
+import store from "../store";
 
 export default function API(url, method, body, headers) {
   return new Promise((resolve, reject) => {
@@ -8,8 +9,11 @@ export default function API(url, method, body, headers) {
       .catch(async e => {
         if (e.response.status === 401) {
           await API("/user/logout", "get");
-          localStorage.removeItem("user");
           router.push("/login");
+          return store.dispatch("updateAlerts", {
+            message: "Not Authenticated",
+            color: "danger"
+          });
         }
         reject(e);
       });

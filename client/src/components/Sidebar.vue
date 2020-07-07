@@ -46,7 +46,6 @@ export default {
   methods: {
     async logout() {
       await API("/user/logout", "get");
-      localStorage.removeItem("user");
       this.$router.push("/login");
     }
   }

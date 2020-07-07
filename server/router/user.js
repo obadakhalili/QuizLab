@@ -36,8 +36,8 @@ router.post(
   login,
   setPseudorandomAndSignatureCookies,
   setHeaderAndPayloadCookie,
-  (req, res) => {
-    res.json(req.user);
+  (_, res) => {
+    res.end();
   }
 ); // public
 router.get("/logout", logout); // public

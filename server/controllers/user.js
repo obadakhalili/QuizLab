@@ -9,7 +9,6 @@ exports.login = async (req, res, next) => {
     );
     req.signature = signature;
     req.tokenHeaderAndPayload = `${header}.${payload}`;
-    req.user = user;
     next();
   } catch (e) {
     if (e === "Bad Credentials") {
@@ -64,11 +63,10 @@ exports.updateAccount = async (req, res) => {
       req.user.isModified(update)
     );
     await req.user.save();
-    if (userIsModified) {
-      res.send("Updates were taken");
-    } else {
-      res.send("No new updates");
-    }
+    res.json({
+      userIsModified,
+      user: userIsModified ? req.user : undefined
+    });
   } catch (e) {
     const errors = [];
     let status = 400;
@@ -91,7 +89,7 @@ exports.deleteAccount = async (req, res) => {
     await req.user.remove();
     res.end();
   } catch {
-    res.status(500).end();
+    res.status(500).send("Internal Server Error");
   }
 };
 

@@ -22,20 +22,29 @@
       <b-form-group>
         <label>Name</label>
         <b-input
-          v-model="firstname"
+          :value="firstname"
+          @input="firstnameInput = $event"
           class="mb-2"
           placeholder="First name"
         ></b-input>
-        <b-input v-model="lastname" placeholder="Last name"></b-input>
+        <b-input
+          :value="lastname"
+          @input="lastnameInput = $event"
+          placeholder="Last name"
+        ></b-input>
       </b-form-group>
       <b-form-group>
         <label>Email</label>
-        <b-input v-model="email" placeholder="Enter a new email"></b-input>
+        <b-input
+          :value="email"
+          @input="emailInput = $event"
+          placeholder="Enter a new email"
+        ></b-input>
       </b-form-group>
       <b-form-group>
         <label>Password</label>
         <b-input
-          v-model="password"
+          v-model="passwordInput"
           type="password"
           placeholder="Enter a new password"
         ></b-input>
@@ -55,21 +64,26 @@ import API from "@/api";
 
 export default {
   name: "Account",
-  async created() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    this.firstname = user?.firstname;
-    this.lastname = user?.lastname;
-    this.email = user?.email;
-  },
   data() {
     return {
       avatar: null,
       avatarIsUpdating: false,
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: ""
+      firstnameInput: "",
+      lastnameInput: "",
+      emailInput: "",
+      passwordInput: ""
     };
+  },
+  computed: {
+    firstname() {
+      return this.$store.getters.userField("firstname");
+    },
+    lastname() {
+      return this.$store.getters.userField("lastname");
+    },
+    email() {
+      return this.$store.getters.userField("email");
+    }
   },
   methods: {
     async updateAvatar() {
@@ -82,9 +96,9 @@ export default {
           message: "Photo uploaded successfully",
           color: "success"
         });
-      } catch ({ response: { data: message } }) {
+      } catch (e) {
         this.$store.dispatch("updateAlerts", {
-          message,
+          message: e.response.data,
           color: "danger"
         });
       } finally {
@@ -98,32 +112,39 @@ export default {
           message,
           color: "success"
         });
-      } catch ({ response: { data: message } }) {
-        this.store.$dispatch("updateAlerts", {
-          message,
+      } catch (e) {
+        this.$store.dispatch("updateAlerts", {
+          message: e.response.data,
           color: "danger"
         });
       }
     },
     async updateAccount() {
       try {
-        const { data: message } = await API("/user", "patch", {
-          name: `${this.firstname} ${this.lastname}`,
-          email: this.email,
-          password: this.password || undefined
+        const {
+          data: { userIsModified, user: info }
+        } = await API("/user", "patch", {
+          name: `${this.firstnameInput || this.firstname} ${this
+            .lastnameInput || this.lastname}`,
+          email: this.emailInput || this.email,
+          password: this.passwordInput || undefined
         });
-        this.$store.dispatch("updateAlerts", {
-          message,
-          color: "info"
-        });
-      } catch ({
-        response: {
-          data: { errors }
+        if (userIsModified) {
+          this.$store.dispatch("updateUserInfo", info);
+          this.$store.dispatch("updateAlerts", {
+            message: "Updates were talen",
+            color: "success"
+          });
+        } else {
+          this.$store.dispatch("updateAlerts", {
+            message: "No updates made",
+            color: "info"
+          });
         }
-      }) {
+      } catch (e) {
         this.$store.dispatch(
           "updateAlerts",
-          errors.map(e => {
+          e.response.data.errors.map(e => {
             return {
               message: e,
               color: "danger"
@@ -136,11 +157,10 @@ export default {
       try {
         await API("/user", "delete");
         await API("/user/logout", "get");
-        localStorage.removeItem("user");
         this.$router.push("/login");
-      } catch {
+      } catch (e) {
         this.$store.dispatch("updateAlerts", {
-          message: "Internal Server Error",
+          message: e.response.data,
           color: "danger"
         });
       }
