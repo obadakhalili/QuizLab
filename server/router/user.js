@@ -51,7 +51,7 @@ router
 
 router // private
   .route("/avatar")
-  .get(auth, getAvatar)
+  .get(auth, setHeaderAndPayloadCookie, getAvatar)
   .post(
     auth,
     validatePseudorandom,

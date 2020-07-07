@@ -68,9 +68,9 @@ export default {
     return {
       avatar: null,
       avatarIsUpdating: false,
-      firstnameInput: "",
-      lastnameInput: "",
-      emailInput: "",
+      firstnameInput: this.firstname,
+      lastnameInput: this.lastname,
+      emailInput: this.email,
       passwordInput: ""
     };
   },
@@ -83,6 +83,17 @@ export default {
     },
     email() {
       return this.$store.getters.userField("email");
+    }
+  },
+  watch: {
+    firstname(newValue) {
+      this.firstnameInput = newValue;
+    },
+    lastname(newValue) {
+      this.lastnameInput = newValue;
+    },
+    email(newValue) {
+      this.emailInput = newValue;
     }
   },
   methods: {
@@ -122,15 +133,14 @@ export default {
     async updateAccount() {
       try {
         const {
-          data: { userIsModified, user: info }
+          data: { userIsModified, user }
         } = await API("/user", "patch", {
-          name: `${this.firstnameInput || this.firstname} ${this
-            .lastnameInput || this.lastname}`,
-          email: this.emailInput || this.email,
+          name: `${this.firstnameInput} ${this.lastnameInput}`,
+          email: this.emailInput,
           password: this.passwordInput || undefined
         });
         if (userIsModified) {
-          this.$store.dispatch("updateUserInfo", info);
+          this.$store.dispatch("updateUserInfo", user);
           this.$store.dispatch("updateAlerts", {
             message: "Updates were talen",
             color: "success"
