@@ -7,7 +7,11 @@
     header-class="ml-5"
     :title="name"
   >
-    <b-avatar :text="initials" :src="baseRoute + '/user/avatar'" class="avatar"></b-avatar>
+    <b-avatar
+      :text="initials"
+      :src="baseRoute + '/user/avatar'"
+      class="avatar"
+    ></b-avatar>
     <ul class="list-unstyled mt-3">
       <router-link to="/dashboard">
         <li>

@@ -2,7 +2,8 @@ import axios from "axios";
 import router from "../router";
 import store from "../store";
 
-const baseRoute = "/api" + (process.env.NODE_ENV === "development" ? "" : "/v1");
+const baseRoute =
+  "/api" + (process.env.NODE_ENV === "development" ? "" : "/v1");
 
 export default function API(url, method, body, headers) {
   return new Promise((resolve, reject) => {
