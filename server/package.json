@@ -1,0 +1,19 @@
+{
+  "name": "quizlab-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node db/connect.js",
+    "server": "env-cmd -f config/.env nodemon db/connect.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.20",
+    "argon2": "^0.26.2",
+    "jsonwebtoken": "^8.5.1",
+    "cookie-parser": "^1.4.5",
+    "multer": "^1.4.2",
+    "sharp": "^0.25.4"
+  },
+  "author": "Obada Khalili"
+}
