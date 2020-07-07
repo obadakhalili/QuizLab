@@ -7,7 +7,7 @@
     header-class="ml-5"
     :title="name"
   >
-    <b-avatar :text="initials" src="/api/user/avatar" class="avatar"></b-avatar>
+    <b-avatar :text="initials" :src="baseRoute + '/user/avatar'" class="avatar"></b-avatar>
     <ul class="list-unstyled mt-3">
       <router-link to="/dashboard">
         <li>
@@ -38,6 +38,11 @@ import API from "@/api";
 export default {
   name: "Sidebar",
   props: ["name"],
+  data() {
+    return {
+      baseRoute: "/api" + (process.env.NODE_ENV === "development" ? "" : "/v1")
+    };
+  },
   computed: {
     initials() {
       return this.name[0] + this.name.split(" ")[1][0];
