@@ -42,7 +42,7 @@ exports.setHeaderAndPayloadCookie = (req, res, next) => {
   res.cookie("token-header.payload", req.tokenHeaderAndPayload, {
     sameSite: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 30 // 30 mins
+    maxAge: 1000 * 60 * 60 // 60 mins
   });
   next();
 };

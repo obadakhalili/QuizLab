@@ -1,12 +1,22 @@
 const router = require("./router");
 const express = require("express");
+const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 
 const app = express();
 
+app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
-app.use("/v1", router);
+app.use("/api/v1", router);
+
+if (process.env.NODE_ENV === "production") {
+  const staticsDir = __dirname + "/dist";
+  app.use(express.static(staticsDir));
+  app.get("*", (_, res) => {
+    res.sendFile("index.html", { root: staticsDir });
+  });
+}
 
 const port = process.env.PORT;
 
