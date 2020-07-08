@@ -63,7 +63,7 @@ export default {
 }
 
 ul li {
-  padding: 15px 20px 13px 20px;
+  padding: 12px 20px 8px 20px;
 }
 
 ul li:hover {

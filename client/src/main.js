@@ -1,7 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
 import "./plugins/bootstrap.js";
-import "./plugins/fontawesome.js";
 import router from "./router";
 import store from "./store";
 

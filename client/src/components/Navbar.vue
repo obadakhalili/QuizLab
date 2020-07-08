@@ -2,12 +2,9 @@
   <b-navbar type="dark" variant="dark" class="mb-2">
     <b-navbar-brand href="#">{{ firstname }}</b-navbar-brand>
     <a href="#" class="ml-auto">
-      <font-awesome-icon
-        :icon="['fas', 'bars']"
-        color="white"
-        size="2x"
-        v-b-toggle.sidebar-backdrop
-      />
+      <h1>
+        <BIconList v-b-toggle.sidebar-backdrop />
+      </h1>
     </a>
   </b-navbar>
 </template>
@@ -18,3 +15,11 @@ export default {
   props: ["firstname"]
 };
 </script>
+
+<style>
+  h1 {
+    color: white;
+    position: relative;
+    top: 7px;
+  }
+</style>
