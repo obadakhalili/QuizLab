@@ -11,7 +11,7 @@ export default function(url, method, body, headers) {
       .then(resolve)
       .catch(async e => {
         if (e.response.status === 401) {
-          startLogoutProcess();
+          await startLogoutProcess();
           return store.dispatch("updateAlerts", {
             message: "Not Authenticated",
             color: "danger"
