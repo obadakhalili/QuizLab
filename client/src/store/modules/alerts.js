@@ -3,7 +3,7 @@ const state = {
 };
 
 const mutations = {
-  UPDATE_ALERT(state, payload) {
+  UPDATE_ALERTS(state, payload) {
     if (payload.constructor !== Array) {
       state.alerts.splice(0, state.alerts.length, payload);
     } else {
@@ -17,7 +17,7 @@ const mutations = {
 
 const actions = {
   updateAlerts({ commit }, payload) {
-    commit("UPDATE_ALERT", payload);
+    commit("UPDATE_ALERTS", payload);
   },
   deleteAlert({ commit }, index) {
     commit("DELETE_ALERT", index);
