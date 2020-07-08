@@ -22,24 +22,15 @@
       <b-form-group>
         <label>Name</label>
         <b-input
-          :value="firstname"
-          @input="firstnameInput = $event"
+          v-model="userFirstname"
           class="mb-2"
           placeholder="First name"
         ></b-input>
-        <b-input
-          :value="lastname"
-          @input="lastnameInput = $event"
-          placeholder="Last name"
-        ></b-input>
+        <b-input v-model="userLastname" placeholder="Last name"></b-input>
       </b-form-group>
       <b-form-group>
         <label>Email</label>
-        <b-input
-          :value="email"
-          @input="emailInput = $event"
-          placeholder="Enter a new email"
-        ></b-input>
+        <b-input v-model="userEmail" placeholder="Enter a new email"></b-input>
       </b-form-group>
       <b-form-group>
         <label>Password</label>
@@ -68,35 +59,48 @@ export default {
     return {
       avatar: null,
       avatarIsUpdating: false,
-      firstnameInput: this.firstname,
-      lastnameInput: this.lastname,
-      emailInput: this.email,
+      firstnameInput: "",
+      lastnameInput: "",
+      emailInput: "",
       passwordInput: ""
     };
   },
   computed: {
-    firstname() {
-      return this.$store.getters.userField("firstname");
+    userFirstname: {
+      get() {
+        const firstname = this.$store.getters.userField("firstname");
+        this.updateInput("firstnameInput", firstname);
+        return firstname;
+      },
+      set(value) {
+        this.firstnameInput = value;
+      }
     },
-    lastname() {
-      return this.$store.getters.userField("lastname");
+    userLastname: {
+      get() {
+        const lastname = this.$store.getters.userField("lastname");
+        this.updateInput("lastnameInput", lastname);
+        return lastname;
+      },
+      set(value) {
+        this.lastnameInput = value;
+      }
     },
-    email() {
-      return this.$store.getters.userField("email");
-    }
-  },
-  watch: {
-    firstname(newValue) {
-      this.firstnameInput = newValue;
-    },
-    lastname(newValue) {
-      this.lastnameInput = newValue;
-    },
-    email(newValue) {
-      this.emailInput = newValue;
+    userEmail: {
+      get() {
+        const email = this.$store.getters.userField("email");
+        this.updateInput("emailInput", email);
+        return email;
+      },
+      set(value) {
+        this.emailInput = value;
+      }
     }
   },
   methods: {
+    updateInput(input, value) {
+      this[input] = value;
+    },
     async updateAvatar() {
       this.avatarIsUpdating = true;
       const formData = new FormData();
