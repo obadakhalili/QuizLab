@@ -18,7 +18,7 @@ router.beforeEach((to, _, next) => {
   if (to.matched.some(match => match.path === "*")) {
     next();
   } else {
-    const isAuthenticated = findCookie("token-header.payload") ?? false;
+    const isAuthenticated = findCookie("token-header.payload");
     if (to.meta.private) {
       if (isAuthenticated) {
         axios.defaults.headers.common.pseudorandom = findCookie("pseudorandom");
