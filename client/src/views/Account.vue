@@ -52,6 +52,7 @@
 
 <script>
 import API from "@/api";
+import { startLogoutProcess } from "@/helpers";
 
 export default {
   name: "Account",
@@ -170,8 +171,7 @@ export default {
     async deleteAccount() {
       try {
         await API("/user", "delete");
-        await API("/user/logout", "get");
-        this.$router.push("/login");
+        startLogoutProcess();
       } catch (e) {
         this.$store.dispatch("updateAlerts", {
           message: e.response.data,

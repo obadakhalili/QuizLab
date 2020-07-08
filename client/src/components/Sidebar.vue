@@ -29,7 +29,7 @@
       <li>
         <h6>Report</h6>
       </li>
-      <li @click="logout">
+      <li @click="startLogoutProcess">
         <h6>Sign out</h6>
       </li>
     </ul>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import API from "@/api";
+import { startLogoutProcess } from "@/helpers";
 
 export default {
   name: "Sidebar",
@@ -53,10 +53,7 @@ export default {
     }
   },
   methods: {
-    async logout() {
-      await API("/user/logout", "get");
-      this.$router.push("/login");
-    }
+    startLogoutProcess
   }
 };
 </script>
