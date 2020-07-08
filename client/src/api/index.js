@@ -5,7 +5,7 @@ import { startLogoutProcess } from "@/helpers";
 const baseRoute =
   "/api" + (process.env.NODE_ENV === "development" ? "" : "/v1");
 
-export default function API(url, method, body, headers) {
+export default function(url, method, body, headers) {
   return new Promise((resolve, reject) => {
     axios[method](baseRoute + url, body, headers)
       .then(resolve)
