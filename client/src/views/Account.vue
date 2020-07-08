@@ -60,18 +60,16 @@ export default {
     return {
       avatar: null,
       avatarIsUpdating: false,
-      firstnameInput: "",
-      lastnameInput: "",
-      emailInput: "",
+      firstnameInput: this.$store.getters.userField("firstname") ?? "",
+      lastnameInput: this.$store.getters.userField("lastname") ?? "",
+      emailInput: this.$store.getters.userField("email") ?? "",
       passwordInput: ""
     };
   },
   computed: {
     userFirstname: {
       get() {
-        const firstname = this.$store.getters.userField("firstname");
-        this.updateInput("firstnameInput", firstname);
-        return firstname;
+        return this.$store.getters.userField("firstname");
       },
       set(value) {
         this.firstnameInput = value;
@@ -79,9 +77,7 @@ export default {
     },
     userLastname: {
       get() {
-        const lastname = this.$store.getters.userField("lastname");
-        this.updateInput("lastnameInput", lastname);
-        return lastname;
+        return this.$store.getters.userField("lastname");
       },
       set(value) {
         this.lastnameInput = value;
@@ -89,19 +85,25 @@ export default {
     },
     userEmail: {
       get() {
-        const email = this.$store.getters.userField("email");
-        this.updateInput("emailInput", email);
-        return email;
+        return this.$store.getters.userField("email");
       },
       set(value) {
         this.emailInput = value;
       }
     }
   },
-  methods: {
-    updateInput(input, value) {
-      this[input] = value;
+  watch: {
+    userFirstname(newValue) {
+      this.firstnameInput = newValue;
     },
+    userLastname(newValue) {
+      this.lastnameInput = newValue;
+    },
+    userEmail(newValue) {
+      this.emailInput = newValue;
+    }
+  },
+  methods: {
     async updateAvatar() {
       this.avatarIsUpdating = true;
       const formData = new FormData();
