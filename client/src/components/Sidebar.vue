@@ -26,9 +26,6 @@
       <li>
         <h6>My Quizzes</h6>
       </li>
-      <li>
-        <h6>Report</h6>
-      </li>
       <li @click="startLogoutProcess">
         <h6>Sign out</h6>
       </li>
