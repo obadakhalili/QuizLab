@@ -104,8 +104,9 @@ export default {
     }
   },
   methods: {
-    async updateAvatar() {
+    async updateAvatar({ submitter }) {
       this.avatarIsUpdating = true;
+      submitter.disabled = true;
       const formData = new FormData();
       formData.set("avatar", this.avatar);
       try {
@@ -121,6 +122,7 @@ export default {
         });
       } finally {
         this.avatarIsUpdating = false;
+        submitter.disabled = false;
       }
     },
     async deleteAvatar() {
