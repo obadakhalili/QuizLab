@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import axios from "axios";
-import routes from "./routes.js";
+import routes from "./routes";
 import store from "@/store";
 import { findCookie } from "@/helpers";
 

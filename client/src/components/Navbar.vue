@@ -17,9 +17,9 @@ export default {
 </script>
 
 <style>
-  h1 {
-    color: white;
-    position: relative;
-    top: 7px;
-  }
+h1 {
+  color: white;
+  position: relative;
+  top: 7px;
+}
 </style>
