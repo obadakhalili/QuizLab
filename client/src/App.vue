@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <Navigators v-if="routeIsPrivate" />
+    <div v-if="routeIsPrivate">
+      <Navbar />
+      <Sidebar/>
+    </div>
     <b-container>
       <AlertBox
         v-for="(alert, index) in alerts"
@@ -43,7 +46,8 @@ export default {
   },
   components: {
     AlertBox,
-    Navigators: () => import("./components/Navigators")
+    Navbar: () => import("./components/Navbar"),
+    Sidebar: () => import("./components/Sidebar")
   }
 };
 </script>

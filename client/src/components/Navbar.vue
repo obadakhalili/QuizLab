@@ -12,7 +12,11 @@
 <script>
 export default {
   name: "Navbar",
-  props: ["firstname"]
+  computed: {
+    firstname() {
+      return this.$store.getters.userField("firstname");
+    }
+  }
 };
 </script>
 

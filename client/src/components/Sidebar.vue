@@ -38,15 +38,23 @@ import { startLogoutProcess } from "@/helpers";
 
 export default {
   name: "Sidebar",
-  props: ["name"],
   data() {
     return {
       baseRoute: "/api" + (process.env.NODE_ENV === "development" ? "" : "/v1")
     };
   },
   computed: {
+    firstname() {
+      return this.$store.getters.userField("firstname");
+    },
+    lastname() {
+      return this.$store.getters.userField("lastname");
+    },
+    name() {
+      return `${this.firstname} ${this.lastname}`;
+    },
     initials() {
-      return this.name[0] + this.name.split(" ")[1][0];
+      return this.firstname[0] + this.lastname[0];
     }
   },
   methods: {
