@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import UpdateAvatarForm from "@/components/account/UpdateAvatarForm.vue";
-import DeleteAvatarForm from "@/components/account/DeleteAvatarForm.vue";
-import UpdateAccountInfoForm from "@/components/account/UpdateAccountInfoForm.vue";
-import DeleteAccountForm from "@/components/account/DeleteAccountForm.vue";
+import UpdateAvatarForm from "@/components/Account/UpdateAvatarForm.vue";
+import DeleteAvatarForm from "@/components/Account/DeleteAvatarForm.vue";
+import UpdateAccountInfoForm from "@/components/Account/UpdateAccountInfoForm.vue";
+import DeleteAccountForm from "@/components/Account/DeleteAccountForm.vue";
 
 export default {
   name: "Account",
