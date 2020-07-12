@@ -1,7 +1,7 @@
 <template>
-  <form @submit.prevent="deleteAvatar" class="mx-auto">
+  <form class="mx-auto">
     <h3>Delete Your Avatar</h3>
-    <b-button type="submit" variant="danger">Delete</b-button>
+    <b-button @click="confirm" variant="danger">Delete</b-button>
   </form>
 </template>
 
@@ -11,19 +11,25 @@ import API from "@/api";
 export default {
   name: "DeleteAvatarForm",
   methods: {
-    async deleteAvatar() {
-      try {
-        const { data: message } = await API("/user/avatar", "delete");
-        this.$store.dispatch("updateAlerts", {
-          message,
-          color: "success"
-        });
-      } catch (e) {
-        this.$store.dispatch("updateAlerts", {
-          message: e.response.data,
-          color: "danger"
-        });
-      }
+    confirm() {
+      this.$store.dispatch("updateModalInfo", {
+        message: "Are you sure you want to delete your avatar",
+        procedure: async () => {
+          try {
+            const { data: message } = await API("/user/avatar", "delete");
+            this.$store.dispatch("updateAlerts", {
+              message,
+              color: "success"
+            });
+          } catch (e) {
+            this.$store.dispatch("updateAlerts", {
+              message: e.response.data,
+              color: "danger"
+            });
+          }
+        }
+      });
+      this.$bvModal.show("emphasization-modal");
     }
   }
 };

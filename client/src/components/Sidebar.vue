@@ -54,7 +54,7 @@ export default {
       return `${this.firstname} ${this.lastname}`;
     },
     initials() {
-      return this.firstname[0] + this.lastname[0];
+      return this.firstname ? this.firstname[0] + this.lastname[0] : "";
     }
   },
   methods: {

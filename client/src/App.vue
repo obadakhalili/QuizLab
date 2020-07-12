@@ -3,6 +3,7 @@
     <div v-if="routeIsPrivate">
       <Navbar />
       <Sidebar/>
+      <ConfirmModal />
     </div>
     <b-container>
       <AlertBox
@@ -47,7 +48,8 @@ export default {
   components: {
     AlertBox,
     Navbar: () => import("./components/Navbar"),
-    Sidebar: () => import("./components/Sidebar")
+    Sidebar: () => import("./components/Sidebar"),
+    ConfirmModal: () => import("./components/ConfirmModal")
   }
 };
 </script>
