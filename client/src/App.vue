@@ -2,7 +2,7 @@
   <div id="app">
     <div v-if="routeIsPrivate">
       <Navbar />
-      <Sidebar/>
+      <Sidebar />
       <ConfirmModal />
     </div>
     <b-container>
