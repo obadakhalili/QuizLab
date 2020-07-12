@@ -2,7 +2,7 @@
   <form @submit.prevent="deleteAvatar" class="mx-auto">
     <h3>Delete Your Avatar</h3>
     <b-button type="submit" variant="danger">Delete</b-button>
-  </form>  
+  </form>
 </template>
 
 <script>

@@ -2,7 +2,7 @@
   <form @submit.prevent="deleteAccount" class="mx-auto mb-3">
     <h3>Delete Your Account</h3>
     <b-button type="submit" variant="danger">Delete</b-button>
-  </form>  
+  </form>
 </template>
 
 <script>

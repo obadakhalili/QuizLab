@@ -12,7 +12,11 @@
     </b-form-group>
     <b-form-group>
       <label>Email</label>
-      <b-input v-model="userEmail" type="email" placeholder="Enter a new email"></b-input>
+      <b-input
+        v-model="userEmail"
+        type="email"
+        placeholder="Enter a new email"
+      ></b-input>
     </b-form-group>
     <b-form-group>
       <label>Password</label>
@@ -23,7 +27,7 @@
       ></b-input>
     </b-form-group>
     <b-button type="submit" variant="success">Edit</b-button>
-  </form>  
+  </form>
 </template>
 
 <script>
