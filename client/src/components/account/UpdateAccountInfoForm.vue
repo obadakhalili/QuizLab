@@ -12,7 +12,7 @@
     </b-form-group>
     <b-form-group>
       <label>Email</label>
-      <b-input v-model="userEmail" placeholder="Enter a new email"></b-input>
+      <b-input v-model="userEmail" type="email" placeholder="Enter a new email"></b-input>
     </b-form-group>
     <b-form-group>
       <label>Password</label>

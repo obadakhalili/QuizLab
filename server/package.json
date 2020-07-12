@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "node db/connect.js",
-    "dev": "concurrently \"npm run server\" \"cd ../client && npm run serve\"",
     "server": "env-cmd -f config/.env nodemon db/connect.js"
   },
   "dependencies": {
