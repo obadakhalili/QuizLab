@@ -10,10 +10,10 @@ export default function(url, method, body, headers) {
     axios[method](baseRoute + url, body, headers)
       .then(resolve)
       .catch(async e => {
-        if (e.response.status === 401) {
+        if (e.response.status === 401 || e.response.status === 500) {
           await startLogoutProcess();
           return store.dispatch("updateAlerts", {
-            message: "Not Authenticated",
+            message: e.response.data,
             color: "danger"
           });
         }
