@@ -12,7 +12,7 @@ exports.auth = async (req, res, next) => {
     req.tokenHeaderAndPayload = req.cookies["token-header.payload"];
     next();
   } catch {
-    res.status(401).end();
+    res.status(401).send("Not Authenticated");
   }
 };
 
