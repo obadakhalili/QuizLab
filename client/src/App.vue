@@ -49,8 +49,7 @@ export default {
 </script>
 
 <style>
-form,
-hr {
+form {
   max-width: 575px;
 }
 </style>

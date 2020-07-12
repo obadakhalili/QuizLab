@@ -1,12 +1,9 @@
 <template>
   <div>
-    <UpdateAvatarForm />
-    <hr />
-    <DeleteAvatarForm />
-    <hr />
-    <UpdateAccountInfoForm />
-    <hr />
-    <DeleteAccountForm />
+    <UpdateAvatarForm class="mb-5" />
+    <DeleteAvatarForm class="mb-5" />
+    <UpdateAccountInfoForm class="mb-5" />
+    <DeleteAccountForm class="mb-5" />
   </div>
 </template>
 
