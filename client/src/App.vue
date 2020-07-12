@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import AlertBox from "./components/AlertBox.vue";
+import AlertBox from "./components/AlertBox";
 import API from "./api";
 
 export default {
