@@ -33,7 +33,11 @@ const userSchema = new Schema({
     required: [true, "Password is required"],
     minlength: [7, "Password must have a minimum length of 7"]
   },
-  avatar: Buffer
+  avatar: Buffer,
+  quizzes: [{
+    type: Schema.Types.ObjectId,
+    ref: "Quiz"
+  }]
 });
 
 userSchema.pre("save", async function(next) {

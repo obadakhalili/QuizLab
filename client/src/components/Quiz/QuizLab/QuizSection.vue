@@ -1,0 +1,78 @@
+<template>
+  <div class="section">
+    <button
+      v-if="isNotFirstSection"
+      @click="deleteSection"
+      type="button"
+      class="close mr-2"
+    >
+      ×
+    </button>
+    <span @input="changeSectionTitle" contenteditable>{{ section.title }}</span>
+    <div class="noselect">
+      <label @click="addQuestion" class="mr-2">New Question</label>
+      <label @click="addSection">New Section</label>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "QuizSection",
+  props: ["section", "isNotFirstSection"],
+  methods: {
+    changeSectionTitle({ target }) {
+      if (/^.+$/.test(target.innerText)) {
+        this.section.title = target.innerText;
+      } else {
+        target.innerText = "Not a Valid Title";
+      }
+    },
+    deleteSection() {
+      const parentSectionContent = this.section.parentSection.content;
+      const sectionIndex = parentSectionContent.findIndex(
+        context => context === this.section
+      );
+      parentSectionContent.splice(sectionIndex, 1);
+      this.$parent.$forceUpdate();
+    },
+    addSection() {
+      this.section.content.push({
+        title: "Section Name",
+        content: [],
+        parentSection: this.section
+      });
+      this.$parent.$forceUpdate();
+    },
+    addQuestion() {
+      this.section.content.push({
+        title: "",
+        choices: [
+          { title: "Choice Title" },
+          {
+            title: "Correct Choice is Highlighted",
+            correct: true
+          }
+        ],
+        parentSection: this.section
+      });
+      this.$parent.$forceUpdate();
+    }
+  }
+};
+</script>
+
+<style scoped>
+.section {
+  background-color: #e5e5e5;
+  padding: 10px 0 0 15px;
+  min-height: 70px;
+}
+label {
+  color: #17a2b8;
+  cursor: pointer;
+}
+label:hover {
+  text-decoration: underline;
+}
+</style>

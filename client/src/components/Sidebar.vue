@@ -13,19 +13,16 @@
       class="avatar"
     ></b-avatar>
     <ul class="list-unstyled mt-3">
-      <router-link to="/dashboard">
-        <li>
-          <h6>Dashboard</h6>
-        </li>
-      </router-link>
       <router-link to="/account">
         <li>
           <h6>Account</h6>
         </li>
       </router-link>
-      <li>
-        <h6>My Quizzes</h6>
-      </li>
+      <router-link to="/quizzes">
+        <li>
+          <h6>Quizzes</h6>
+        </li>
+      </router-link>
       <li @click="startLogoutProcess">
         <h6>Sign out</h6>
       </li>

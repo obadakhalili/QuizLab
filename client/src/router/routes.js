@@ -1,28 +1,35 @@
 export default [
   {
     path: "/signup",
-    component: () => import("@/views/Signup.vue")
+    component: () => import("@/views/Signup")
   },
   {
     path: "/login",
-    component: () => import("@/views/Login.vue")
+    component: () => import("@/views/Login")
   },
   {
-    path: "/dashboard",
-    component: () => import("@/views/Dashboard.vue"),
+    path: "/account",
+    component: () => import("@/views/Account"),
     meta: {
       private: true
     }
   },
   {
-    path: "/account",
-    component: () => import("@/views/Account.vue"),
+    path: "/(quizzes|dashboard)",
+    component: () => import("@/views/Quizzes/QuizzesDashboard"),
+    meta: {
+      private: true
+    }
+  },
+  {
+    path: "/new",
+    component: () => import("@/views/Quizzes/QuizLab"),
     meta: {
       private: true
     }
   },
   {
     path: "*",
-    component: () => import("@/views/NotFound.vue")
+    component: () => import("@/views/NotFound")
   }
 ];

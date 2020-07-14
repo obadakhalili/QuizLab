@@ -1,6 +1,6 @@
 <template>
-  <form class="mx-auto mb-3">
-    <h3>Delete Your Account</h3>
+  <form class="mx-auto">
+    <h3>Delete Account</h3>
     <b-button @click="confirm" variant="danger">Delete</b-button>
   </form>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="updateAvatar" class="mt-5 mx-auto">
+  <form @submit.prevent="updateAvatar" class="mx-auto">
     <h3>Update Avatar</h3>
     <b-form-file v-model="avatar" class="mt-2 mb-2"></b-form-file>
     <b-button type="submit" variant="secondary">

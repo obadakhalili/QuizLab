@@ -1,11 +1,6 @@
 <template>
   <b-alert class="my-3" :variant="alert.color" show>
-    <button
-      @click="deleteAlert(index)"
-      type="button"
-      aria-label="Close"
-      class="close"
-    >
+    <button @click="deleteAlert(index)" type="button" class="close">
       ×
     </button>
     {{ alert.message }}

@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <div v-if="routeIsPrivate">
+    <template v-if="routeIsPrivate">
       <Navbar />
       <Sidebar />
       <ConfirmModal />
-    </div>
+    </template>
     <b-container>
       <AlertBox
         v-for="(alert, index) in alerts"
@@ -57,5 +57,13 @@ export default {
 <style>
 form {
   max-width: 575px;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 </style>

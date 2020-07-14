@@ -26,7 +26,7 @@
         placeholder="Enter a new password"
       ></b-input>
     </b-form-group>
-    <b-button type="submit" variant="success">Edit</b-button>
+    <b-button type="submit" variant="success">Update</b-button>
   </form>
 </template>
 
