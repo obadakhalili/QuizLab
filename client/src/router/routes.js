@@ -29,6 +29,13 @@ export default [
     }
   },
   {
+    path: "/edit/:id",
+    component: () => import("@/views/Quizzes/QuizLab"),
+    meta: {
+      private: true
+    }
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFound")
   }

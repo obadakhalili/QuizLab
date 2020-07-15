@@ -93,7 +93,7 @@ export default {
         if (userIsModified) {
           this.$store.dispatch("updateUserInfo", user);
           this.$store.dispatch("updateAlerts", {
-            message: "Updates were talen",
+            message: "Updates were taken",
             color: "success"
           });
         } else {

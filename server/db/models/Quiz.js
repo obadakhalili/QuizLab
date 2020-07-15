@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const quizSchema = new Schema({
   quiz: {
     type: String,
-    required: [true, "Quiz representative is required"]
+    required: [true, "Quiz is required"]
   },
   title: {
     type: String,

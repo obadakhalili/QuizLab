@@ -34,9 +34,7 @@ exports.signup = async (req, res) => {
     const errors = [];
     let status = 400;
     if (e.name === "ValidationError") {
-      for (let error in e.errors) {
-        errors.push(e.errors[error].message);
-      }
+      Object.values(e.errors).forEach(error => errors.push(error.message));
     } else if (e.code === 11000) {
       errors.push("Email alrady exists. Try different email");
     } else {
@@ -71,9 +69,7 @@ exports.updateAccount = async (req, res) => {
     const errors = [];
     let status = 400;
     if (e.name === "ValidationError") {
-      for (let error in e.errors) {
-        errors.push(e.errors[error].message);
-      }
+      Object.values(e.errors).forEach(error => errors.push(error.message));
     } else if (e.code === 11000) {
       errors.push("Email alrady exists. Try different email");
     } else {

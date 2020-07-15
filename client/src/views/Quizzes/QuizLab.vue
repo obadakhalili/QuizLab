@@ -1,8 +1,8 @@
 <script>
 import { parse, stringify } from "flatted";
 import API from "@/api";
-import QuizSection from "@/components/Quiz/QuizLab/QuizSection";
-import QuizQestion from "@/components/Quiz/QuizLab/QuizQuestion";
+import QuizSection from "@/components/Quiz/QuizSection";
+import QuizQestion from "@/components/Quiz/QuizQuestion";
 
 export default {
   name: "QuizLab",
@@ -31,13 +31,6 @@ export default {
       });
     }
     return createVNode("div", { class: "lab mt-5 mx-auto" }, [
-      createVNode("div", { class: "mb-2" }, [
-        createVNode("BIconInfoCircle"),
-        createVNode(
-          "small",
-          " Do not leave any title empty. Sections titles and choices titles can't have new lines."
-        )
-      ]),
       createContentVNode(this.quiz.mainSection),
       createVNode(
         "b-button",
@@ -61,7 +54,16 @@ export default {
         content: []
       };
     } else {
-      // request quiz with the same id in params
+      this.getQuiz();
+      this.quiz.options = {
+        shuffled: false,
+        blocked: false
+        // etc ...
+      };
+      this.quiz.mainSection = {
+        title: "Quiz Title",
+        content: []
+      };
     }
   },
   data() {
@@ -70,16 +72,36 @@ export default {
     };
   },
   methods: {
-    async submitQuiz() {
+    submitQuiz() {
       if (this.$route.path === "/new") {
-        const response = await API("/quiz", "post", {
-          title: this.quiz.mainSection.title,
-          quiz: stringify(this.quiz)
-        });
-        console.log(response);
+        this.insertNewQuiz();
       } else {
         // update quiz with new content
       }
+    },
+    async insertNewQuiz() {
+      try {
+        await API("/quiz", "post", {
+          title: this.quiz.mainSection.title,
+          quiz: stringify(this.quiz)
+        });
+        this.$store.dispatch("updateAlerts", {
+          message: "Quiz was submitted",
+          color: "success"
+        });
+      } catch (e) {
+        this.$store.dispatch("updateAlerts", e.response.data.errors.map(message => {
+          return {
+            message,
+            color: "danger"
+          }
+        }));
+      }
+    },
+    async getQuiz() {
+      const response = await API("/quiz/" + this.$route.params.id, "get");
+
+      this.quiz = parse(response.data[0].quiz);
     }
   },
   components: {

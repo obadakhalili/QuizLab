@@ -33,11 +33,13 @@ const userSchema = new Schema({
     required: [true, "Password is required"],
     minlength: [7, "Password must have a minimum length of 7"]
   },
-  avatar: Buffer,
-  quizzes: [{
-    type: Schema.Types.ObjectId,
-    ref: "Quiz"
-  }]
+  avatar: Buffer
+});
+
+userSchema.virtual("quizzes", {
+  ref: "Quiz",
+  localField: "_id",
+  foreignField: "owner"
 });
 
 userSchema.pre("save", async function(next) {
