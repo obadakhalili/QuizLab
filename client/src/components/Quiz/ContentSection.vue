@@ -8,7 +8,11 @@
     >
       ×
     </button>
-    <span @input="changeSectionTitle" contenteditable>{{ section.title }}</span>
+    <b-input
+      v-model="section.title"
+      :placeholder="isNotFirstSection ? 'Section Title' : 'Quiz Title'"
+      class="col-8"
+    ></b-input>
     <div class="noselect">
       <label @click="addQuestion" class="mr-2">New Question</label>
       <label @click="addSection">New Section</label>
@@ -38,7 +42,7 @@ export default {
     },
     addSection() {
       this.section.content.push({
-        title: "Section Name",
+        title: "",
         content: [],
         parentSection: this.section
       });

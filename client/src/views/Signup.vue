@@ -67,7 +67,7 @@ export default {
       } catch (e) {
         this.$store.dispatch(
           "updateAlerts",
-          e.response.data.errors.map(message => {
+          e.response.data.map(message => {
             return {
               message,
               color: "danger"

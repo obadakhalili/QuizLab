@@ -27,17 +27,8 @@ export default {
         // etc ...
       };
       this.quiz.mainSection = {
-        title: "Quiz Title",
-        content: [{
-          title: "",
-          choices: [
-            { title: "" },
-            {
-              title: "",
-              correct: true
-            }
-          ]
-        }]
+        title: "",
+        content: []
       };
     } else if (this.routeIsEdit) {
       this.setQuiz();
@@ -74,7 +65,26 @@ export default {
       // validate quiz
     },
     async insertNewQuiz() {
-      
+      try {
+        await API("/quiz", "post", {
+          title: this.quiz.mainSection.title,
+          quiz: stringify(this.quiz)
+        });
+        this.$store.dispatch("updateAlerts", {
+          message: "Quiz was submitted successfully",
+          color: "success"
+        });
+      } catch (e) {
+        this.$store.dispatch(
+          "updateAlerts",
+          e.response.data.map(message => {
+            return {
+              message,
+              color: "danger"
+            };
+          })
+        );
+      }
     },
     async editQuiz() {
       // edit quiz
