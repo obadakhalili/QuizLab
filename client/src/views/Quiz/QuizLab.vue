@@ -118,7 +118,7 @@ export default {
     }
   },
   components: {
-    QuizContent: () => import("@/components/Quiz/QuizContent")
+    QuizContent: () => import("@/components/Quiz/LabContent")
   }
 };
 </script>
