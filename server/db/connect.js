@@ -5,7 +5,8 @@ const { connect } = require("mongoose");
     await connect(process.env.MONGODB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useFindAndModify: false
     });
     console.log("Connected to database");
     require("../");

@@ -1,12 +1,9 @@
 <template>
-  <div class="lab mt-5 mx-auto">
+  <div v-if="quiz" class="lab mt-5 mx-auto">
     <QuizContent :quiz="quiz" />
     <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
-      <template v-if="routeIsNew">
-        Submit Quiz
-      </template>
-      <template v-else>
-        Edit Quiz
+      <template>
+        {{ routeIsNew ? "Submit Quiz" : "Update Quiz" }}
       </template>
     </b-button>
   </div>
@@ -15,12 +12,12 @@
 <script>
 import { parse, stringify } from "flatted";
 import API from "@/api";
-import QuizContent from "@/components/Quiz/QuizContent";
 
 export default {
   name: "QuizLab",
   created() {
     if (this.routeIsNew) {
+      this.quiz = {};
       this.quiz.options = {
         shuffled: false,
         blocked: false
@@ -30,35 +27,42 @@ export default {
         title: "",
         content: []
       };
-    } else if (this.routeIsEdit) {
-      this.setQuiz();
     } else {
-      // redirect
+      this.setQuiz();
     }
   },
   data() {
     return {
-      quiz: {}
+      quiz: null
     };
   },
   computed: {
     routeIsNew() {
       return this.$route.path === "/new";
     },
-    routeIsEdit() {
-      return this.$route.path === "/edit";
+    IDParam() {
+      return this.$route.params.id;
     }
   },
   methods: {
     async setQuiz() {
-      // ..
+      try {
+        const response = await API("/quiz/" + this.IDParam, "get");
+        this.quiz = parse(response.data.quiz);
+      } catch (e) {
+        this.$router.push("/dashboard");
+        this.$store.dispatch("updateAlerts", {
+          message: e.response.data,
+          color: "danger"
+        });
+      }
     },
     submitQuiz() {
       this.validateQuiz();
       if (this.routeIsNew) {
         this.insertNewQuiz();
       } else {
-        this.editQuiz();
+        this.updateQuiz();
       }
     },
     validateQuiz() {
@@ -86,12 +90,35 @@ export default {
         );
       }
     },
-    async editQuiz() {
-      // edit quiz
+    async updateQuiz() {
+      try {
+        const { data: { isModified } } = await API("/quiz/" + this.IDParam, "patch", {
+          title: this.quiz.mainSection.title,
+          quiz: stringify(this.quiz)
+        });
+        if (isModified) {
+          this.$store.dispatch("updateAlerts", {
+            message: "Quiz new updates were taken",
+            color: "success"
+          });
+        } else {
+          this.$store.dispatch("updateAlerts", {
+            message: "No updates made",
+            color: "info"
+          });
+        }
+      } catch (e) {
+        this.$store.dispatch("updateAlerts", e.response.data.map(message => {
+          return {
+            message,
+            color: "danger"
+          };
+        }));
+      }
     }
   },
   components: {
-    QuizContent
+    QuizContent: () => import("@/components/Quiz/QuizContent")
   }
 };
 </script>

@@ -15,4 +15,16 @@ const quizSchema = new Schema({
   }
 });
 
+class QuizMethods {
+  toJSON() {
+    const quizObject = this.toObject();
+    quizObject._id = undefined;
+    quizObject.__v = undefined;
+    quizObject.title = undefined;
+    return quizObject;
+  }
+}
+
+quizSchema.loadClass(QuizMethods);
+
 module.exports = new model("Quiz", quizSchema);

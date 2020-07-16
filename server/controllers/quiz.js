@@ -14,12 +14,48 @@ exports.addQuiz = async (req, res) => {
 };
 
 exports.getQuiz = async (req, res) => {
-  // handle wrong format ids and internal server error
-  res.json(await Quiz.find({ _id: req.params.id }));
+  try {
+    const quiz = await Quiz.findOne({ _id: req.params.id });
+    if (!quiz) {
+      throw "Quiz not found";
+    }
+    res.json(quiz);
+  } catch (e) {
+    if (e.name === "CastError") {
+      res.status(400).send("Wrong ID");
+    } else if (e === "Quiz not found") {
+      res.status(404).send(e);
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+  }
 };
 
 exports.updateQuiz = async (req, res) => {
-  res.send("PATCH Quiz");
+  try {
+    const doc = await Quiz.findOne({ _id: req.params.id });
+    if (!doc) {
+      throw "Quiz not found";
+    }
+    doc.title = req.body.title;
+    doc.quiz = req.body.quiz;
+    const docIsModified = doc.isModified("title") || doc.isModified("quiz");
+    await doc.save();
+    res.json({ isModified: docIsModified });
+  } catch (e) {
+    const errors = [];
+    const status = 400;
+    if (e.name === "ValidationError") {
+      Object.values(e.errors).forEach(({ message }) => errors.push(message));
+    } else if (e.name === "CastError") {
+      errors.push("Wrong ID");
+    } else if (e === "Quiz not found") {
+      errors.push(e);
+    } else {
+      return res.status(500).send("Internal Server Error");
+    }
+    res.status(status).json(errors);
+  }
 };
 
 exports.deleteQuiz = async (req, res) => {
