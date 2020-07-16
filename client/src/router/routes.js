@@ -22,14 +22,14 @@ export default [
     }
   },
   {
-    path: "/lab/new",
+    path: "/new",
     component: () => import("@/views/Quiz/QuizLab"),
     meta: {
       private: true
     }
   },
   {
-    path: "/lab/edit/:id",
+    path: "/edit/:id",
     component: () => import("@/views/Quiz/QuizLab"),
     meta: {
       private: true

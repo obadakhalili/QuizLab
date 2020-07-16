@@ -1,8 +1,8 @@
 <template>
   <div v-if="quiz" class="lab mt-5 mx-auto">
-    <b-form-group label="Exam Rules:">
-      <b-form-checkbox v-model="quiz.rules.shuffled">Shuffled</b-form-checkbox>
-      <b-form-checkbox v-model="quiz.rules.blocked">Blocked</b-form-checkbox>
+    <b-form-group label="Exam Options:">
+      <b-form-checkbox v-model="quiz.options.shuffled">Shuffled</b-form-checkbox>
+      <b-form-checkbox v-model="quiz.options.blocked">Blocked</b-form-checkbox>
     </b-form-group>
     <QuizContent :quiz="quiz" />
     <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
@@ -22,7 +22,7 @@ export default {
   created() {
     if (this.routeIsNew) {
       this.quiz = {};
-      this.quiz.rules = {
+      this.quiz.options = {
         shuffled: true,
         blocked: false
         // etc ...
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     routeIsNew() {
-      return this.$route.path === "/lab/new";
+      return this.$route.path === "/new";
     },
     IDParam() {
       return this.$route.params.id;
@@ -112,12 +112,15 @@ export default {
           });
         }
       } catch (e) {
-        this.$store.dispatch("updateAlerts", e.response.data.map(message => {
-          return {
-            message,
-            color: "danger"
-          };
-        }));
+        this.$store.dispatch(
+          "updateAlerts",
+          e.response.data.map(message => {
+            return {
+              message,
+              color: "danger"
+            };
+          })
+        );
       }
     }
   },
@@ -129,7 +132,7 @@ export default {
 
 <style scoped>
 .lab {
-  max-width: 700px;
+  max-width: 900px;
 }
 .submit-btn {
   background-color: #343a40;

@@ -11,7 +11,7 @@
     <b-input
       v-model="section.title"
       :placeholder="isNotFirstSection ? 'Section Title' : 'Quiz Title'"
-      class="col-8"
+      class="col-10"
     ></b-input>
     <div class="noselect">
       <label @click="addQuestion" class="mr-2">New Question</label>

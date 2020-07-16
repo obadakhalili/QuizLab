@@ -3,13 +3,12 @@
     <button @click="deleteQuestion" type="button" class="close mr-2">
       ×
     </button>
-    <b-col sm="11">
-      <b-form-textarea
-        v-model="question.title"
-        size="sm"
-        placeholder="Question Title"
-      ></b-form-textarea>
-    </b-col>
+    <b-form-textarea
+      v-model="question.title"
+      size="sm"
+      class="col-10"
+      placeholder="Question Title"
+    ></b-form-textarea>
     <div class="noselect">
       <small
         @click="changeToMultipleChoice"
