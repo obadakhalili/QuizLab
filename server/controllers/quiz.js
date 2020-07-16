@@ -6,7 +6,7 @@ exports.addQuiz = async (req, res) => {
     res.end();
   } catch (e) {
     if (e.name === "ValidationError") {
-      const errors = Object.values(e.errors).map(({ message } )=> message);
+      const errors = Object.values(e.errors).map(({ message })=> message);
       return res.status(400).json(errors);
     }
     res.status(500).send("Internal Server Error");

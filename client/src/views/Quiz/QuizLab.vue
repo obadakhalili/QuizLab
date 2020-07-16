@@ -1,5 +1,9 @@
 <template>
   <div v-if="quiz" class="lab mt-5 mx-auto">
+    <b-form-group label="Exam Rules:">
+      <b-form-checkbox v-model="quiz.rules.shuffled">Shuffled</b-form-checkbox>
+      <b-form-checkbox v-model="quiz.rules.blocked">Blocked</b-form-checkbox>
+    </b-form-group>
     <QuizContent :quiz="quiz" />
     <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
       <template>
@@ -18,8 +22,8 @@ export default {
   created() {
     if (this.routeIsNew) {
       this.quiz = {};
-      this.quiz.options = {
-        shuffled: false,
+      this.quiz.rules = {
+        shuffled: true,
         blocked: false
         // etc ...
       };
