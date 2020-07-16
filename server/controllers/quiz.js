@@ -45,10 +45,8 @@ exports.updateQuiz = async (req, res) => {
     const status = 400;
     if (e.name === "ValidationError") {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
-    } else if (e.name === "CastError") {
-      errors.push("Wrong ID");
-    } else if (e === "Quiz not found") {
-      errors.push(e);
+    } else if (e.name === "CastError" || e === "Quiz not found") {
+      errors.push("Quiz not found");
     } else {
       return res.status(500).send("Internal Server Error");
     }
