@@ -34,14 +34,13 @@ exports.signup = async (req, res) => {
     const errors = [];
     let status = 400;
     if (e.name === "ValidationError") {
-      Object.values(e.errors).forEach(error => errors.push(error.message));
+      Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.code === 11000) {
       errors.push("Email alrady exists. Try different email");
     } else {
-      errors.push("Internal Server Error");
-      status = 500;
+      return res.status(500).send("Internal Server Error")
     }
-    res.status(status).json({ errors });
+    res.status(status).json(errors);
   }
 };
 
@@ -69,14 +68,13 @@ exports.updateAccount = async (req, res) => {
     const errors = [];
     let status = 400;
     if (e.name === "ValidationError") {
-      Object.values(e.errors).forEach(error => errors.push(error.message));
+      Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.code === 11000) {
       errors.push("Email alrady exists. Try different email");
     } else {
-      errors.push("Internal Server Error");
-      status = 500;
+      return res.status(500).send("Internal Server Error")
     }
-    res.status(status).json({ errors });
+    res.status(status).json(errors);
   }
 };
 

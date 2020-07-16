@@ -3,17 +3,13 @@ const Quiz = require("../db/models/Quiz.js");
 exports.addQuiz = async (req, res) => {
   try {
     await Quiz({ ...req.body, owner: req.user_id }).save();
-    res.send("Saved !"); 
+    res.end();
   } catch (e) {
-    const errors = [];
-    let status = 400;
     if (e.name === "ValidationError") {
-      Object.values(e.errors).forEach(error => errors.push(error.message));
-    } else {
-      errors.push("Internal Server Error");
-      status = 500;
+      const errors = Object.values(e.errors).map(({ message } )=> message);
+      return res.status(400).json(errors);
     }
-    res.status(status).json({ errors });
+    res.status(500).send("Internal Server Error");
   }
 };
 
