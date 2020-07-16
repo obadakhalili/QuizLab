@@ -7,7 +7,7 @@
       <b-form-textarea
         v-model="question.title"
         size="sm"
-        placeholder="Question Text"
+        placeholder="Question Title"
       ></b-form-textarea>
     </b-col>
     <div class="noselect">
@@ -42,13 +42,13 @@
           >
             ×
           </button>
-          <span
-            @input="changeChoiceTitle(index, $event.target)"
+          <b-input
             @click.stop
-            contenteditable
-          >
-            {{ choice.title }}
-          </span>
+            v-model="choice.title"
+            size="sm"
+            class="col-10"
+            placeholder="Choice Title"
+          ></b-input>
         </b-list-group-item>
       </b-list-group>
       <b-button @click="addNewChoice" variant="info" class="mt-2 btn-sm">
@@ -93,13 +93,6 @@ export default {
       delete choices.find(choice => choice.correct)?.correct;
       choices[index].correct = true;
       this.$forceUpdate();
-    },
-    changeChoiceTitle(index, target) {
-      if (/^.+$/.test(target.innerText)) {
-        this.question.choices[index].title = target.innerText;
-      } else {
-        target.innerText = "Not a Valid Title";
-      }
     },
     addNewChoice() {
       const choices = this.question.choices;

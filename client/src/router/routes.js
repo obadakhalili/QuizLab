@@ -16,21 +16,21 @@ export default [
   },
   {
     path: "/(quizzes|dashboard)",
-    component: () => import("@/views/Quizzes/QuizzesDashboard"),
+    component: () => import("@/views/Quiz/QuizzesDashboard"),
     meta: {
       private: true
     }
   },
   {
     path: "/new",
-    component: () => import("@/views/Quizzes/QuizLab"),
+    component: () => import("@/views/Quiz/QuizLab"),
     meta: {
       private: true
     }
   },
   {
     path: "/edit/:id",
-    component: () => import("@/views/Quizzes/QuizLab"),
+    component: () => import("@/views/Quiz/QuizLab"),
     meta: {
       private: true
     }

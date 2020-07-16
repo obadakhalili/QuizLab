@@ -48,9 +48,9 @@ export default {
       this.section.content.push({
         title: "",
         choices: [
-          { title: "Choice Title" },
+          { title: "" },
           {
-            title: "Correct Choice is Highlighted",
+            title: "",
             correct: true
           }
         ],
