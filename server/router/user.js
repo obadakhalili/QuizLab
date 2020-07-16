@@ -45,9 +45,24 @@ router.get("/logout", logout); // public
 router
   .route("/")
   .post(signup) // public
-  .get(auth, validatePseudorandom, setHeaderAndPayloadCookie, getAccount) // private
-  .patch(auth, validatePseudorandom, setHeaderAndPayloadCookie, updateAccount) // private
-  .delete(auth, validatePseudorandom, setHeaderAndPayloadCookie, deleteAccount); // private
+  .get(
+    auth,
+    validatePseudorandom,
+    setHeaderAndPayloadCookie,
+    getAccount
+  ) // private
+  .patch(
+    auth,
+    validatePseudorandom,
+    setHeaderAndPayloadCookie,
+    updateAccount
+  ) // private
+  .delete(
+    auth,
+    validatePseudorandom,
+    setHeaderAndPayloadCookie,
+    deleteAccount
+  ); // private
 
 router // private
   .route("/avatar")
@@ -62,6 +77,11 @@ router // private
       res.status(400).send(message);
     }
   )
-  .delete(auth, validatePseudorandom, setHeaderAndPayloadCookie, deleteAvatar);
+  .delete(
+    auth,
+    validatePseudorandom,
+    setHeaderAndPayloadCookie,
+    deleteAvatar
+  );
 
 module.exports = router;
