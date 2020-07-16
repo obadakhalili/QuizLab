@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     routeIsNew() {
-      return this.$route.path === "/new";
+      return this.$route.path === "/lab/new";
     },
     IDParam() {
       return this.$route.params.id;
