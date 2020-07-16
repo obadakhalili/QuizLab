@@ -21,10 +21,8 @@ exports.getQuiz = async (req, res) => {
     }
     res.json(quiz);
   } catch (e) {
-    if (e.name === "CastError") {
-      res.status(400).send("Wrong ID");
-    } else if (e === "Quiz not found") {
-      res.status(404).send(e);
+    if (e.name === "CastError" || e === "Quiz not found") {
+      res.status(400).send("Quiz not found");
     } else {
       res.status(500).send("Internal Server Error");
     }
