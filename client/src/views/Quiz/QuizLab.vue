@@ -92,11 +92,11 @@ export default {
     },
     async updateQuiz() {
       try {
-        const { data: { isModified } } = await API("/quiz/" + this.IDParam, "patch", {
+        const response = await API("/quiz/" + this.IDParam, "patch", {
           title: this.quiz.mainSection.title,
           quiz: stringify(this.quiz)
         });
-        if (isModified) {
+        if (response.data.isModified) {
           this.$store.dispatch("updateAlerts", {
             message: "Quiz new updates were taken",
             color: "success"
