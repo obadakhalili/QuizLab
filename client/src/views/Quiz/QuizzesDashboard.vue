@@ -1,14 +1,21 @@
 <template>
-  <div>
-    <h1 class="text-center mt-5">Quizzes</h1>
-    <router-link to="/new">
-      New Quiz
-    </router-link>
-  </div>
+  
 </template>
 
 <script>
+import API from "@/api";
+
 export default {
-  name: "QuizzesDashboard"
+  name: "QuizzesDashboard",
+  async created() {
+    const response = await API("/quiz", "get");
+
+    console.log(response);
+  },
+  data() {
+    return {
+      
+    };
+  }
 };
 </script>

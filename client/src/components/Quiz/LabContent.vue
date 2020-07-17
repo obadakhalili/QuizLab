@@ -28,9 +28,9 @@ export default {
         }
       });
     }
-    return createContentVNode(this.quiz.mainSection);
+    return createContentVNode(this.labContent.mainSection);
   },
-  props: ["quiz"],
+  props: ["labContent"],
   components: {
     QuizSection,
     QuizQestion

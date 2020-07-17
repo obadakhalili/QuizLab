@@ -1,10 +1,10 @@
 <template>
-  <div v-if="quiz" class="lab mt-5 mx-auto">
+  <div v-if="labContent" class="lab mt-5 mx-auto">
     <b-form-group label="Exam Options:">
-      <b-form-checkbox v-model="quiz.options.shuffled">Shuffled</b-form-checkbox>
-      <b-form-checkbox v-model="quiz.options.blocked">Blocked</b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.shuffled">Shuffled</b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.blocked">Blocked</b-form-checkbox>
     </b-form-group>
-    <QuizContent :quiz="quiz" />
+    <LabContent :labContent="labContent" />
     <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
       <template>
         {{ routeIsNew ? "Submit Quiz" : "Update Quiz" }}
@@ -21,13 +21,13 @@ export default {
   name: "QuizLab",
   created() {
     if (this.routeIsNew) {
-      this.quiz = {};
-      this.quiz.options = {
+      this.labContent = {};
+      this.labContent.options = {
         shuffled: true,
         blocked: false
         // etc ...
       };
-      this.quiz.mainSection = {
+      this.labContent.mainSection = {
         title: "",
         content: []
       };
@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      quiz: null
+      labContent: null
     };
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
     async setQuiz() {
       try {
         const response = await API("/quiz/" + this.IDParam, "get");
-        this.quiz = parse(response.data.quiz);
+        this.labContent = parse(response.data);
       } catch (e) {
         this.$router.push("/dashboard");
         this.$store.dispatch("updateAlerts", {
@@ -75,8 +75,8 @@ export default {
     async insertNewQuiz() {
       try {
         await API("/quiz", "post", {
-          title: this.quiz.mainSection.title,
-          quiz: stringify(this.quiz)
+          title: this.labContent.mainSection.title,
+          lab_content: stringify(this.labContent)
         });
         this.$store.dispatch("updateAlerts", {
           message: "Quiz was submitted successfully",
@@ -97,10 +97,10 @@ export default {
     async updateQuiz() {
       try {
         const response = await API("/quiz/" + this.IDParam, "patch", {
-          title: this.quiz.mainSection.title,
-          quiz: stringify(this.quiz)
+          title: this.labContent.mainSection.title,
+          labContent: stringify(this.labContent)
         });
-        if (response.data.isModified) {
+        if (response.data.quizIsModified) {
           this.$store.dispatch("updateAlerts", {
             message: "Quiz new updates were taken",
             color: "success"
@@ -125,7 +125,7 @@ export default {
     }
   },
   components: {
-    QuizContent: () => import("@/components/Quiz/LabContent")
+    LabContent: () => import("@/components/Quiz/LabContent")
   }
 };
 </script>
