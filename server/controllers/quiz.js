@@ -2,7 +2,7 @@ const Quiz = require("../db/models/Quiz.js");
 
 exports.addQuiz = async (req, res) => {
   try {
-    await Quiz({ ...req.body, owner: req.user_id }).save();
+    await Quiz({ ...req.body, owner: req.user._id }).save();
     res.end();
   } catch (e) {
     if (e.name === "ValidationError") {
@@ -19,7 +19,7 @@ exports.getQuiz = async (req, res) => {
     if (!quiz) {
       throw "Quiz not found";
     }
-    res.json(quiz);
+    res.json(quiz.lab_content);
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {
       res.status(400).send("Quiz not found");
@@ -29,17 +29,26 @@ exports.getQuiz = async (req, res) => {
   }
 };
 
+exports.getAllQuizzes = async (req, res) => {
+  try {
+    await req.user.populate("quizzes").execPopulate();
+    res.json(req.user.quizzes);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 exports.updateQuiz = async (req, res) => {
   try {
-    const doc = await Quiz.findOne({ _id: req.params.id });
-    if (!doc) {
+    const quiz = await Quiz.findOne({ _id: req.params.id });
+    if (!quiz) {
       throw "Quiz not found";
     }
-    doc.title = req.body.title;
-    doc.quiz = req.body.quiz;
-    const docIsModified = doc.isModified("title") || doc.isModified("quiz");
-    await doc.save();
-    res.json({ isModified: docIsModified });
+    quiz.title = req.body.title;
+    quiz.lab_content = req.body.labContent;
+    const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
+    await quiz.save();
+    res.json({ quizIsModified });
   } catch (e) {
     const errors = [];
     const status = 400;

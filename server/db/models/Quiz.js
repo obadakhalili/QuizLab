@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const quizSchema = new Schema({
-  quiz: {
+  lab_content: {
     type: String,
     required: [true, "Quiz is required"]
   },
@@ -18,9 +18,9 @@ const quizSchema = new Schema({
 class QuizMethods {
   toJSON() {
     const quizObject = this.toObject();
-    quizObject._id = undefined;
     quizObject.__v = undefined;
-    quizObject.title = undefined;
+    quizObject.owner = undefined;
+    quizObject.lab_content = undefined;
     return quizObject;
   }
 }

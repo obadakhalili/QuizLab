@@ -2,7 +2,8 @@ const {
   addQuiz,
   getQuiz,
   updateQuiz,
-  deleteQuiz
+  deleteQuiz,
+  getAllQuizzes
 } = require("../controllers/quiz.js");
 const {
   auth,
@@ -13,13 +14,20 @@ const { Router } = require("express");
 
 const router = new Router();
 
-router.post(
-  "/",
-  auth,
-  validatePseudorandom,
-  setHeaderAndPayloadCookie,
-  addQuiz
-);
+router
+  .route("/")
+  .post(
+    auth,
+    validatePseudorandom,
+    setHeaderAndPayloadCookie,
+    addQuiz
+  )
+  .get(
+    auth,
+    validatePseudorandom,
+    setHeaderAndPayloadCookie,
+    getAllQuizzes
+  )
 
 router
   .route("/:id")
