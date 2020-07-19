@@ -1,5 +1,5 @@
 const userRouter = require("./user.js");
-const quizRouter = require("./quiz");
+const quizRouter = require("./quiz.js");
 const { Router } = require("express");
 
 const router = new Router();
