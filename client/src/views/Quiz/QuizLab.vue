@@ -1,9 +1,15 @@
 <template>
   <div v-if="labContent" class="lab mt-5 mx-auto">
     <b-form-group label="Exam Options:">
-      <b-form-checkbox v-model="labContent.options.shuffled">Shuffled</b-form-checkbox>
-      <b-form-checkbox v-model="labContent.options.accessed">Access Open</b-form-checkbox>
-      <b-form-checkbox v-model="labContent.options.blocked">Blocked</b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.shuffled">
+        Shuffled
+      </b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.accessed">
+        Access Open
+      </b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.blocked">
+        Blocked
+      </b-form-checkbox>
     </b-form-group>
     <LabContent :labContent="labContent" />
     <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
