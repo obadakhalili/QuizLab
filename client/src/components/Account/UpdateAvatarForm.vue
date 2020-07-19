@@ -10,7 +10,7 @@
         </b-button>
       </b-col>
       <b-col cols="lg-9">
-        <small>
+        <small class="img-criteria">
           1.5 mb maximum, and .png, .jpg or .jpeg only
         </small>
       </b-col>
@@ -54,3 +54,14 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.img-criteria {
+  float: right;
+}
+@media only screen and (max-width: 991px) {
+  .img-criteria {
+    float: none;
+  }
+}
+</style>
