@@ -16,5 +16,9 @@
     "multer": "^1.4.2",
     "sharp": "^0.25.4"
   },
-  "author": "Obada Khalili"
+  "author": "Obada Khalili",
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.4"
+  }
 }
