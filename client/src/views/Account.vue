@@ -1,16 +1,16 @@
 <template>
   <b-row>
-    <b-col cols="sm-6">
+    <b-col cols="md-6">
       <UpdateAvatarForm class="mt-5" />
     </b-col>
-    <b-col cols="sm-6">
+    <b-col cols="md-6">
       <UpdateAccountInfoForm class="mt-5" />
     </b-col>
     <div class="w-100 mt-5"></div>
-    <b-col cols="sm-6">
+    <b-col cols="md-6">
       <DeleteAvatarForm class="mb-5" />
     </b-col>
-    <b-col cols="sm-6">
+    <b-col cols="md-6">
       <DeleteAccountForm class="mb-5" />
     </b-col>
   </b-row>

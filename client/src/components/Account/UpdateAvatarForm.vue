@@ -2,13 +2,19 @@
   <form @submit.prevent="updateAvatar" class="mx-auto">
     <h3>Update Avatar</h3>
     <b-form-file v-model="avatar" class="mt-2 mb-2"></b-form-file>
-    <b-button type="submit" variant="secondary">
-      <b-spinner v-if="avatarIsUpdating" label="Spinning" small></b-spinner>
-      <span v-if="!avatarIsUpdating">Upload</span>
-    </b-button>
-    <small class="float-right">
-      1.5 mb maximum, and .png, .jpg or .jpeg only
-    </small>
+    <b-row>
+      <b-col cols="lg-3">
+        <b-button type="submit" variant="secondary">
+          <b-spinner v-if="avatarIsUpdating" label="Spinning" small></b-spinner>
+          <span v-if="!avatarIsUpdating">Upload</span>
+        </b-button>
+      </b-col>
+      <b-col cols="lg-9">
+        <small>
+          1.5 mb maximum, and .png, .jpg or .jpeg only
+        </small>
+      </b-col>
+    </b-row>
   </form>
 </template>
 
