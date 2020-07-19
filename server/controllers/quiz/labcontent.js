@@ -1,19 +1,17 @@
-const Quiz = require("../db/models/Quiz.js");
+// each request for a quiz ask only for lab_content field
 
-exports.addQuiz = async (req, res) => {
+const Quiz = require("../../db/models/Quiz.js");
+
+exports.getAllLabsContent = async (req, res) => {
   try {
-    await Quiz({ ...req.body, owner: req.user._id }).save();
-    res.end();
-  } catch (e) {
-    if (e.name === "ValidationError") {
-      const errors = Object.values(e.errors).map(({ message })=> message);
-      return res.status(400).json(errors);
-    }
+    await req.user.populate("quizzes").execPopulate();
+    res.json(req.user.quizzes);
+  } catch {
     res.status(500).send("Internal Server Error");
   }
 };
 
-exports.getQuiz = async (req, res) => {
+exports.getLabContent = async (req, res) => {
   try {
     const quiz = await Quiz.findOne({ _id: req.params.id });
     if (!quiz) {
@@ -29,16 +27,7 @@ exports.getQuiz = async (req, res) => {
   }
 };
 
-exports.getAllQuizzes = async (req, res) => {
-  try {
-    await req.user.populate("quizzes").execPopulate();
-    res.json(req.user.quizzes);
-  } catch {
-    res.status(500).send("Internal Server Error");
-  }
-};
-
-exports.updateQuiz = async (req, res) => {
+exports.updateLabContent = async (req, res) => {
   try {
     const quiz = await Quiz.findOne({ _id: req.params.id });
     if (!quiz) {
@@ -63,6 +52,6 @@ exports.updateQuiz = async (req, res) => {
   }
 };
 
-exports.deleteQuiz = async (req, res) => {
-  res.send("DELETE Quiz");
+exports.deleteLabContent = async (req, res) => {
+  res.send("DELETE Lab Content");
 };

@@ -1,33 +1,25 @@
 const {
-  addQuiz,
-  getQuiz,
-  updateQuiz,
-  deleteQuiz,
-  getAllQuizzes
-} = require("../controllers/quiz.js");
+  getAllLabsContent,
+  getLabContent,
+  updateLabContent,
+  deleteLabContent
+} = require("../../controllers/quiz/labcontent.js");
 const {
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie
-} = require("../middlewares");
+} = require("../../middlewares");
 const { Router } = require("express");
 
 const router = new Router();
 
-router
-  .route("/")
-  .post(
-    auth,
-    validatePseudorandom,
-    setHeaderAndPayloadCookie,
-    addQuiz
-  )
-  .get(
-    auth,
-    validatePseudorandom,
-    setHeaderAndPayloadCookie,
-    getAllQuizzes
-  )
+router.get(
+  "/",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  getAllLabsContent
+);
 
 router
   .route("/:id")
@@ -35,19 +27,19 @@ router
     auth,
     validatePseudorandom,
     setHeaderAndPayloadCookie,
-    getQuiz
+    getLabContent
   )
   .patch(
     auth,
     validatePseudorandom,
     setHeaderAndPayloadCookie,
-    updateQuiz
+    updateLabContent
   )
   .delete(
     auth,
     validatePseudorandom,
     setHeaderAndPayloadCookie,
-    deleteQuiz
+    deleteLabContent
   );
 
 module.exports = router;
