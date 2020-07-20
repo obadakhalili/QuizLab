@@ -15,7 +15,7 @@ const { Router } = require("express");
 const router = new Router();
 
 router.get(
-  "/myquizzes",
+  "/",
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
