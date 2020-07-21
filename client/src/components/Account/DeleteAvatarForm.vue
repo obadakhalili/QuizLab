@@ -21,6 +21,7 @@ export default {
               message,
               color: "success"
             });
+            location.reload();
           } catch (e) {
             this.$store.dispatch("updateAlerts", {
               message: e.response.data,

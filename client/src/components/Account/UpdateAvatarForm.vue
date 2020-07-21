@@ -41,6 +41,7 @@ export default {
           message: "Photo uploaded successfully",
           color: "success"
         });
+        location.reload();
       } catch (e) {
         this.$store.dispatch("updateAlerts", {
           message: e.response.data,
