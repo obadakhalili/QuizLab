@@ -1,18 +1,18 @@
 <template>
   <div>
     <b-row>
-      <b-col cols="9">
-        <h3 class="float-left">My quizzes</h3>
+      <b-col cols="sm-8">
+        <h3>My quizzes</h3>
       </b-col>
-      <b-col cols="3">
+      <b-col cols="sm-4">
         <b-button
           @click="confirmDeleteAllQuizzes"
           :disabled="!myQuizzes.length"
           size="sm"
           variant="danger"
-          class="float-right"
-          >Delete All Quizzes</b-button
-        >
+          class="delete-all-quizzes-btn">
+            Delete All Quizzes
+          </b-button>
       </b-col>
     </b-row>
     <b-table
@@ -112,3 +112,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.delete-all-quizzes-btn {
+  float: right;
+}
+@media only screen and (max-width: 575px) {
+  .delete-all-quizzes-btn {
+    float: none;
+    margin-bottom: 5px;
+  }
+}
+</style>
