@@ -14,7 +14,7 @@ export default {
   methods: {
     confirm() {
       this.$store.dispatch("updateModalInfo", {
-        message: "Are you sure you want to proceed with deleting the account",
+        message: "Are you sure you want to proceed with deleting the account?",
         procedure: async () => {
           try {
             await API("/user", "delete");
@@ -27,7 +27,7 @@ export default {
           }
         }
       });
-      this.$bvModal.show("emphasization-modal");
+      this.$bvModal.show("confirm-modal");
     }
   }
 };

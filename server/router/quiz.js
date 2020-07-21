@@ -2,7 +2,7 @@ const {
   getMyQuizzes,
   addQuiz,
   updateQuiz,
-  deleteQuiz,
+  deleteQuizs,
   getLabContent
 } = require("../controllers/quiz.js");
 const {
@@ -30,20 +30,21 @@ router.post(
   addQuiz
 );
 
-router
-  .route("/:id")
-  .patch(
-    auth,
-    validatePseudorandom,
-    setHeaderAndPayloadCookie,
-    updateQuiz
-  )
-  .delete(
-    auth,
-    validatePseudorandom,
-    setHeaderAndPayloadCookie,
-    deleteQuiz
-  );
+router.patch(
+  "/:id",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  updateQuiz
+);
+
+router.delete(
+  "/(:id)?",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  deleteQuizs
+);
 
 router.get(
   "/labcontent/:id",

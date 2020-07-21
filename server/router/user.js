@@ -39,32 +39,32 @@ router.post(
   (_, res) => {
     res.end();
   }
-); // public
-router.get("/logout", logout); // public
+);
+router.get("/logout", logout);
 
 router
   .route("/")
-  .post(signup) // public
+  .post(signup)
   .get(
     auth,
     validatePseudorandom,
     setHeaderAndPayloadCookie,
     getAccount
-  ) // private
+  ) 
   .patch(
     auth,
     validatePseudorandom,
     setHeaderAndPayloadCookie,
     updateAccount
-  ) // private
+  )
   .delete(
     auth,
     validatePseudorandom,
     setHeaderAndPayloadCookie,
     deleteAccount
-  ); // private
+  );
 
-router // private
+router
   .route("/avatar")
   .get(auth, setHeaderAndPayloadCookie, getAvatar)
   .post(

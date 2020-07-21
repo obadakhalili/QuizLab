@@ -13,7 +13,7 @@ export default {
   methods: {
     confirm() {
       this.$store.dispatch("updateModalInfo", {
-        message: "Are you sure you want to delete your avatar",
+        message: "Are you sure you want to delete your avatar?",
         procedure: async () => {
           try {
             const { data: message } = await API("/user/avatar", "delete");
@@ -29,7 +29,7 @@ export default {
           }
         }
       });
-      this.$bvModal.show("emphasization-modal");
+      this.$bvModal.show("confirm-modal");
     }
   }
 };

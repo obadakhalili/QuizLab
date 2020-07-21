@@ -42,7 +42,7 @@ export default {
           email: this.email,
           password: this.password
         });
-        this.$router.push("/dashboard");
+        this.$router.push("/quizzes");
       } catch ({ response: { data: message } }) {
         this.$store.dispatch("updateAlerts", {
           message,

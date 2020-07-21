@@ -47,8 +47,24 @@ exports.updateQuiz = async (req, res) => {
   }
 };
 
-exports.deleteQuiz = async (req, res) => {
-  res.send("DELETE Quiz");
+exports.deleteQuizs = async (req, res) => {
+  try {
+    if (!req.params.id) {
+      await Quiz.deleteMany({ owner: req.user._id });
+    } else {
+      const quiz = await Quiz.findOneAndRemove({ _id: req.params.id });
+      if (!quiz) {
+        throw "Quiz not found";
+      }
+    }
+    res.end();
+  } catch (e) {
+    if (e.name === "CastError" || e === "Quiz not found") {
+      res.status(400).send("Quiz not found");
+    } else {
+      res.status(500).send("Internal Server Error");
+    }
+  }
 };
 
 exports.getLabContent = async (req, res) => {
