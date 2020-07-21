@@ -75,7 +75,10 @@ export default {
           label: "Title"
         },
         "ID",
-        "actions"
+        {
+          key: "actions",
+          class: 'text-center'
+        }
       ],
       myQuizzes: [],
       myQuizzesAreBusy: true
