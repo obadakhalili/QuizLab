@@ -38,7 +38,7 @@ export default {
   methods: {
     async login() {
       try {
-        await API("/user/login", "post", {
+        await API("/users/login", "post", {
           email: this.email,
           password: this.password
         });

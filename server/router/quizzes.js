@@ -4,7 +4,7 @@ const {
   updateQuiz,
   deleteQuizs,
   getLabContent
-} = require("../controllers/quiz.js");
+} = require("../controllers/quizzes.js");
 const {
   auth,
   validatePseudorandom,

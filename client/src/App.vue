@@ -34,7 +34,7 @@ export default {
     async routeIsPrivate(newRouteIsPrivate) {
       if (newRouteIsPrivate) {
         try {
-          const { data: info } = await API("/user", "get");
+          const { data: info } = await API("/users", "get");
           this.$store.dispatch("updateUserInfo", info);
         } catch ({ response: { data: message } }) {
           this.$store.dispatch("updateAlerts", {

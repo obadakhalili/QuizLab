@@ -8,7 +8,7 @@ const {
   getAvatar,
   updateAvatar,
   deleteAvatar
-} = require("../controllers/user.js");
+} = require("../controllers/users.js");
 const {
   auth,
   validatePseudorandom,

@@ -60,7 +60,7 @@ export default {
   methods: {
     async setQuiz() {
       try {
-        const response = await API("/quiz/labcontent/" + this.IDParam, "get");
+        const response = await API("/quizzes/labcontent/" + this.IDParam, "get");
         this.labContent = parse(response.data);
       } catch (e) {
         this.$router.push("/dashboard");
@@ -83,7 +83,7 @@ export default {
     },
     async insertNewQuiz() {
       try {
-        await API("/quiz", "post", {
+        await API("/quizzes", "post", {
           title: this.labContent.mainSection.title,
           lab_content: stringify(this.labContent)
         });
@@ -105,7 +105,7 @@ export default {
     },
     async updateQuiz() {
       try {
-        const response = await API("/quiz/" + this.IDParam, "patch", {
+        const response = await API("/quizzes/" + this.IDParam, "patch", {
           title: this.labContent.mainSection.title,
           labContent: stringify(this.labContent)
         });

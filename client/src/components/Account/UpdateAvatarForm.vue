@@ -36,7 +36,7 @@ export default {
       const formData = new FormData();
       formData.set("avatar", this.avatar);
       try {
-        await API("/user/avatar", "post", formData);
+        await API("/users/avatar", "post", formData);
         this.$store.dispatch("updateAlerts", {
           message: "Photo uploaded successfully",
           color: "success"

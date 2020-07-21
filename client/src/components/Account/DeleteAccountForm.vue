@@ -17,7 +17,7 @@ export default {
         message: "Please be careful. This is not the usual yada yada, Are you sure you want to proceed with deleting this account?",
         procedure: async () => {
           try {
-            await API("/user", "delete");
+            await API("/users", "delete");
             startLogoutProcess();
           } catch (e) {
             this.$store.dispatch("updateAlerts", {

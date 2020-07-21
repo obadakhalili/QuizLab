@@ -54,7 +54,7 @@ export default {
   methods: {
     async signup() {
       try {
-        await API("/user", "post", {
+        await API("/users", "post", {
           name: `${this.firstname} ${this.lastname}`,
           email: this.email,
           password: this.password

@@ -85,7 +85,7 @@ export default {
       try {
         const {
           data: { userIsModified, user }
-        } = await API("/user", "patch", {
+        } = await API("/users", "patch", {
           name: `${this.firstnameInput} ${this.lastnameInput}`,
           email: this.emailInput,
           password: this.passwordInput || undefined

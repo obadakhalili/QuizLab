@@ -16,7 +16,7 @@ export default {
         message: "Are you sure you want to delete your avatar?",
         procedure: async () => {
           try {
-            const { data: message } = await API("/user/avatar", "delete");
+            const { data: message } = await API("/users/avatar", "delete");
             this.$store.dispatch("updateAlerts", {
               message,
               color: "success"

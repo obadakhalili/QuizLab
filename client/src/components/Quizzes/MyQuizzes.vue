@@ -54,7 +54,7 @@ import API from "@/api";
 export default {
   name: "MyQuizzes",
   async created() {
-    const response = await API("/quiz", "get");
+    const response = await API("/quizzes", "get");
     this.myQuizzes = response.data;
     this.myQuizzesAreBusy = false;
   },
@@ -78,7 +78,7 @@ export default {
         message: "Do you want to continue with deleting this quiz",
         procedure: async () => {
           try {
-            await API("/quiz/" + id, "delete");
+            await API("/quizzes/" + id, "delete");
             const quizIndex = this.myQuizzes.findIndex(({ _id }) => _id === id);
             this.myQuizzes.splice(quizIndex, 1);
           } catch (e) {
@@ -95,7 +95,7 @@ export default {
       this.$store.dispatch("updateModalInfo", {
         message: "Are you really sure you want to delete all quizzes? Once you press ok, there's no coming back.",
         procedure: async () => {
-          await API("/quiz", "delete");
+          await API("/quizzes", "delete");
           this.myQuizzes = [];
         }
       });

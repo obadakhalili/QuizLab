@@ -9,7 +9,7 @@
   >
     <b-avatar
       :text="initials"
-      :src="baseRoute + '/user/avatar'"
+      :src="baseRoute + '/users/avatar'"
       class="avatar"
     ></b-avatar>
     <ul class="list-unstyled mt-3">
