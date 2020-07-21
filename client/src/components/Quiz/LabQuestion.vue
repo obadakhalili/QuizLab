@@ -76,7 +76,7 @@ export default {
         this.question.choices = [
           { title: "Choice Title" },
           {
-            title: "Correct Choice is Highlighted",
+            title: "Click on right choice to highlight",
             correct: true
           }
         ];

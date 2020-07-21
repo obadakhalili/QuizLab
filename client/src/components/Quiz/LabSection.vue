@@ -54,7 +54,7 @@ export default {
         choices: [
           { title: "" },
           {
-            title: "",
+            title: "Click on right choice to highlight",
             correct: true
           }
         ],
