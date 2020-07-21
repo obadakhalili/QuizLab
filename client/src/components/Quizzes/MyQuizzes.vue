@@ -5,7 +5,14 @@
         <h3 class="float-left">My quizzes</h3>
       </b-col>
       <b-col cols="3">
-        <b-button @click="confirmDeleteAllQuizzes" :disabled="!myQuizzes.length" size="sm" variant="danger" class="float-right">Delete All Quizzes</b-button>
+        <b-button
+          @click="confirmDeleteAllQuizzes"
+          :disabled="!myQuizzes.length"
+          size="sm"
+          variant="danger"
+          class="float-right"
+          >Delete All Quizzes</b-button
+        >
       </b-col>
     </b-row>
     <b-table
@@ -85,7 +92,7 @@ export default {
             this.$store.dispatch("updateAlerts", {
               message: e.response.data,
               color: "danger"
-            })
+            });
           }
         }
       });
@@ -93,7 +100,8 @@ export default {
     },
     confirmDeleteAllQuizzes() {
       this.$store.dispatch("updateModalInfo", {
-        message: "Are you really sure you want to delete all quizzes? Once you press ok, there's no coming back.",
+        message:
+          "Are you really sure you want to delete all quizzes? Once you press ok, there's no coming back.",
         procedure: async () => {
           await API("/quizzes", "delete");
           this.myQuizzes = [];
@@ -101,6 +109,6 @@ export default {
       });
       this.$bvModal.show("confirm-modal");
     }
-  }  
+  }
 };
 </script>

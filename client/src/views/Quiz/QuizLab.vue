@@ -60,7 +60,10 @@ export default {
   methods: {
     async setQuiz() {
       try {
-        const response = await API("/quizzes/labcontent/" + this.IDParam, "get");
+        const response = await API(
+          "/quizzes/labcontent/" + this.IDParam,
+          "get"
+        );
         this.labContent = parse(response.data);
       } catch (e) {
         this.$router.push("/dashboard");
