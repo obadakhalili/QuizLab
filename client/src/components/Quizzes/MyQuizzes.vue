@@ -10,9 +10,10 @@
           :disabled="!myQuizzes.length"
           size="sm"
           variant="danger"
-          class="delete-all-quizzes-btn">
-            Delete All Quizzes
-          </b-button>
+          class="delete-all-quizzes-btn"
+        >
+          Delete All Quizzes
+        </b-button>
       </b-col>
     </b-row>
     <b-table
@@ -34,8 +35,9 @@
           title="Copy exam attendance link"
           v-clipboard="'/exam/link/' + data.item._id"
           href="#"
-          >{{ data.item._id }}</a
         >
+          {{ data.item._id }}
+        </a>
       </template>
       <template v-slot:cell(actions)="data">
         <router-link :to="'/edit/' + data.item._id">

@@ -1,23 +1,29 @@
 <template>
-  <div v-if="labContent" class="lab mt-5 mx-auto">
+  <div class="lab mt-5 mx-auto">
     <h1 class="display-4 mb-5 text-center">The Lab</h1>
-    <b-form-group label="Exam Options:">
-      <b-form-checkbox v-model="labContent.options.shuffled">
-        Shuffled
-      </b-form-checkbox>
-      <b-form-checkbox v-model="labContent.options.accessed">
-        Access Open
-      </b-form-checkbox>
-      <b-form-checkbox v-model="labContent.options.blocked">
-        Blocked
-      </b-form-checkbox>
-    </b-form-group>
-    <LabContent :labContent="labContent" />
-    <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
-      <template>
-        {{ routeIsNew ? "Submit Quiz" : "Update Quiz" }}
-      </template>
-    </b-button>
+    <div v-if="!labContent" class="text-center my-5">
+      <b-spinner class="align-middle mr-2"></b-spinner>
+      <strong>Loading ...</strong>
+    </div>
+    <div v-else>
+      <b-form-group label="Exam Options:">
+        <b-form-checkbox v-model="labContent.options.shuffled">
+          Shuffled
+        </b-form-checkbox>
+        <b-form-checkbox v-model="labContent.options.accessed">
+          Access Open
+        </b-form-checkbox>
+        <b-form-checkbox v-model="labContent.options.blocked">
+          Blocked
+        </b-form-checkbox>
+      </b-form-group>
+      <LabContent :labContent="labContent" />
+      <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
+        <template>
+          {{ routeIsNew ? "Submit Quiz" : "Update Quiz" }}
+        </template>
+      </b-button>
+    </div>
   </div>
 </template>
 
