@@ -1,4 +1,5 @@
 const User = require("../db/models/User.js");
+const Quiz = require("../db/models/Quiz.js");
 const sharp = require("sharp");
 
 exports.login = async (req, res, next) => {
@@ -80,6 +81,7 @@ exports.updateAccount = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
   try {
+    await Quiz.deleteMany({ owner: req.user._id });
     await req.user.remove();
     res.end();
   } catch {
