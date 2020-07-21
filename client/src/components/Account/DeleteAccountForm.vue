@@ -14,7 +14,7 @@ export default {
   methods: {
     confirm() {
       this.$store.dispatch("updateModalInfo", {
-        message: "Are you sure you want to proceed with deleting the account?",
+        message: "Please be careful. This is not the usual yada yada, Are you sure you want to proceed with deleting this account?",
         procedure: async () => {
           try {
             await API("/user", "delete");
