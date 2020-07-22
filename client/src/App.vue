@@ -5,13 +5,15 @@
       <Sidebar />
       <ConfirmModal />
     </template>
-    <b-container>
-      <AlertBox
-        v-for="(alert, index) in alerts"
-        :key="index"
-        :index="index"
-        :alert="alert"
-      />
+    <b-container class="mt-4">
+      <div class="mb-5">
+        <AlertBox
+          v-for="(alert, index) in alerts"
+          :key="index"
+          :index="index"
+          :alert="alert"
+        />
+      </div>
       <router-view></router-view>
     </b-container>
   </div>
@@ -27,7 +29,7 @@ export default {
   computed: {
     ...mapGetters(["alerts"]),
     routeIsPrivate() {
-      return this.$route.meta.private ?? false;
+      return this.$route.meta.private;
     }
   },
   watch: {

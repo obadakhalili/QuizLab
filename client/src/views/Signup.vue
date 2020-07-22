@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="signup" class="mt-5 mb-3 mx-auto">
+  <form @submit.prevent="signup" class="mb-3 mx-auto">
     <h3>Sign Up</h3>
     <b-form-group>
       <label>Name</label>

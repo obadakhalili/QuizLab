@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="dark" variant="dark" class="mb-2 fixed-top">
+  <b-navbar type="dark" variant="dark">
     <b-navbar-brand class="text-white">{{ firstname }}</b-navbar-brand>
     <a class="ml-auto">
       <h1>

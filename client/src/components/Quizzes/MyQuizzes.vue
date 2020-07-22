@@ -110,15 +110,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-/* .delete-all-quizzes-btn {
-  float: right;
-}
-@media only screen and (max-width: 575px) {
-  .delete-all-quizzes-btn {
-    float: none;
-    margin-bottom: 5px;
-  }
-} */
-</style>

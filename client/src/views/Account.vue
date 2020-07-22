@@ -1,10 +1,10 @@
 <template>
   <b-row>
     <b-col cols="md-6">
-      <UpdateAvatarForm class="mt-5" />
+      <UpdateAvatarForm />
     </b-col>
     <b-col cols="md-6">
-      <UpdateAccountInfoForm class="mt-5" />
+      <UpdateAccountInfoForm />
     </b-col>
     <div class="w-100 mt-5"></div>
     <b-col cols="md-6">

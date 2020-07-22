@@ -45,6 +45,7 @@
             @click.stop
             v-model="choice.title"
             size="sm"
+            class="col-10"
             placeholder="Choice Title"
           ></b-input>
         </b-list-group-item>

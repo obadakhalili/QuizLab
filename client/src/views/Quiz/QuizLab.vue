@@ -1,6 +1,6 @@
 <template>
-  <div class="lab mt-5 mx-auto">
-    <h1 class="display-4 mb-5 text-center">The Lab</h1>
+  <div class="lab mx-auto">
+    <h1 class="display-4 text-center">Quizzes Lab</h1>
     <div v-if="!labContent" class="text-center my-5">
       <b-spinner class="align-middle mr-2"></b-spinner>
       <strong>Loading ...</strong>
