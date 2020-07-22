@@ -58,6 +58,13 @@ export default {
 form {
   max-width: 575px;
 }
+a {
+  color: #17a2b8 !important;
+  cursor: pointer !important;
+}
+a:hover {
+  color: #343a40 !important;
+}
 .noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

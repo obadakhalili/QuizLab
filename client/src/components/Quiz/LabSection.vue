@@ -72,8 +72,4 @@ export default {
   padding: 10px 0 5px 15px;
   min-height: 70px;
 }
-a {
-  color: #17a2b8;
-  cursor: pointer;
-}
 </style>
