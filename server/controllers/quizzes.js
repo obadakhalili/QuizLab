@@ -70,7 +70,6 @@ exports.deleteQuizs = async (req, res) => {
 exports.getLabContent = async (req, res) => {
   try {
     const { lab_content } = await Quiz.findOne({ _id: req.params.id }, { lab_content: true, _id: false });
-    console.log(_id);
     if (!lab_content) {
       throw "Quiz not found";
     }

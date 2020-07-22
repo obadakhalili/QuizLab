@@ -14,8 +14,8 @@
       class="col-10"
     ></b-input>
     <div class="noselect">
-      <label @click="addQuestion" class="mr-2">New Question</label>
-      <label @click="addSection">New Section</label>
+      <a @click="addQuestion" class="mr-2">New Question</a>
+      <a @click="addSection">New Section</a>
     </div>
   </div>
 </template>
@@ -69,14 +69,11 @@ export default {
 <style scoped>
 .section {
   background-color: #e5e5e5;
-  padding: 10px 0 0 15px;
+  padding: 10px 0 5px 15px;
   min-height: 70px;
 }
-label {
+a {
   color: #17a2b8;
   cursor: pointer;
-}
-label:hover {
-  text-decoration: underline;
 }
 </style>

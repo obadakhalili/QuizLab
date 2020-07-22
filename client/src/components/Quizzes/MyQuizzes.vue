@@ -34,7 +34,7 @@
           v-b-tooltip.hover
           title="Copy exam attendance link"
           v-clipboard="'/exam/link/' + data.item._id"
-          href="#"
+          class="copy-exam-link-link"
         >
           {{ data.item._id }}
         </a>
@@ -122,8 +122,12 @@ export default {
 .delete-all-quizzes-btn {
   float: right;
 }
+a {
+  color: #17a2b8;
+  cursor: pointer;
+}
 @media only screen and (max-width: 575px) {
-  .delete-all-quizzes-btn {
+  a {
     float: none;
     margin-bottom: 5px;
   }
