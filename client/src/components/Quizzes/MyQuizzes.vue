@@ -1,21 +1,15 @@
 <template>
   <div>
-    <b-row>
-      <b-col cols="sm-8">
-        <h3>My quizzes</h3>
-      </b-col>
-      <b-col cols="sm-4">
-        <b-button
-          @click="confirmDeleteAllQuizzes"
-          :disabled="!myQuizzes.length"
-          size="sm"
-          variant="danger"
-          class="delete-all-quizzes-btn"
-        >
-          Delete All Quizzes
-        </b-button>
-      </b-col>
-    </b-row>
+    <h3 class="float-left">My quizzes</h3>
+    <b-button
+      @click="confirmDeleteAllQuizzes"
+      :disabled="!myQuizzes.length"
+      size="sm"
+      variant="danger"
+      class="float-right mt-1"
+    >
+      Delete All Quizzes
+    </b-button>
     <b-table
       :fields="myQuizzesFields"
       :items="myQuizzes"
@@ -76,7 +70,7 @@ export default {
         "ID",
         {
           key: "actions",
-          class: 'text-center'
+          class: "text-center"
         }
       ],
       myQuizzes: [],
@@ -118,7 +112,7 @@ export default {
 </script>
 
 <style scoped>
-.delete-all-quizzes-btn {
+/* .delete-all-quizzes-btn {
   float: right;
 }
 @media only screen and (max-width: 575px) {
@@ -126,5 +120,5 @@ export default {
     float: none;
     margin-bottom: 5px;
   }
-}
+} */
 </style>
