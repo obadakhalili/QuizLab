@@ -1,6 +1,7 @@
 const {
-  getMyQuizzes,
   addQuiz,
+  getMyQuizzes,
+  getMyQuizzesCount,
   updateQuiz,
   deleteQuizs,
   getLabContent
@@ -14,6 +15,14 @@ const { Router } = require("express");
 
 const router = new Router();
 
+router.post(
+  "/",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  addQuiz
+);
+
 router.get(
   "/",
   auth,
@@ -22,12 +31,12 @@ router.get(
   getMyQuizzes
 );
 
-router.post(
-  "/",
+router.get(
+  "/count",
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
-  addQuiz
+  getMyQuizzesCount
 );
 
 router.patch(

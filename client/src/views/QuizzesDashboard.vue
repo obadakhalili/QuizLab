@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Controllers from "@/components/Quizzes/Controllers";
-import MyQuizzes from "@/components/Quizzes/MyQuizzes";
+import Controllers from "@/components/QuizzesDashboard/Controllers";
+import MyQuizzes from "@/components/QuizzesDashboard/MyQuizzes";
 
 export default {
   name: "Quizzes",

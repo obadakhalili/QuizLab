@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h3 class="float-left">My quizzes</h3>
+    <h3 class="float-left">
+      My quizzes
+    </h3>
     <b-button
       @click="confirmDeleteAllQuizzes"
       :disabled="!myQuizzes.length"
@@ -14,6 +16,8 @@
       :fields="myQuizzesFields"
       :items="myQuizzes"
       :busy="myQuizzesAreBusy"
+      :currentPage="myQuizzesCurrentPage"
+      :perPage="myQuizzesPerPage"
       responsive
       show-empty
       small
@@ -49,6 +53,7 @@
         </b-button>
       </template>
     </b-table>
+    <b-pagination v-model="myQuizzesCurrentPage" :total-rows="myQuizzesCount" :per-page="myQuizzesPerPage" size="sm"></b-pagination>
   </div>
 </template>
 
@@ -58,8 +63,10 @@ import API from "@/api";
 export default {
   name: "MyQuizzes",
   async created() {
-    const response = await API("/quizzes", "get");
-    this.myQuizzes = response.data;
+    const { data: myQuizzes } = await API("/quizzes", "get");
+    const { data: { myQuizzesCount } } = await API("/quizzes/count", "get");
+    this.myQuizzesCount = myQuizzesCount;
+    this.myQuizzes = myQuizzes;
     this.myQuizzesAreBusy = false;
   },
   data() {
@@ -76,7 +83,10 @@ export default {
         }
       ],
       myQuizzes: [],
-      myQuizzesAreBusy: true
+      myQuizzesCount: 0,
+      myQuizzesCurrentPage: 1,
+      myQuizzesPerPage: 3,
+      myQuizzesAreBusy: true,
     };
   },
   methods: {
@@ -88,6 +98,7 @@ export default {
             await API("/quizzes/" + id, "delete");
             const quizIndex = this.myQuizzes.findIndex(({ _id }) => _id === id);
             this.myQuizzes.splice(quizIndex, 1);
+            this.myQuizzesCount--;
           } catch (e) {
             this.$store.dispatch("updateAlerts", {
               message: e.response.data,
@@ -105,6 +116,7 @@ export default {
         procedure: async () => {
           await API("/quizzes", "delete");
           this.myQuizzes = [];
+          this.myQuizzesCount = 0;
         }
       });
       this.$bvModal.show("confirm-modal");

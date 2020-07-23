@@ -16,7 +16,7 @@ export default [
   },
   {
     path: "/quizzes",
-    component: () => import("@/views/Quizzes"),
+    component: () => import("@/views/QuizzesDashboard"),
     meta: {
       private: true
     }

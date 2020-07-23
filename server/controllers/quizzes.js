@@ -1,14 +1,5 @@
 const Quiz = require("../db/models/Quiz.js");
 
-exports.getMyQuizzes = async (req, res) => {
-  try {
-    await req.user.populate("quizzes").execPopulate();
-    res.json(req.user.quizzes);
-  } catch {
-    res.status(500).send("Internal Server Error");
-  }
-};
-
 exports.addQuiz = async (req, res) => {
   try {
     await Quiz({ ...req.body, owner: req.user._id }).save();
@@ -18,6 +9,24 @@ exports.addQuiz = async (req, res) => {
       const errors = Object.values(e.errors).map(({ message })=> message);
       return res.status(400).json(errors);
     }
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.getMyQuizzes = async (req, res) => {
+  try {
+    await req.user.populate("quizzes").execPopulate();
+    res.json(req.user.quizzes);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+exports.getMyQuizzesCount = async (req, res) => {
+  try {
+    const myQuizzesCount = await Quiz.countDocuments({ owner: req.user._id });
+    res.json({ myQuizzesCount });
+  } catch {
     res.status(500).send("Internal Server Error");
   }
 };
