@@ -3,7 +3,7 @@
     <b-row>
       <b-col cols="md-8">
         <router-link to="/new">
-          <b-button size="sm" variant="secondary">
+          <b-button size="sm" variant="info">
             Create New Quiz
           </b-button>
         </router-link>

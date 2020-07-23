@@ -17,7 +17,7 @@
         placeholder="Enter your password"
       ></b-input>
     </b-form-group>
-    <b-button type="submit" variant="success">
+    <b-button type="submit" variant="info">
       Log in
     </b-button>
     <b-link to="/signup" class="float-right">Sign up</b-link>

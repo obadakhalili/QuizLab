@@ -153,6 +153,6 @@ export default {
   max-width: 900px;
 }
 .submit-btn {
-  background-color: #343a40;
+  background-color: #16191e;
 }
 </style>

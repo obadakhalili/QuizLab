@@ -1,24 +1,28 @@
 <template>
   <div>
-    <h3 class="float-left">
-      My quizzes
-    </h3>
-    <b-button
-      @click="confirmDeleteAllQuizzes"
-      :disabled="!myQuizzes.length"
-      size="sm"
-      variant="danger"
-      class="float-right mt-1"
-    >
-      Delete All Quizzes
-    </b-button>
+    <b-row>
+      <b-col sm="8">
+        <h3>My Quizzes</h3>
+      </b-col>
+      <b-col sm="4">
+        <b-input
+          v-model="filter"
+          size="sm"
+          class="mb-1"
+          placeholder="Type to filter"
+        ></b-input>
+      </b-col>
+    </b-row>
     <b-table
       :fields="myQuizzesFields"
       :items="myQuizzes"
-      :busy="myQuizzesAreBusy"
-      :currentPage="myQuizzesCurrentPage"
-      :perPage="myQuizzesPerPage"
-      responsive
+      :busy="isBusy"
+      :currentPage="currentPage"
+      :perPage="perPage"
+      :filter="filter"
+      :filter-included-fields="['title']"
+      primary-key="_id"
+      stacked="lg"
       show-empty
       small
     >
@@ -37,23 +41,52 @@
           {{ data.item._id }}
         </a>
       </template>
-      <template v-slot:cell(actions)="data">
+      <template v-slot:cell(createdAt)="data">
+        {{ humanizeDate(data, "createdAt") }}
+      </template>
+      <template v-slot:cell(updatedAt)="data">
+        {{ humanizeDate(data, "updatedAt") }}
+      </template>
+      <template v-slot:cell(Edit)="data">
         <router-link :to="'/edit/' + data.item._id">
-          <b-button size="sm" variant="success" class="mr-1 mb-1">
-            Edit
-          </b-button>
+          <a href="#">Go to Lab</a>
         </router-link>
-        <b-button
-          @click="confirmDeleteQuiz(data.item._id)"
-          size="sm"
-          variant="danger"
-          class="mb-1"
-        >
-          Delete
-        </b-button>
+      </template>
+      <template v-slot:cell(Selected)="data">
+        <b-checkbox v-model="data.item.selected"></b-checkbox>
       </template>
     </b-table>
-    <b-pagination v-model="myQuizzesCurrentPage" :total-rows="myQuizzesCount" :per-page="myQuizzesPerPage" size="sm"></b-pagination>
+    <div>
+      <b-row>
+        <b-col cols="md-8">
+          <b-button
+            @click="toggleSelectedQuizzes"
+            size="sm"
+            variant="secondary"
+            class="mr-1"
+          >
+            {{ selectedQuizzesLength > 0 ? "Unselect All" : "Select All" }}
+          </b-button>
+          <b-button
+            @click="confirmDeleteSelectedQuizzes"
+            size="sm"
+            variant="danger"
+            :disabled="selectedQuizzesLength === 0"
+          >
+            Delete Selected
+          </b-button>
+        </b-col>
+        <b-col cols="md-4">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="myQuizzesCount"
+            :per-page="perPage"
+            size="sm"
+            class="pagination-bar"
+          ></b-pagination>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -61,66 +94,104 @@
 import API from "@/api";
 
 export default {
-  name: "MyQuizzes",
+  name: "DashboardHeader",
   async created() {
     const { data: myQuizzes } = await API("/quizzes", "get");
-    const { data: { myQuizzesCount } } = await API("/quizzes/count", "get");
+    const {
+      data: { myQuizzesCount }
+    } = await API("/quizzes/count", "get");
+    myQuizzes.forEach(quiz => {
+      quiz.selected = false;
+    });
     this.myQuizzesCount = myQuizzesCount;
     this.myQuizzes = myQuizzes;
-    this.myQuizzesAreBusy = false;
+    this.isBusy = false;
   },
   data() {
     return {
       myQuizzesFields: [
         {
-          key: "title",
-          label: "Title"
+          key: "title"
         },
         "ID",
         {
-          key: "actions",
-          class: "text-center"
-        }
+          key: "createdAt",
+          label: "Created At"
+        },
+        {
+          key: "updatedAt",
+          label: "Updated At"
+        },
+        "Edit",
+        "Selected"
       ],
       myQuizzes: [],
       myQuizzesCount: 0,
-      myQuizzesCurrentPage: 1,
-      myQuizzesPerPage: 3,
-      myQuizzesAreBusy: true,
+      currentPage: 1,
+      perPage: 3,
+      filter: "",
+      isBusy: true
     };
   },
-  methods: {
-    confirmDeleteQuiz(id) {
-      this.$store.dispatch("updateModalInfo", {
-        message: "Do you want to continue with deleting this quiz",
-        procedure: async () => {
-          try {
-            await API("/quizzes/" + id, "delete");
-            const quizIndex = this.myQuizzes.findIndex(({ _id }) => _id === id);
-            this.myQuizzes.splice(quizIndex, 1);
-            this.myQuizzesCount--;
-          } catch (e) {
-            this.$store.dispatch("updateAlerts", {
-              message: e.response.data,
-              color: "danger"
-            });
-          }
-        }
-      });
-      this.$bvModal.show("confirm-modal");
+  computed: {
+    selectedQuizzes() {
+      return this.myQuizzes.filter(quiz => quiz.selected).map(({ _id }) => _id);
     },
-    confirmDeleteAllQuizzes() {
-      this.$store.dispatch("updateModalInfo", {
-        message:
-          "Are you really sure you want to delete all quizzes? Once you press ok, there's no coming back.",
-        procedure: async () => {
-          await API("/quizzes", "delete");
-          this.myQuizzes = [];
-          this.myQuizzesCount = 0;
-        }
-      });
-      this.$bvModal.show("confirm-modal");
+    selectedQuizzesLength() {
+      return this.selectedQuizzes.length;
+    }
+  },
+  methods: {
+    toggleSelectedQuizzes() {
+      if (this.selectedQuizzesLength === 0) {
+        this.myQuizzes.forEach(quiz => {
+          quiz.selected = true;
+        });
+      } else {
+        this.myQuizzes.forEach(quiz => {
+          quiz.selected = false;
+        });
+      }
+    },
+    confirmDeleteSelectedQuizzes() {
+      if (this.selectedQuizzesLength) {
+        this.$store.dispatch("updateModalInfo", {
+          message:
+            "Are you really sure you want to delete the selected quiz/quizzes Once you press ok, there's no coming back.",
+          procedure: async () => {
+            try {
+              await API("/quizzes/delete", "post", this.selectedQuizzes);
+              this.myQuizzes = this.myQuizzes.filter(
+                quiz =>
+                  this.selectedQuizzes.findIndex(_id => _id === quiz._id) === -1
+              );
+              this.myQuizzesCount -= this.selectedQuizzesLength;
+            } catch (e) {
+              this.$store.dispatch("updateAlerts", {
+                message: e.response.data,
+                color: "danger"
+              });
+            }
+          }
+        });
+        this.$bvModal.show("confirm-modal");
+      }
+    },
+    humanizeDate(data, field) {
+      return new Date(data.item[field]).toLocaleString();
     }
   }
 };
 </script>
+
+<style scoped>
+.pagination-bar {
+  float: right;
+}
+@media only screen and (max-width: 767px) {
+  .pagination-bar {
+    float: none;
+    margin-top: 10px;
+  }
+}
+</style>

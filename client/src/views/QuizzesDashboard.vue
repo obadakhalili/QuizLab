@@ -1,19 +1,19 @@
 <template>
   <div>
-    <Controllers />
-    <MyQuizzes class="mt-5" />
+    <DashboardHeader />
+    <MyQuizzes class="mt-4" />
   </div>
 </template>
 
 <script>
-import Controllers from "@/components/QuizzesDashboard/Controllers";
+import DashboardHeader from "@/components/QuizzesDashboard/DashboardHeader";
 import MyQuizzes from "@/components/QuizzesDashboard/MyQuizzes";
 
 export default {
   name: "Quizzes",
   components: {
     MyQuizzes,
-    Controllers
+    DashboardHeader
   }
 };
 </script>

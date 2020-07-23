@@ -11,6 +11,6 @@ export function findCookie(name) {
 
 export async function startLogoutProcess() {
   await API("/users/logout", "get");
-  store.dispatch("updateUserInfo", {});
   router.push("/login");
+  store.dispatch("updateUserInfo", {});
 }
