@@ -47,8 +47,8 @@ router.patch(
   updateQuiz
 );
 
-router.delete(
-  "/(:id)?",
+router.post(
+  "/delete",
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
