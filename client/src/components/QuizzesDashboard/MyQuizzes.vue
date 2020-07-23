@@ -161,11 +161,10 @@ export default {
           procedure: async () => {
             try {
               await API("/quizzes/delete", "post", this.selectedQuizzes);
-              this.myQuizzes = this.myQuizzes.filter(
-                quiz =>
-                  this.selectedQuizzes.findIndex(_id => _id === quiz._id) === -1
-              );
               this.myQuizzesCount -= this.selectedQuizzesLength;
+              this.myQuizzes = this.myQuizzes.filter(
+                quiz => !this.selectedQuizzes.includes(quiz._id)
+              );
             } catch (e) {
               this.$store.dispatch("updateAlerts", {
                 message: e.response.data,
