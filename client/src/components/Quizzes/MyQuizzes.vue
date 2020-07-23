@@ -14,6 +14,7 @@
       :fields="myQuizzesFields"
       :items="myQuizzes"
       :busy="myQuizzesAreBusy"
+      responsive
       show-empty
       small
     >
@@ -34,7 +35,7 @@
       </template>
       <template v-slot:cell(actions)="data">
         <router-link :to="'/edit/' + data.item._id">
-          <b-button size="sm" variant="success" class="mr-1">
+          <b-button size="sm" variant="success" class="mr-1 mb-1">
             Edit
           </b-button>
         </router-link>
@@ -42,6 +43,7 @@
           @click="confirmDeleteQuiz(data.item._id)"
           size="sm"
           variant="danger"
+          class="mb-1"
         >
           Delete
         </b-button>
