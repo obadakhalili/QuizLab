@@ -1,16 +1,24 @@
 <template>
   <div>
     <b-row>
-      <b-col sm="8">
+      <b-col md="8">
         <h3>My Quizzes</h3>
       </b-col>
-      <b-col sm="4">
+      <b-col md="4">
         <b-input
           v-model="filter"
           size="sm"
           class="mb-1"
           placeholder="Type to filter"
         ></b-input>
+        <b-row class="mb-1">
+          <b-col cols="8">
+            <b-form-select size="sm" v-model="fieldToSortWith" :options="sortingOptions"></b-form-select>
+          </b-col>
+          <b-col cols="4">
+            <b-checkbox v-model="sortDesc" class="mt-1">Desc</b-checkbox>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
     <b-table
@@ -19,6 +27,8 @@
       :busy="isBusy"
       :currentPage="currentPage"
       :perPage="perPage"
+      :sort-by="fieldToSortWith"
+      :sort-desc="sortDesc"
       :filter="filter"
       :filter-included-fields="['title']"
       primary-key="_id"
@@ -130,6 +140,12 @@ export default {
       currentPage: 1,
       perPage: 3,
       filter: "",
+      fieldToSortWith: "createdAt",
+      sortingOptions: [
+        { value: "createdAt", text: "Creation time" },
+        { value: "updatedAt", text: "Update time" }
+      ],
+      sortDesc: false,
       isBusy: true
     };
   },
