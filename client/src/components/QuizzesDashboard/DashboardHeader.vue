@@ -1,14 +1,14 @@
 <template>
   <div class="header">
     <b-row>
-      <b-col cols="md-8">
+      <b-col md="8">
         <router-link to="/new">
           <b-button size="sm" variant="info">
             Create New Quiz
           </b-button>
         </router-link>
       </b-col>
-      <b-col cols="md-4">
+      <b-col md="4">
         <b-form-row class="attend-quiz-section">
           <b-col cols="8">
             <b-input size="sm" placeholder="Enter Quiz ID"></b-input>

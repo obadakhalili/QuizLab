@@ -68,7 +68,7 @@
     </b-table>
     <div>
       <b-row>
-        <b-col cols="md-8">
+        <b-col md="8">
           <b-button
             @click="toggleSelectedQuizzes"
             size="sm"
@@ -86,7 +86,7 @@
             Delete Selected
           </b-button>
         </b-col>
-        <b-col cols="md-4">
+        <b-col md="4">
           <b-pagination
             v-model="currentPage"
             :total-rows="myQuizzesCount"
