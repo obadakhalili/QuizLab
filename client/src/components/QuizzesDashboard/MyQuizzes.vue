@@ -140,8 +140,9 @@ export default {
       currentPage: 1,
       perPage: 3,
       filter: "",
-      fieldToSortWith: "createdAt",
+      fieldToSortWith: null,
       sortingOptions: [
+        { value: null, text: "Sort By" },
         { value: "createdAt", text: "Creation time" },
         { value: "updatedAt", text: "Update time" }
       ],
