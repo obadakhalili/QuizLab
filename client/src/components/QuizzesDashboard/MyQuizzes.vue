@@ -13,7 +13,7 @@
         ></b-input>
         <b-row class="mb-1">
           <b-col cols="8">
-            <b-form-select size="sm" v-model="fieldToSortWith" :options="sortingOptions"></b-form-select>
+            <b-form-select v-model="fieldToSortWith" :options="sortingOptions" size="sm" ></b-form-select>
           </b-col>
           <b-col cols="4">
             <b-checkbox v-model="sortDesc" class="mt-1">Desc</b-checkbox>
@@ -46,7 +46,7 @@
         <a
           v-b-tooltip.hover
           title="Copy exam attendance link"
-          v-clipboard="'/exam/link/' + data.item._id"
+          v-clipboard="'/attend/' + data.item._id"
         >
           {{ data.item._id }}
         </a>

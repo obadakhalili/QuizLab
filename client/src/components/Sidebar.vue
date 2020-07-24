@@ -1,11 +1,11 @@
 <template>
   <b-sidebar
-    id="sidebar-backdrop"
     backdrop-variant="dark"
     backdrop
     shadow
     header-class="ml-5"
     :title="name"
+    id="sidebar-backdrop"
   >
     <b-avatar
       :text="initials"
@@ -41,14 +41,8 @@ export default {
     };
   },
   computed: {
-    firstname() {
-      return this.$store.getters.userField("firstname");
-    },
-    lastname() {
-      return this.$store.getters.userField("lastname");
-    },
     name() {
-      return `${this.firstname} ${this.lastname}`;
+      return `${this.$store.getters.userField("firstname")} ${this.$store.getters.userField("lastname")}`;
     },
     initials() {
       return this.firstname ? this.firstname[0] + this.lastname[0] : "";

@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import axios from "axios";
 import routes from "./routes";
 import store from "@/store";
 import { findCookie } from "@/helpers";
@@ -21,7 +20,6 @@ router.beforeEach((to, _, next) => {
     const isAuthenticated = findCookie("token-header.payload");
     if (to.meta.private) {
       if (isAuthenticated) {
-        axios.defaults.headers.common.pseudorandom = findCookie("pseudorandom");
         next();
       } else {
         next("/login");

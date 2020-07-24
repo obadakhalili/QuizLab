@@ -21,8 +21,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import axios from "axios";
 import AlertBox from "./components/AlertBox";
 import API from "./api";
+import { findCookie } from "./helpers";
 
 export default {
   name: "App",
@@ -36,6 +38,7 @@ export default {
     async routeIsPrivate(newRouteIsPrivate) {
       if (newRouteIsPrivate) {
         try {
+          axios.defaults.headers.common.pseudorandom = findCookie("pseudorandom");
           const { data: info } = await API("/users", "get");
           this.$store.dispatch("updateUserInfo", info);
         } catch ({ response: { data: message } }) {
