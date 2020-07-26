@@ -2,14 +2,22 @@ const Quiz = require("../db/models/Quiz.js");
 
 exports.addQuiz = async (req, res) => {
   try {
+    const allowedAttempts = Number(req.body.allowedAttempts);
+    if (allowedAttempts === NaN || !Number.isInteger(allowedAttempts) || allowedAttempts < 1) {
+      throw "Wrong allowed attempts input";
+    }
     await Quiz({ ...req.body, owner: req.user._id }).save();
     res.end();
   } catch (e) {
+    const errors = [];
     if (e.name === "ValidationError") {
-      const errors = Object.values(e.errors).map(({ message })=> message);
-      return res.status(400).json(errors);
+      Object.values(e.errors).forEach(({ message })=> errors.push(message));
+    } else if (e === "Wrong allowed attempts input") {
+      errors.push(e);
+    } else {
+      return res.status(500).send("Internal Server Error");
     }
-    res.status(500).send("Internal Server Error");
+    res.status(400).send(errors);
   }
 };
 
@@ -35,7 +43,6 @@ exports.updateQuiz = async (req, res) => {
     res.json({ quizIsModified });
   } catch (e) {
     const errors = [];
-    const status = 400;
     if (e.name === "ValidationError") {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.name === "CastError" || e === "Quiz not found") {
@@ -43,7 +50,7 @@ exports.updateQuiz = async (req, res) => {
     } else {
       return res.status(500).send("Internal Server Error");
     }
-    res.status(status).json(errors);
+    res.status(400).json(errors);
   }
 };
 

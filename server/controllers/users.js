@@ -33,7 +33,6 @@ exports.signup = async (req, res) => {
     res.end();
   } catch (e) {
     const errors = [];
-    let status = 400;
     if (e.name === "ValidationError") {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.code === 11000) {
@@ -41,7 +40,7 @@ exports.signup = async (req, res) => {
     } else {
       return res.status(500).send("Internal Server Error")
     }
-    res.status(status).json(errors);
+    res.status(400).json(errors);
   }
 };
 
@@ -67,7 +66,6 @@ exports.updateAccount = async (req, res) => {
     });
   } catch (e) {
     const errors = [];
-    let status = 400;
     if (e.name === "ValidationError") {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.code === 11000) {
@@ -75,7 +73,7 @@ exports.updateAccount = async (req, res) => {
     } else {
       return res.status(500).send("Internal Server Error")
     }
-    res.status(status).json(errors);
+    res.status(400).json(errors);
   }
 };
 

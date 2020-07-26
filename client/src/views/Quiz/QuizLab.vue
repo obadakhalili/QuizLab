@@ -95,7 +95,6 @@ export default {
     submitQuiz() {
       if (this.routeIsNew) {
         this.insertNewQuiz();
-        this.clearContentTitles(this.labContent.mainSection);
       } else {
         this.updateQuiz();
       }
@@ -114,12 +113,14 @@ export default {
       try {
         await API("/quizzes", "post", {
           title: this.labContent.mainSection.title,
-          lab_content: stringify(this.labContent)
+          allowedAttempts: this.labContent.options.allowedAttempts,
+          lab_content: stringify(this.labContent),
         });
         this.$store.dispatch("updateAlerts", {
           message: "Quiz was submitted successfully",
           color: "success"
         });
+        this.clearContentTitles(this.labContent.mainSection);
       } catch (e) {
         this.$store.dispatch(
           "updateAlerts",
