@@ -171,7 +171,7 @@ export default {
       if (this.selectedQuizzesLength) {
         this.$store.dispatch("updateModalInfo", {
           message:
-            "Are you really sure you want to delete the selected quiz/quizzes Once you press ok, there's no coming back.",
+            "Are you really sure you want to delete the selected quiz/quizzes? Once you press ok, there's no coming back.",
           procedure: async () => {
             try {
               await API("/quizzes/delete", "post", this.selectedQuizzes);

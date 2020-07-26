@@ -49,10 +49,13 @@ exports.updateQuiz = async (req, res) => {
 
 exports.deleteQuizzes = async (req, res) => {
   try {
-    await Quiz.deleteMany({
+    const { deletedCount } = await Quiz.deleteMany({
       _id: { $in: req.body },
       owner: req.user._id
     });
+    if (deletedCount < 1) {
+      throw "Quiz not found";
+    }
     res.end();
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {
