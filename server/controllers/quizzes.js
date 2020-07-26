@@ -15,8 +15,8 @@ exports.addQuiz = async (req, res) => {
 
 exports.getMyQuizzes = async (req, res) => {
   try {
-    await req.user.populate("quizzes").execPopulate();
-    res.json(req.user.quizzes);
+    const myQuizzes = await Quiz.find({ owner: req.user._id });
+    res.json(myQuizzes);
   } catch {
     res.status(500).send("Internal Server Error");
   }

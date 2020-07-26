@@ -36,12 +36,6 @@ const userSchema = new Schema({
   avatar: Buffer
 });
 
-userSchema.virtual("quizzes", {
-  ref: "Quiz",
-  localField: "_id",
-  foreignField: "owner"
-});
-
 userSchema.pre("save", async function(next) {
   if (this.isModified("password")) {
     this.password = await hash(this.password);
