@@ -74,7 +74,7 @@ export default {
       const choices = this.question.choices;
       if (!choices) {
         this.question.choices = [
-          { title: "Choice Title" },
+          { title: "" },
           {
             title: "Click on right choice to highlight",
             correct: true
@@ -95,7 +95,7 @@ export default {
     },
     addNewChoice() {
       const choices = this.question.choices;
-      choices.push({ title: "Choice Title" });
+      choices.push({ title: "" });
       this.$forceUpdate();
     },
     deleteChoice(index) {
