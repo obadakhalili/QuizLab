@@ -137,13 +137,12 @@ export default {
       currentPage: 1,
       perPage: 3,
       filter: "",
-      fieldToSortWith: null,
+      fieldToSortWith: "createdAt",
       sortingOptions: [
-        { value: null, text: "Sort By" },
         { value: "createdAt", text: "Creation time" },
         { value: "updatedAt", text: "Update time" }
       ],
-      sortDesc: false,
+      sortDesc: true,
       isBusy: true
     };
   },

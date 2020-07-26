@@ -6,8 +6,8 @@
       <strong>Loading ...</strong>
     </div>
     <div v-else>
-      <b-form-group label="Exam Options:">
-        <b-form-checkbox v-model="labContent.options.ShuffleQuestions">
+      <b-form-group label="Quiz Options:">
+        <b-form-checkbox v-model="labContent.options.shuffledQuiz">
           Shuffle questions. Questions from different sections won't be mixed up.
         </b-form-checkbox>
         <b-form-checkbox v-model="labContent.options.ShowQuizResults">
@@ -16,6 +16,17 @@
         <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
           Block question after answer.
         </b-form-checkbox>
+        <b-form-checkbox v-model="labContent.options.openQuiz">
+          Open quiz, quiz can be attended any date at any time.
+        </b-form-checkbox>
+        <b-row class="mt-2">
+          <b-col lg="2">
+            Allowed attempts
+          </b-col>
+          <b-col lg="2">
+            <b-input v-model="labContent.options.allowedAttempts" size="sm"></b-input>
+          </b-col>
+        </b-row>
       </b-form-group>
       <LabContent :labContent="labContent" />
       <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
@@ -37,9 +48,11 @@ export default {
     if (this.routeIsNew) {
       this.labContent = {
         options: {
-          shuffled: true,
-          accessed: true,
-          blocked: false
+          shuffledQuiz: true,
+          ShowQuizResults: true,
+          blockQuestionAfterAnswer: false,
+          openQuiz: false,
+          allowedAttempts: 1
         },
         mainSection: {
           title: "",
