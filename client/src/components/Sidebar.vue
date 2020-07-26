@@ -8,7 +8,6 @@
     id="sidebar-backdrop"
   >
     <b-avatar
-      :text="initials"
       :src="baseRoute + '/users/avatar'"
       class="avatar"
     ></b-avatar>
@@ -43,9 +42,6 @@ export default {
   computed: {
     name() {
       return `${this.$store.getters.userField("firstname")} ${this.$store.getters.userField("lastname")}`;
-    },
-    initials() {
-      return this.firstname ? this.firstname[0] + this.lastname[0] : "";
     }
   },
   methods: {

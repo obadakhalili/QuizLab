@@ -107,13 +107,10 @@ export default {
   name: "DashboardHeader",
   async created() {
     const { data: myQuizzes } = await API("/quizzes", "get");
-    const {
-      data: { myQuizzesCount }
-    } = await API("/quizzes/count", "get");
     myQuizzes.forEach(quiz => {
       quiz.selected = false;
     });
-    this.myQuizzesCount = myQuizzesCount;
+    this.myQuizzesCount = myQuizzes.length;
     this.myQuizzes = myQuizzes;
     this.isBusy = false;
   },

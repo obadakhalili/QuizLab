@@ -1,9 +1,8 @@
 const {
   addQuiz,
   getMyQuizzes,
-  getMyQuizzesCount,
   updateQuiz,
-  deleteQuizs,
+  deleteQuizzes,
   getLabContent
 } = require("../controllers/quizzes.js");
 const {
@@ -31,14 +30,6 @@ router.get(
   getMyQuizzes
 );
 
-router.get(
-  "/count",
-  auth,
-  validatePseudorandom,
-  setHeaderAndPayloadCookie,
-  getMyQuizzesCount
-);
-
 router.patch(
   "/:id",
   auth,
@@ -52,7 +43,7 @@ router.post(
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
-  deleteQuizs
+  deleteQuizzes
 );
 
 router.get(

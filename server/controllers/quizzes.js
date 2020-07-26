@@ -22,15 +22,6 @@ exports.getMyQuizzes = async (req, res) => {
   }
 };
 
-exports.getMyQuizzesCount = async (req, res) => {
-  try {
-    const myQuizzesCount = await Quiz.countDocuments({ owner: req.user._id });
-    res.json({ myQuizzesCount });
-  } catch {
-    res.status(500).send("Internal Server Error");
-  }
-};
-
 exports.updateQuiz = async (req, res) => {
   try {
     const quiz = await Quiz.findOne({ _id: req.params.id });
@@ -56,7 +47,7 @@ exports.updateQuiz = async (req, res) => {
   }
 };
 
-exports.deleteQuizs = async (req, res) => {
+exports.deleteQuizzes = async (req, res) => {
   try {
     await Quiz.deleteMany({
       _id: { $in: req.body }

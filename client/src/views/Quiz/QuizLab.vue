@@ -7,14 +7,14 @@
     </div>
     <div v-else>
       <b-form-group label="Exam Options:">
-        <b-form-checkbox v-model="labContent.options.shuffled">
-          Shuffled
+        <b-form-checkbox v-model="labContent.options.ShuffleQuestions">
+          Shuffle questions. Questions from different sections won't get mixed up.
         </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.accessed">
-          Access Open
+        <b-form-checkbox v-model="labContent.options.ShowQuizResults">
+          Show quiz results.
         </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.blocked">
-          Blocked
+        <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
+          Block question after answer.
         </b-form-checkbox>
       </b-form-group>
       <LabContent :labContent="labContent" />
