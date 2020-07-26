@@ -72,7 +72,7 @@ export default {
         );
         this.labContent = parse(response.data);
       } catch (e) {
-        this.$router.push("/dashboard");
+        this.$router.push("/quizzes");
         this.$store.dispatch("updateAlerts", {
           message: e.response.data,
           color: "danger"

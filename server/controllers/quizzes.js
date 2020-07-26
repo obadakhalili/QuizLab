@@ -24,7 +24,7 @@ exports.getMyQuizzes = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
   try {
-    const quiz = await Quiz.findOne({ _id: req.params.id });
+    const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id });
     if (!quiz) {
       throw "Quiz not found";
     }
@@ -50,7 +50,8 @@ exports.updateQuiz = async (req, res) => {
 exports.deleteQuizzes = async (req, res) => {
   try {
     await Quiz.deleteMany({
-      _id: { $in: req.body }
+      _id: { $in: req.body },
+      owner: req.user._id
     });
     res.end();
   } catch (e) {
@@ -64,11 +65,11 @@ exports.deleteQuizzes = async (req, res) => {
 
 exports.getLabContent = async (req, res) => {
   try {
-    const { lab_content } = await Quiz.findOne({ _id: req.params.id }, { lab_content: true, _id: false });
-    if (!lab_content) {
+    const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id }, { lab_content: true, _id: false });
+    if (!quiz) {
       throw "Quiz not found";
     }
-    res.json(lab_content);
+    res.json(quiz.lab_content);
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {
       res.status(400).send("Quiz not found");
