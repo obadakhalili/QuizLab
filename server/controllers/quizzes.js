@@ -32,6 +32,10 @@ exports.getMyQuizzes = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
   try {
+    const allowedAttempts = Number(req.body.allowedAttempts);
+    if (allowedAttempts === NaN || !Number.isInteger(allowedAttempts) || allowedAttempts < 1) {
+      throw "Wrong allowed attempts input";
+    }
     const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id });
     if (!quiz) {
       throw "Quiz not found";
@@ -47,6 +51,8 @@ exports.updateQuiz = async (req, res) => {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.name === "CastError" || e === "Quiz not found") {
       errors.push("Quiz not found");
+    } else if (e === "Wrong allowed attempts input") {
+      errors.push(e);
     } else {
       return res.status(500).send("Internal Server Error");
     }

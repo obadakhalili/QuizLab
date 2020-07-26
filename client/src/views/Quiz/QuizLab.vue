@@ -137,6 +137,7 @@ export default {
       try {
         const response = await API("/quizzes/" + this.IDParam, "patch", {
           title: this.labContent.mainSection.title,
+          allowedAttempts: this.labContent.options.allowedAttempts,
           labContent: stringify(this.labContent)
         });
         if (response.data.quizIsModified) {
