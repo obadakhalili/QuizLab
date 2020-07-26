@@ -8,7 +8,7 @@
     <div v-else>
       <b-form-group label="Exam Options:">
         <b-form-checkbox v-model="labContent.options.ShuffleQuestions">
-          Shuffle questions. Questions from different sections won't get mixed up.
+          Shuffle questions. Questions from different sections won't be mixed up.
         </b-form-checkbox>
         <b-form-checkbox v-model="labContent.options.ShowQuizResults">
           Show quiz results.
@@ -35,16 +35,16 @@ export default {
   name: "QuizLab",
   created() {
     if (this.routeIsNew) {
-      this.labContent = {};
-      this.labContent.options = {
-        shuffled: true,
-        "access-open": true,
-        blocked: false
-        // etc ...
-      };
-      this.labContent.mainSection = {
-        title: "",
-        content: []
+      this.labContent = {
+        options: {
+          shuffled: true,
+          accessed: true,
+          blocked: false
+        },
+        mainSection: {
+          title: "",
+          content: []
+        }
       };
     } else {
       this.setQuiz();
@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      labContent: null
+      labContent: null, 
     };
   },
   computed: {
@@ -80,15 +80,22 @@ export default {
       }
     },
     submitQuiz() {
-      this.validateQuiz();
       if (this.routeIsNew) {
         this.insertNewQuiz();
+        this.clearContentTitles(this.labContent.mainSection);
       } else {
         this.updateQuiz();
       }
     },
-    validateQuiz() {
-      // validate quiz
+    clearContentTitles(context) {
+      context.title = "";
+      if (context.content) {
+        context.content.forEach(this.clearContentTitles);
+      } else {
+        if (context.choices) {
+          context.choices.forEach(this.clearContentTitles);
+        }
+      }
     },
     async insertNewQuiz() {
       try {
