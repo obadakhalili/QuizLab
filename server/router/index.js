@@ -7,6 +7,6 @@ const router = new Router();
 
 router.use("/users", usersRouter);
 router.use("/quizzes", quizzesRouter);
-router.use("/results", recordsRouter);
+router.use("/records", recordsRouter);
 
 module.exports = router;
