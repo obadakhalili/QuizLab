@@ -20,7 +20,7 @@ exports.addRecord = async (req, res) => {
     } else {
       record.leftAttempts--;
     }
-    record.latestResults.push(10); // check answers
+    record.latestResults.push(quiz.checkAnswers(req.body.answers));
     record.owner = req.user._id;
     await record.save();
     res.end();

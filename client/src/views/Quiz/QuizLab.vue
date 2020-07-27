@@ -1,6 +1,5 @@
 <template>
   <div class="lab mx-auto">
-    <h1 class="display-4 text-center">Quizzes Lab</h1>
     <div v-if="!labContent" class="text-center my-5">
       <b-spinner class="align-middle mr-2"></b-spinner>
       <strong>Loading ...</strong>
@@ -16,9 +15,14 @@
         <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
           Block question after answer.
         </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.openQuiz">
+        <b-form-checkbox v-model="labContent.options.openQuiz.isOpen">
           Open quiz, quiz can be attended any date at any time.
         </b-form-checkbox>
+        <b-form-group v-if="!labContent.options.openQuiz.isOpen">
+          Quiz ending date
+          <b-datepicker v-model="labContent.options.openQuiz.date" size="sm" class="my-2 w-75"></b-datepicker>
+          <b-form-timepicker v-model="labContent.options.openQuiz.time" class="w-75"></b-form-timepicker>
+        </b-form-group>
         <b-row class="mt-2">
           <b-col lg="2">
             Allowed attempts
@@ -51,7 +55,11 @@ export default {
           shuffledQuiz: true,
           ShowQuizResults: true,
           blockQuestionAfterAnswer: false,
-          openQuiz: false,
+          openQuiz: {
+            isOpen: false,
+            date: "",
+            time: ""
+          },
           allowedAttempts: 1
         },
         mainSection: {
@@ -113,7 +121,12 @@ export default {
       try {
         await API("/quizzes", "post", {
           title: this.labContent.mainSection.title,
-          allowedAttempts: this.labContent.options.allowedAttempts,
+          allowed_attempts: this.labContent.options.allowedAttempts,
+          openQuiz: this.labContent.options.openQuiz.isOpen,
+          ending_date:
+            !this.labContent.options.openQuiz.isOpen
+            ? new Date(`${this.labContent.options.openQuiz.date} ${this.labContent.options.openQuiz.time}`)
+            : undefined,
           lab_content: stringify(this.labContent),
         });
         this.$store.dispatch("updateAlerts", {
@@ -137,7 +150,12 @@ export default {
       try {
         const response = await API("/quizzes/" + this.IDParam, "patch", {
           title: this.labContent.mainSection.title,
-          allowedAttempts: this.labContent.options.allowedAttempts,
+          allowed_attempts: this.labContent.options.allowedAttempts,
+          openQuiz: this.labContent.options.openQuiz.isOpen,
+          ending_date:
+            !this.labContent.options.openQuiz.isOpen
+            ? new Date(`${this.labContent.options.openQuiz.date} ${this.labContent.options.openQuiz.time}`)
+            : undefined,
           lab_content: stringify(this.labContent)
         });
         if (response.data.quizIsModified) {

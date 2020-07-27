@@ -30,8 +30,13 @@ exports.updateQuiz = async (req, res) => {
       throw "Quiz not found";
     }
     quiz.title = req.body.title;
-    quiz.allowedAttempts = req.body.allowedAttempts;
+    quiz.allowed_attempts = req.body.allowed_attempts;
     quiz.lab_content = req.body.lab_content;
+    if (req.body.openQuiz) {
+      quiz.ending_date = undefined;
+    } else {
+      quiz.ending_date = req.body.ending_date;
+    }
     const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();
     res.json({ quizIsModified });

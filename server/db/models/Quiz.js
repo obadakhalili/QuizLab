@@ -9,7 +9,7 @@ const quizSchema = new Schema({
     type: String,
     required: [true, "Quiz title is required"]
   },
-  allowedAttempts: {
+  allowed_attempts: {
     type: Number,
     validate: {
       validator(v) {
@@ -18,6 +18,7 @@ const quizSchema = new Schema({
       message: "Allowed attempts should be an integer greater than 0"
     }
   },
+  ending_date: Date,
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"
