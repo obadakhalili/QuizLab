@@ -24,7 +24,7 @@
             Allowed attempts
           </b-col>
           <b-col lg="2">
-            <b-input v-model="labContent.options.allowedAttempts" size="sm"></b-input>
+            <b-input v-model="labContent.options.allowedAttempts" type="number" size="sm"></b-input>
           </b-col>
         </b-row>
       </b-form-group>
@@ -138,7 +138,7 @@ export default {
         const response = await API("/quizzes/" + this.IDParam, "patch", {
           title: this.labContent.mainSection.title,
           allowedAttempts: this.labContent.options.allowedAttempts,
-          labContent: stringify(this.labContent)
+          lab_content: stringify(this.labContent)
         });
         if (response.data.quizIsModified) {
           this.$store.dispatch("updateAlerts", {

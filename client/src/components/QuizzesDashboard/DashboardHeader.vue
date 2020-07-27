@@ -11,12 +11,14 @@
       <b-col md="4">
         <b-form-row class="attend-quiz-section">
           <b-col cols="8">
-            <b-input size="sm" placeholder="Enter Quiz ID"></b-input>
+            <b-input v-model="quizID" size="sm" placeholder="Enter Quiz ID"></b-input>
           </b-col>
           <b-col cols="4">
-            <b-button size="sm" variant="primary" class="w-100">
-              Attend
-            </b-button>
+            <router-link :to="'/quiz/' + this.quizID">
+              <b-button size="sm" variant="primary" class="w-100">
+                Attend
+              </b-button>
+            </router-link>
           </b-col>
         </b-form-row>
       </b-col>
@@ -26,7 +28,12 @@
 
 <script>
 export default {
-  name: "Controllers"
+  name: "Controllers",
+  data() {
+    return {
+      quizID: ""
+    };
+  }
 };
 </script>
 

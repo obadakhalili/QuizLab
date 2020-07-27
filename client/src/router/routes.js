@@ -36,6 +36,13 @@ export default [
     }
   },
   {
+    path: "/quiz/:id",
+    component: () => import("@/views/Quiz/QuizView"),
+    meta: {
+      private: true
+    }
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFound")
   }
