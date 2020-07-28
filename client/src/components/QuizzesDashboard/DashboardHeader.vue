@@ -11,7 +11,11 @@
       <b-col md="4">
         <b-form-row class="attend-quiz-section">
           <b-col cols="8">
-            <b-input v-model="quizID" size="sm" placeholder="Enter Quiz ID"></b-input>
+            <b-input
+              v-model="quizID"
+              size="sm"
+              placeholder="Enter Quiz ID"
+            ></b-input>
           </b-col>
           <b-col cols="4">
             <router-link :to="'/quiz/' + this.quizID">

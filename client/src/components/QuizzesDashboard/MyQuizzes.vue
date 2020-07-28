@@ -13,7 +13,11 @@
         ></b-input>
         <b-row class="mb-1">
           <b-col cols="8">
-            <b-form-select v-model="fieldToSortWith" :options="sortingOptions" size="sm" ></b-form-select>
+            <b-form-select
+              v-model="fieldToSortWith"
+              :options="sortingOptions"
+              size="sm"
+            ></b-form-select>
           </b-col>
           <b-col cols="4">
             <b-checkbox v-model="sortDesc" class="mt-1">Desc</b-checkbox>

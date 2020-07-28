@@ -7,7 +7,8 @@
     <div v-else>
       <b-form-group label="Quiz Options:">
         <b-form-checkbox v-model="labContent.options.shuffledQuiz">
-          Shuffle questions. Questions from different sections won't be mixed up.
+          Shuffle questions. Questions from different sections won't be mixed
+          up.
         </b-form-checkbox>
         <b-form-checkbox v-model="labContent.options.showQuizResults">
           Show quiz results.
@@ -20,20 +21,38 @@
         </b-form-checkbox>
         <b-form-group v-if="!labContent.options.quizTime.isOpen">
           Quiz ending date
-          <b-datepicker v-model="labContent.options.quizTime.date" :placeholder="labContent.options.quizTime.date" size="sm" class="my-2 w-75"></b-datepicker>
-          <b-form-timepicker v-model="labContent.options.quizTime.time" :placeholder="labContent.options.quizTime.time" size="sm" class="w-75"></b-form-timepicker>
+          <b-datepicker
+            v-model="labContent.options.quizTime.date"
+            :placeholder="labContent.options.quizTime.date"
+            size="sm"
+            class="my-2 w-75"
+          ></b-datepicker>
+          <b-form-timepicker
+            v-model="labContent.options.quizTime.time"
+            :placeholder="labContent.options.quizTime.time"
+            size="sm"
+            class="w-75"
+          ></b-form-timepicker>
         </b-form-group>
         <b-row no-gutters>
           <b-col sm="2">
             Allowed attempts
           </b-col>
           <b-col sm="3">
-            <b-input v-model="labContent.options.allowedAttempts" type="number" size="sm"></b-input>
+            <b-input
+              v-model="labContent.options.allowedAttempts"
+              type="number"
+              size="sm"
+            ></b-input>
           </b-col>
         </b-row>
       </b-form-group>
       <LabContent :labContent="labContent" />
-      <b-button @click="submitQuiz" :variant="routeIsNew ? 'dark' : 'success'" class="float-right mt-3 mb-3">
+      <b-button
+        @click="submitQuiz"
+        :variant="routeIsNew ? 'dark' : 'success'"
+        class="float-right mt-3 mb-3"
+      >
         Submit
       </b-button>
     </div>
@@ -71,15 +90,12 @@ export default {
   },
   data() {
     return {
-      labContent: null, 
+      labContent: null
     };
   },
   computed: {
     routeIsNew() {
       return this.$route.path === "/new";
-    },
-    quizEndingDate() {
-      return new Date(`${this.labContent.options.quizTime.date} ${this.labContent.options.quizTime.time}`);
     }
   },
   methods: {
@@ -99,24 +115,22 @@ export default {
       }
     },
     async submitQuiz() {
-      const submitBody = {
-        title: this.labContent.mainSection.title,
-        openQuiz: this.labContent.options.quizTime.isOpen,
-        ending_date: this.quizEndingDate,
-        show_results: this.labContent.options.showQuizResults,
-        allowed_attempts: this.labContent.options.allowedAttempts,
-        lab_content: stringify(this.labContent),
-      };
       try {
         if (this.routeIsNew) {
-          await API("/quizzes", "post", submitBody);
+          await API("/quizzes", "post", {
+            labContent: stringify(this.labContent)
+          });
           this.$store.dispatch("updateAlerts", {
             message: "Quiz was submitted successfully",
             color: "success"
           });
           this.clearContentTitles(this.labContent.mainSection);
         } else {
-          const response = await API("/quizzes/" + this.$route.params.id, "patch", submitBody);
+          const response = await API(
+            "/quizzes/" + this.$route.params.id,
+            "patch",
+            { labContent: stringify(this.labContent) }
+          );
           if (response.data.quizIsModified) {
             this.$store.dispatch("updateAlerts", {
               message: "Quiz new updates were taken",

@@ -7,10 +7,7 @@
     :title="name"
     id="sidebar-backdrop"
   >
-    <b-avatar
-      :src="baseRoute + '/users/avatar'"
-      class="avatar"
-    ></b-avatar>
+    <b-avatar :src="baseRoute + '/users/avatar'" class="avatar"></b-avatar>
     <ul class="list-unstyled mt-3">
       <router-link to="/account">
         <li>
@@ -41,7 +38,9 @@ export default {
   },
   computed: {
     name() {
-      return `${this.$store.getters.userField("firstname")} ${this.$store.getters.userField("lastname")}`;
+      return `${this.$store.getters.userField(
+        "firstname"
+      )} ${this.$store.getters.userField("lastname")}`;
     }
   },
   methods: {
