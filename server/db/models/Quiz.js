@@ -11,12 +11,17 @@ const quizSchema = new Schema({
   },
   allowed_attempts: {
     type: Number,
+    required: [true, "Quiz allowed attempts option is required"],
     validate: {
       validator(v) {
         return Number.isInteger(v) && v > 0;
       },
       message: "Allowed attempts should be an integer greater than 0"
     }
+  },
+  show_results: {
+    type: Boolean,
+    required: [true, "Show quiz results option is required"]
   },
   ending_date: Date,
   owner: {

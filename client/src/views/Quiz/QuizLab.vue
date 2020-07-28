@@ -9,34 +9,32 @@
         <b-form-checkbox v-model="labContent.options.shuffledQuiz">
           Shuffle questions. Questions from different sections won't be mixed up.
         </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.ShowQuizResults">
+        <b-form-checkbox v-model="labContent.options.showQuizResults">
           Show quiz results.
         </b-form-checkbox>
         <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
           Block question after answer.
         </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.openQuiz.isOpen">
+        <b-form-checkbox v-model="labContent.options.quizTime.isOpen">
           Open quiz, quiz can be attended any date at any time.
         </b-form-checkbox>
-        <b-form-group v-if="!labContent.options.openQuiz.isOpen">
+        <b-form-group v-if="!labContent.options.quizTime.isOpen">
           Quiz ending date
-          <b-datepicker v-model="labContent.options.openQuiz.date" size="sm" class="my-2 w-75"></b-datepicker>
-          <b-form-timepicker v-model="labContent.options.openQuiz.time" class="w-75"></b-form-timepicker>
+          <b-datepicker v-model="labContent.options.quizTime.date" :placeholder="labContent.options.quizTime.date" size="sm" class="my-2 w-75"></b-datepicker>
+          <b-form-timepicker v-model="labContent.options.quizTime.time" :placeholder="labContent.options.quizTime.time" size="sm" class="w-75"></b-form-timepicker>
         </b-form-group>
-        <b-row class="mt-2">
-          <b-col lg="2">
+        <b-row no-gutters>
+          <b-col sm="2">
             Allowed attempts
           </b-col>
-          <b-col lg="2">
+          <b-col sm="3">
             <b-input v-model="labContent.options.allowedAttempts" type="number" size="sm"></b-input>
           </b-col>
         </b-row>
       </b-form-group>
       <LabContent :labContent="labContent" />
-      <b-button @click="submitQuiz" class="submit-btn float-right mt-3 mb-3">
-        <template>
-          {{ routeIsNew ? "Submit Quiz" : "Update Quiz" }}
-        </template>
+      <b-button @click="submitQuiz" :variant="routeIsNew ? 'dark' : 'success'" class="float-right mt-3 mb-3">
+        Submit
       </b-button>
     </div>
   </div>
@@ -53,12 +51,12 @@ export default {
       this.labContent = {
         options: {
           shuffledQuiz: true,
-          ShowQuizResults: true,
+          showQuizResults: true,
           blockQuestionAfterAnswer: false,
-          openQuiz: {
+          quizTime: {
             isOpen: false,
-            date: "",
-            time: ""
+            date: new Date().toLocaleDateString(),
+            time: new Date().toLocaleTimeString()
           },
           allowedAttempts: 1
         },
@@ -80,15 +78,15 @@ export default {
     routeIsNew() {
       return this.$route.path === "/new";
     },
-    IDParam() {
-      return this.$route.params.id;
+    quizEndingDate() {
+      return new Date(`${this.labContent.options.quizTime.date} ${this.labContent.options.quizTime.time}`);
     }
   },
   methods: {
     async setQuiz() {
       try {
         const response = await API(
-          "/quizzes/labcontent/" + this.IDParam,
+          "/quizzes/labcontent/" + this.$route.params.id,
           "get"
         );
         this.labContent = parse(response.data);
@@ -100,11 +98,47 @@ export default {
         });
       }
     },
-    submitQuiz() {
-      if (this.routeIsNew) {
-        this.insertNewQuiz();
-      } else {
-        this.updateQuiz();
+    async submitQuiz() {
+      const submitBody = {
+        title: this.labContent.mainSection.title,
+        openQuiz: this.labContent.options.quizTime.isOpen,
+        ending_date: this.quizEndingDate,
+        show_results: this.labContent.options.showQuizResults,
+        allowed_attempts: this.labContent.options.allowedAttempts,
+        lab_content: stringify(this.labContent),
+      };
+      try {
+        if (this.routeIsNew) {
+          await API("/quizzes", "post", submitBody);
+          this.$store.dispatch("updateAlerts", {
+            message: "Quiz was submitted successfully",
+            color: "success"
+          });
+          this.clearContentTitles(this.labContent.mainSection);
+        } else {
+          const response = await API("/quizzes/" + this.$route.params.id, "patch", submitBody);
+          if (response.data.quizIsModified) {
+            this.$store.dispatch("updateAlerts", {
+              message: "Quiz new updates were taken",
+              color: "success"
+            });
+          } else {
+            this.$store.dispatch("updateAlerts", {
+              message: "No updates made",
+              color: "info"
+            });
+          }
+        }
+      } catch (e) {
+        this.$store.dispatch(
+          "updateAlerts",
+          e.response.data.map(message => {
+            return {
+              message,
+              color: "danger"
+            };
+          })
+        );
       }
     },
     clearContentTitles(context) {
@@ -115,70 +149,6 @@ export default {
         if (context.choices) {
           context.choices.forEach(this.clearContentTitles);
         }
-      }
-    },
-    async insertNewQuiz() {
-      try {
-        await API("/quizzes", "post", {
-          title: this.labContent.mainSection.title,
-          allowed_attempts: this.labContent.options.allowedAttempts,
-          openQuiz: this.labContent.options.openQuiz.isOpen,
-          ending_date:
-            !this.labContent.options.openQuiz.isOpen
-            ? new Date(`${this.labContent.options.openQuiz.date} ${this.labContent.options.openQuiz.time}`)
-            : undefined,
-          lab_content: stringify(this.labContent),
-        });
-        this.$store.dispatch("updateAlerts", {
-          message: "Quiz was submitted successfully",
-          color: "success"
-        });
-        this.clearContentTitles(this.labContent.mainSection);
-      } catch (e) {
-        this.$store.dispatch(
-          "updateAlerts",
-          e.response.data.map(message => {
-            return {
-              message,
-              color: "danger"
-            };
-          })
-        );
-      }
-    },
-    async updateQuiz() {
-      try {
-        const response = await API("/quizzes/" + this.IDParam, "patch", {
-          title: this.labContent.mainSection.title,
-          allowed_attempts: this.labContent.options.allowedAttempts,
-          openQuiz: this.labContent.options.openQuiz.isOpen,
-          ending_date:
-            !this.labContent.options.openQuiz.isOpen
-            ? new Date(`${this.labContent.options.openQuiz.date} ${this.labContent.options.openQuiz.time}`)
-            : undefined,
-          lab_content: stringify(this.labContent)
-        });
-        if (response.data.quizIsModified) {
-          this.$store.dispatch("updateAlerts", {
-            message: "Quiz new updates were taken",
-            color: "success"
-          });
-        } else {
-          this.$store.dispatch("updateAlerts", {
-            message: "No updates made",
-            color: "info"
-          });
-        }
-      } catch (e) {
-        this.$store.dispatch(
-          "updateAlerts",
-          e.response.data.map(message => {
-            return {
-              message,
-              color: "danger"
-            };
-          })
-        );
       }
     }
   },

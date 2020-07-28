@@ -32,6 +32,7 @@ exports.updateQuiz = async (req, res) => {
     quiz.title = req.body.title;
     quiz.allowed_attempts = req.body.allowed_attempts;
     quiz.lab_content = req.body.lab_content;
+    quiz.show_results = req.body.show_results;
     if (req.body.openQuiz) {
       quiz.ending_date = undefined;
     } else {

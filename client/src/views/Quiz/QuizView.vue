@@ -1,15 +1,9 @@
 <template>
-  <b-button @click="submitAnswers">Submit Answers</b-button>
+  <h1>QuizView</h1>
 </template>
 
 <script>
-import API from "@/api";
-
 export default {
-  methods: {
-    async submitAnswers() {
-      // ..
-    }
-  }
+  
 };
 </script>
