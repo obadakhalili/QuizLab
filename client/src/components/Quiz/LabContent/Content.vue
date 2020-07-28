@@ -1,6 +1,6 @@
 <script>
-import QuizSection from "@/components/Quiz/LabSection";
-import QuizQestion from "@/components/Quiz/LabQuestion";
+import QuizSection from "./LabSection";
+import QuizQestion from "./LabQuestion";
 
 export default {
   name: "QuizContent",

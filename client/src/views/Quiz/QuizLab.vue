@@ -153,7 +153,7 @@ export default {
     }
   },
   components: {
-    LabContent: () => import("@/components/Quiz/LabContent")
+    LabContent: () => import("@/components/Quiz/LabContent/Content")
   }
 };
 </script>
@@ -161,8 +161,5 @@ export default {
 <style scoped>
 .lab {
   max-width: 900px;
-}
-.submit-btn {
-  background-color: #343a40;
 }
 </style>
