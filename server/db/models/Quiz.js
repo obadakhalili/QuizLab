@@ -34,6 +34,9 @@ class QuizMethods {
   toJSON() {
     const quizObject = this.toObject();
     quizObject.__v = undefined;
+    quizObject.show_results = undefined;
+    quizObject.ending_date = undefined;
+    quizObject.allowed_attempts = undefined;
     quizObject.owner = undefined;
     quizObject.lab_content = undefined;
     return quizObject;
