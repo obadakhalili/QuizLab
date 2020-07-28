@@ -7,7 +7,7 @@ exports.addRecord = async (req, res) => {
       throw "You should add answers";
     }
     const quiz = await Quiz.findOne({ _id: req.body.quizID }, {
-      allowedAttempts: true,
+      allowed_attempts: true,
       lab_content: true,
       _id: false
     });
