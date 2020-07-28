@@ -1,8 +1,26 @@
 const Quiz = require("../db/models/Quiz.js");
+const { parse } = require("flatted");
 
 exports.addQuiz = async (req, res) => {
   try {
-    await Quiz({ ...req.body, owner: req.user._id }).save();
+    const {
+      options: {
+        showQuizResults: show_results,
+        allowedAttempts: allowed_attempts,
+        quizTime
+      },
+      mainSection: { title }
+    } = parse(req.body.labContent);
+    await Quiz({
+      lab_content: req.body.labContent,
+      title,
+      show_results,
+      allowed_attempts,
+      ending_date: quizTime.isOpen
+        ? undefined
+        : new Date(`${quizTime.date} ${quizTime.time}`),
+      owner: req.user._id
+    }).save();
     res.end();
   } catch (e) {
     const errors = [];
@@ -25,18 +43,26 @@ exports.getMyQuizzes = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
   try {
+    const {
+      options: {
+        showQuizResults: show_results,
+        allowedAttempts: allowed_attempts,
+        quizTime
+      },
+      mainSection: { title }
+    } = parse(req.body.labContent);
     const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id });
     if (!quiz) {
       throw "Quiz not found";
     }
-    quiz.title = req.body.title;
-    quiz.allowed_attempts = req.body.allowed_attempts;
-    quiz.lab_content = req.body.lab_content;
-    quiz.show_results = req.body.show_results;
-    if (req.body.openQuiz) {
+    quiz.lab_content = req.body.labContent;
+    quiz.title = title;
+    quiz.allowed_attempts = allowed_attempts;
+    quiz.show_results = show_results;
+    if (quizTime.openQuiz) {
       quiz.ending_date = undefined;
     } else {
-      quiz.ending_date = req.body.ending_date;
+      quiz.ending_date = new Date(`${quizTime.date} ${quizTime.time}`);
     }
     const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();
