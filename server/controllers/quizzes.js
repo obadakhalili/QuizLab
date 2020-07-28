@@ -59,7 +59,7 @@ exports.updateQuiz = async (req, res) => {
     quiz.title = title;
     quiz.allowed_attempts = allowed_attempts;
     quiz.show_results = show_results;
-    if (quizTime.openQuiz) {
+    if (quizTime.isOpen) {
       quiz.ending_date = undefined;
     } else {
       quiz.ending_date = new Date(`${quizTime.date} ${quizTime.time}`);
