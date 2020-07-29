@@ -20,9 +20,9 @@ exports.checkRecord = async (req, res) => {
     req.body.entranceDate = new Date(req.body.entranceDate);
     if (quiz.start_date) {
       if (req.body.entranceDate < quiz.start_date) {
-        return res.send("You are early, exam starts at " + new Date(quiz.start_date).toLocaleString());
+        return res.send("You are early, exam starts at " + quiz.start_date.toLocaleString());
       } else if (req.body.entranceDate > quiz.close_date) {
-        return res.send("You are late, exam ended at " + new Date(quiz.close_date).toLocaleString());
+        return res.send("You are late, exam ended at " + quiz.close_date.toLocaleString());
       }
     }
     if (record) {
