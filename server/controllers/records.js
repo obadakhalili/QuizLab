@@ -11,7 +11,7 @@ exports.checkRecord = async (req, res) => {
       _id: false
     });
     if (!quiz) {
-      return res.status(201).send("Quiz not found");
+      throw "Quiz not found";
     }
     let record = await Record.findOne({
       quiz: req.body.quizID,
@@ -51,8 +51,8 @@ exports.checkRecord = async (req, res) => {
       quizView: "..."
     });
   } catch (e) {
-    if (e.name === "CastError") {
-      res.status(400).send("Wrong quiz ID format");
+    if (e.name === "CastError" || e === "Quiz not found") {
+      res.status(400).send("Quiz not found");
     } else {
       res.status(500).end();
     }
