@@ -11,7 +11,7 @@ exports.checkRecord = async (req, res) => {
       _id: false
     });
     if (!quiz) {
-      throw "Quiz not found";
+      return res.send("Quiz not found");
     }
     let record = await Record.findOne({
       quiz: req.body.quizID,
@@ -20,14 +20,14 @@ exports.checkRecord = async (req, res) => {
     req.body.entranceDate = new Date(req.body.entranceDate);
     if (quiz.start_date) {
       if (req.body.entranceDate < quiz.start_date) {
-        throw "You are early, exam starts at " + new Date(quiz.start_date).toLocaleString();
+        return res.send("You are early, exam starts at " + new Date(quiz.start_date).toLocaleString());
       } else if (req.body.entranceDate > quiz.close_date) {
-        throw "You are late, exam ended at " + new Date(quiz.close_date).toLocaleString();
+        return res.send("You are late, exam ended at " + new Date(quiz.close_date).toLocaleString());
       }
     }
     if (record) {
       if (!record.left_attempts) {
-        throw "You are out of attempts"
+        return res.send("You are out of attempts");
       } else {
         record.left_attempts--;
       }
@@ -52,9 +52,7 @@ exports.checkRecord = async (req, res) => {
     });
   } catch (e) {
     if (e.name === "CastError") {
-      res.status(400).send("Quiz not found");
-    } else if (e === "Quiz not found" || e === "You are out of attempts" || e.startsWith("You are early") || e.startsWith("You are late")) {
-      res.status(400).send(e);
+      res.status(400).send("Wrong quiz ID format");
     } else {
       res.status(500).end();
     }
