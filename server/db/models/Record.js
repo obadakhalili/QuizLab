@@ -4,7 +4,7 @@ const recordSchema = new mongoose.Schema({
   latest_results: [{
     type: Number
   }],
-  left_attempts: {
+  taken_attempts: {
     type: Number
   },
   quiz: {

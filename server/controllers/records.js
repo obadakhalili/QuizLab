@@ -26,13 +26,13 @@ exports.checkRecord = async (req, res) => {
       }
     }
     if (record) {
-      if (!record.left_attempts) {
+      if (record.taken_attempts === quiz.allowed_attempts) {
         return res.send("You are out of attempts");
       } else {
-        record.left_attempts--;
+        record.taken_attempts++;
       }
     } else {
-      record = new Record({ left_attempts: --quiz.allowed_attempts, quiz: req.body.quizID, owner: req.user._id });
+      record = new Record({ taken_attempts: 1, quiz: req.body.quizID, owner: req.user._id });
     }
     await record.save();
     let leftTimeLimit;
