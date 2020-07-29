@@ -5,7 +5,7 @@
       <strong>Loading ...</strong>
     </div>
     <div v-else>
-      <b-form-group label="Quiz Options:">
+      <b-form-group label="Quiz Options:" class="noselect">
         <b-form-checkbox v-model="labContent.options.shuffledQuiz">
           Shuffle questions. Questions from different sections won't be mixed
           up.
@@ -16,29 +16,57 @@
         <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
           Block question after answer.
         </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.quizTime.isOpen">
+        <b-form-checkbox v-model="labContent.options.openQuiz">
           Open quiz, quiz can be attended any date at any time.
         </b-form-checkbox>
-        <b-form-group v-if="!labContent.options.quizTime.isOpen">
-          Quiz ending date
+        <b-form-group :class="{ 'd-none': labContent.options.openQuiz }">
+          Start date
           <b-datepicker
-            v-model="labContent.options.quizTime.date"
-            :placeholder="labContent.options.quizTime.date"
+            v-model="labContent.options.startDate"
             size="sm"
             class="my-2 w-75"
           ></b-datepicker>
           <b-form-timepicker
-            v-model="labContent.options.quizTime.time"
-            :placeholder="labContent.options.quizTime.time"
+            v-model="labContent.options.startTime"
+            size="sm"
+            class="w-75"
+          ></b-form-timepicker>
+          Close date
+          <b-datepicker
+            v-model="labContent.options.closeDate"
+            size="sm"
+            class="my-2 w-75"
+          ></b-datepicker>
+          <b-form-timepicker
+            v-model="labContent.options.closeTime"
             size="sm"
             class="w-75"
           ></b-form-timepicker>
         </b-form-group>
+        <b-form-checkbox v-model="labContent.options.noTimeLimit">
+          No time limit
+        </b-form-checkbox>
+        <b-row
+          no-gutters
+          :class="{ 'd-none': labContent.options.noTimeLimit }"
+          class="my-2"
+        >
+          <b-col sm="3">
+            Time limit (mins)
+          </b-col>
+          <b-col sm="9">
+            <b-input
+              v-model="labContent.options.timeLimit"
+              type="number"
+              size="sm"
+            ></b-input>
+          </b-col>
+        </b-row>
         <b-row no-gutters>
-          <b-col sm="2">
+          <b-col sm="3">
             Allowed attempts
           </b-col>
-          <b-col sm="3">
+          <b-col sm="9">
             <b-input
               v-model="labContent.options.allowedAttempts"
               type="number"
@@ -72,11 +100,13 @@ export default {
           shuffledQuiz: true,
           showQuizResults: true,
           blockQuestionAfterAnswer: false,
-          quizTime: {
-            isOpen: false,
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString()
-          },
+          openQuiz: false,
+          startDate: "",
+          startTime: "",
+          closeDate: "",
+          closeTime: "",
+          noTimeLimit: false,
+          timeLimit: 30,
           allowedAttempts: 1
         },
         mainSection: {

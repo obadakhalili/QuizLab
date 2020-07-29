@@ -23,7 +23,8 @@ const quizSchema = new Schema({
     type: Boolean,
     required: [true, "Show quiz results option is required"]
   },
-  ending_date: Date,
+  start_date: Date,
+  close_date: Date,
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"

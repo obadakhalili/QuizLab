@@ -3,32 +3,43 @@ const { parse } = require("flatted");
 
 exports.addQuiz = async (req, res) => {
   try {
-    const {
-      options: {
-        showQuizResults: show_results,
-        allowedAttempts: allowed_attempts,
-        quizTime
-      },
-      mainSection: { title }
-    } = parse(req.body.labContent);
-    await Quiz({
+    const labContent = parse(req.body.labContent);
+    const quiz = Quiz({
       lab_content: req.body.labContent,
-      title,
-      show_results,
-      allowed_attempts,
-      ending_date: quizTime.isOpen
-        ? undefined
-        : new Date(`${quizTime.date} ${quizTime.time}`),
+      title: labContent.mainSection.title,
+      show_results: labContent.options.showQuizResults,
+      allowed_attempts: labContent.options.allowedAttempts,
       owner: req.user._id
-    }).save();
+    });
+    if (!labContent.options.openQuiz) {
+      const startDate = new Date(`${labContent.options.startDate} ${labContent.options.startTime}`);
+      const closeDate = new Date(`${labContent.options.closeDate} ${labContent.options.closeTime}`);
+      const startDateTime = startDate.getTime();
+      const closeDateTime = closeDate.getTime();
+      if (startDateTime !== startDateTime) {
+        throw "Start date input is invalid";
+      } else if (closeDateTime !== closeDateTime) {
+        throw "Close date input is invalid";
+      }
+      if (startDate >= closeDate) {
+        throw "Close date should be less that start date, duh!";
+      } else {
+        quiz.start_date = startDate;
+        quiz.close_date = closeDate;
+      }
+    }
+    await quiz.save();
     res.end();
   } catch (e) {
     const errors = [];
     if (e.name === "ValidationError") {
       Object.values(e.errors).forEach(({ message })=> errors.push(message));
-      return res.status(400).send(errors);
+    } else if (["Close date should be less that start date, duh!", "Start date input is invalid", "Close date input is invalid"].includes(e)) {
+      errors.push(e);
+    } else {
+      return res.status(500).send("Internal Server Error");
     }
-    res.status(500).send("Internal Server Error");
+    res.status(400).json(errors);
   }
 };
 
@@ -43,26 +54,31 @@ exports.getMyQuizzes = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
   try {
-    const {
-      options: {
-        showQuizResults: show_results,
-        allowedAttempts: allowed_attempts,
-        quizTime
-      },
-      mainSection: { title }
-    } = parse(req.body.labContent);
+    const labContent = parse(req.body.labContent);
     const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id });
     if (!quiz) {
       throw "Quiz not found";
     }
     quiz.lab_content = req.body.labContent;
-    quiz.title = title;
-    quiz.allowed_attempts = allowed_attempts;
-    quiz.show_results = show_results;
-    if (quizTime.isOpen) {
-      quiz.ending_date = undefined;
-    } else {
-      quiz.ending_date = new Date(`${quizTime.date} ${quizTime.time}`);
+    quiz.title = labContent.mainSection.title;
+    quiz.allowed_attempts = labContent.options.allowedAttempts;
+    quiz.show_results = labContent.options.showQuizResults;
+    if (!labContent.options.openQuiz) {
+      const startDate = new Date(`${labContent.options.startDate} ${labContent.options.startTime}`);
+      const closeDate = new Date(`${labContent.options.closeDate} ${labContent.options.closeTime}`);
+      const startDateTime = startDate.getTime();
+      const closeDateTime = closeDate.getTime();
+      if (startDateTime !== startDateTime) {
+        throw "Start date input is invalid";
+      } else if (closeDateTime !== closeDateTime) {
+        throw "Close date input is invalid";
+      }
+      if (startDate >= closeDate) {
+        throw "Close date should be less that start date, duh!";
+      } else {
+        quiz.start_date = startDate;
+        quiz.close_date = closeDate;
+      }
     }
     const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();
@@ -73,6 +89,8 @@ exports.updateQuiz = async (req, res) => {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.name === "CastError" || e === "Quiz not found") {
       errors.push("Quiz not found");
+    } else if (["Close date should be less that start date, duh!", "Start date input is invalid", "Close date input is invalid"].includes(e)) {
+      errors.push(e);
     } else {
       return res.status(500).send("Internal Server Error");
     }
@@ -92,10 +110,9 @@ exports.deleteQuizzes = async (req, res) => {
     res.end();
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {
-      res.status(400).send("Quiz not found");
-    } else {
-      res.status(500).send("Internal Server Error");
+      return res.status(400).send("Quiz not found");
     }
+    res.status(500).send("Internal Server Error");
   }
 };
 
@@ -108,9 +125,8 @@ exports.getLabContent = async (req, res) => {
     res.json(quiz.lab_content);
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {
-      res.status(400).send("Quiz not found");
-    } else {
-      res.status(500).send("Internal Server Error");
+      return res.status(400).send("Quiz not found");
     }
+    res.status(500).send("Internal Server Error");
   }
 };

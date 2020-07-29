@@ -13,10 +13,9 @@ exports.login = async (req, res, next) => {
     next();
   } catch (e) {
     if (e === "Bad Credentials") {
-      res.status(400).send(e);
-    } else {
-      res.status(500).send("Internal Server Error");
+      return res.status(400).send(e);
     }
+    res.status(500).send("Internal Server Error");
   }
 };
 
