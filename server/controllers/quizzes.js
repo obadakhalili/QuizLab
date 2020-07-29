@@ -1,19 +1,22 @@
 const Quiz = require("../db/models/Quiz.js");
-const { parse } = require("flatted");
 
 exports.addQuiz = async (req, res) => {
   try {
-    const labContent = parse(req.body.labContent);
+    const {
+      title,
+      options,
+      labContent
+    } = req.body;
     const quiz = Quiz({
-      lab_content: req.body.labContent,
-      title: labContent.mainSection.title,
-      show_results: labContent.options.showQuizResults,
-      allowed_attempts: labContent.options.allowedAttempts,
+      lab_content: labContent,
+      title,
+      show_results: options.showQuizResults,
+      allowed_attempts: options.allowedAttempts,
       owner: req.user._id
     });
-    if (!labContent.options.openQuiz) {
-      const startDate = new Date(`${labContent.options.startDate} ${labContent.options.startTime}`);
-      const closeDate = new Date(`${labContent.options.closeDate} ${labContent.options.closeTime}`);
+    if (!options.openQuiz) {
+      const startDate = new Date(`${options.startDate} ${options.startTime}`);
+      const closeDate = new Date(`${options.closeDate} ${options.closeTime}`);
       const startDateTime = startDate.getTime();
       const closeDateTime = closeDate.getTime();
       if (startDateTime !== startDateTime) {
@@ -54,18 +57,22 @@ exports.getMyQuizzes = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
   try {
-    const labContent = parse(req.body.labContent);
+    const {
+      title,
+      options,
+      labContent
+    } = req.body;
     const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id });
     if (!quiz) {
       throw "Quiz not found";
     }
-    quiz.lab_content = req.body.labContent;
-    quiz.title = labContent.mainSection.title;
-    quiz.allowed_attempts = labContent.options.allowedAttempts;
-    quiz.show_results = labContent.options.showQuizResults;
-    if (!labContent.options.openQuiz) {
-      const startDate = new Date(`${labContent.options.startDate} ${labContent.options.startTime}`);
-      const closeDate = new Date(`${labContent.options.closeDate} ${labContent.options.closeTime}`);
+    quiz.lab_content = labContent;
+    quiz.title = title;
+    quiz.allowed_attempts = options.allowedAttempts;
+    quiz.show_results = options.showQuizResults;
+    if (!options.openQuiz) {
+      const startDate = new Date(`${options.startDate} ${options.startTime}`);
+      const closeDate = new Date(`${options.closeDate} ${options.closeTime}`);
       const startDateTime = startDate.getTime();
       const closeDateTime = closeDate.getTime();
       if (startDateTime !== startDateTime) {

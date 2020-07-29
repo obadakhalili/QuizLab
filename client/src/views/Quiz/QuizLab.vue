@@ -148,6 +148,8 @@ export default {
       try {
         if (this.routeIsNew) {
           await API("/quizzes", "post", {
+            title: this.labContent.mainSection.title,
+            options: this.labContent.options,
             labContent: stringify(this.labContent)
           });
           this.$store.dispatch("updateAlerts", {
@@ -159,7 +161,7 @@ export default {
           const response = await API(
             "/quizzes/" + this.$route.params.id,
             "patch",
-            { labContent: stringify(this.labContent) }
+            { title: this.labContent.mainSection.title, options: this.labContent.options, labContent: stringify(this.labContent) }
           );
           if (response.data.quizIsModified) {
             this.$store.dispatch("updateAlerts", {
