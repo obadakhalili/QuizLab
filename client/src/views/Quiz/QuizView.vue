@@ -3,5 +3,19 @@
 </template>
 
 <script>
-export default {};
+import API from "@/api";
+
+export default {
+  async beforeCreate() {
+    try {
+      const response = await API("/records", "post", {
+        quizID: this.$route.params.id,
+        entranceDate: new Date()
+      });
+      console.log(response);
+    } catch (e) {
+      console.log(e.response);
+    }
+  }
+};
 </script>

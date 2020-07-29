@@ -25,6 +25,7 @@ const quizSchema = new Schema({
   },
   start_date: Date,
   close_date: Date,
+  time_limit: Number,
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"
@@ -36,10 +37,12 @@ class QuizMethods {
     const quizObject = this.toObject();
     quizObject.__v = undefined;
     quizObject.show_results = undefined;
-    quizObject.ending_date = undefined;
     quizObject.allowed_attempts = undefined;
     quizObject.owner = undefined;
     quizObject.lab_content = undefined;
+    quizObject.start_date = undefined;
+    quizObject.close_date = undefined;
+    quizObject.time_limit = undefined;
     return quizObject;
   }
 }

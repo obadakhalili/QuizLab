@@ -1,5 +1,5 @@
 const {
-  addRecord
+  checkRecord
 } = require("../controllers/records.js");
 const {
   auth,
@@ -15,7 +15,7 @@ router.post(
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
-  addRecord
+  checkRecord
 );
 
 module.exports = router;

@@ -12,6 +12,7 @@ exports.addQuiz = async (req, res) => {
       title,
       show_results: options.showQuizResults,
       allowed_attempts: options.allowedAttempts,
+      time_limit: options.noTimeLimit ? undefined : options.timeLimit,
       owner: req.user._id
     });
     if (!options.openQuiz) {
@@ -70,6 +71,7 @@ exports.updateQuiz = async (req, res) => {
     quiz.title = title;
     quiz.allowed_attempts = options.allowedAttempts;
     quiz.show_results = options.showQuizResults;
+    quiz.time_limit = options.noTimeLimit ? undefined : options.timeLimit;
     if (!options.openQuiz) {
       const startDate = new Date(`${options.startDate} ${options.startTime}`);
       const closeDate = new Date(`${options.closeDate} ${options.closeTime}`);
@@ -86,6 +88,9 @@ exports.updateQuiz = async (req, res) => {
         quiz.start_date = startDate;
         quiz.close_date = closeDate;
       }
+    } else {
+      quiz.start_date = undefined;
+      quiz.close_date = undefined;
     }
     const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();

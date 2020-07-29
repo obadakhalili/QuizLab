@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const resultSchema = new mongoose.Schema({
-  latestResults: [{
+const recordSchema = new mongoose.Schema({
+  latest_results: [{
     type: Number
   }],
-  leftAttempts: {
+  left_attempts: {
     type: Number
   },
   quiz: {
@@ -15,4 +15,4 @@ const resultSchema = new mongoose.Schema({
   }
 });
 
-module.exports = new mongoose.model("Result", resultSchema);
+module.exports = new mongoose.model("Record", recordSchema);
