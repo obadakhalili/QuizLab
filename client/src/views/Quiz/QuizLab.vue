@@ -145,13 +145,14 @@ export default {
       }
     },
     async submitQuiz() {
+      const submitBody = {
+        title: this.labContent.mainSection.title,
+        options: this.labContent.options,
+        labContent: stringify(this.labContent)
+      };
       try {
         if (this.routeIsNew) {
-          await API("/quizzes", "post", {
-            title: this.labContent.mainSection.title,
-            options: this.labContent.options,
-            labContent: stringify(this.labContent)
-          });
+          await API("/quizzes", "post", submitBody);
           this.$store.dispatch("updateAlerts", {
             message: "Quiz was submitted successfully",
             color: "success"
@@ -161,7 +162,7 @@ export default {
           const response = await API(
             "/quizzes/" + this.$route.params.id,
             "patch",
-            { title: this.labContent.mainSection.title, options: this.labContent.options, labContent: stringify(this.labContent) }
+            submitBody
           );
           if (response.data.quizIsModified) {
             this.$store.dispatch("updateAlerts", {
