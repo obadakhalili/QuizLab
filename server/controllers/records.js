@@ -11,7 +11,7 @@ exports.checkRecord = async (req, res) => {
       _id: false
     });
     if (!quiz) {
-      return res.send("Quiz not found");
+      return res.status(201).send("Quiz not found");
     }
     let record = await Record.findOne({
       quiz: req.body.quizID,
@@ -20,14 +20,14 @@ exports.checkRecord = async (req, res) => {
     req.body.entranceDate = new Date(req.body.entranceDate);
     if (quiz.start_date) {
       if (req.body.entranceDate < quiz.start_date) {
-        return res.send("You are early, exam starts at " + quiz.start_date.toLocaleString());
+        return res.status(201).send("You are early, exam starts at " + quiz.start_date.toLocaleString());
       } else if (req.body.entranceDate > quiz.close_date) {
-        return res.send("You are late, exam ended at " + quiz.close_date.toLocaleString());
+        return res.status(201).send("You are late, exam ended at " + quiz.close_date.toLocaleString());
       }
     }
     if (record) {
-      if (record.taken_attempts === quiz.allowed_attempts) {
-        return res.send("You are out of attempts");
+      if (record.taken_attempts >= quiz.allowed_attempts) {
+        return res.status(201).send("You are out of attempts");
       } else {
         record.taken_attempts++;
       }
