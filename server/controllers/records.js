@@ -38,7 +38,7 @@ exports.checkRecord = async (req, res) => {
     let leftTimeLimit;
     if (quiz.time_limit !== undefined) {
       const difference = quiz.close_date - req.body.entranceDate;
-      if (difference > quiz.time_limit) {
+      if (difference > quiz.time_limit || !quiz.start_date) {
         leftTimeLimit = quiz.time_limit;
       } else {
         leftTimeLimit = difference
