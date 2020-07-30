@@ -22,17 +22,16 @@ exports.checkRecord = async (req, res) => {
       if (req.body.entranceDate < quiz.start_date) {
         return res.status(201).send("You are early, exam starts at " + quiz.start_date.toLocaleString());
       } else if (req.body.entranceDate > quiz.close_date) {
-        return res.status(201).send("You are late, exam ended at " + quiz.close_date.toLocaleString());
+        return res.status(201).send("You are late, exam closed at " + quiz.close_date.toLocaleString());
       }
     }
     if (record) {
       if (record.taken_attempts >= quiz.allowed_attempts) {
         return res.status(201).send("You are out of attempts");
-      } else {
-        record.taken_attempts++;
       }
+      record.taken_attempts++;
     } else {
-      record = new Record({ taken_attempts: 1, quiz: req.body.quizID, owner: req.user._id });
+      record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
     await record.save();
     let leftTimeLimit;
@@ -43,8 +42,6 @@ exports.checkRecord = async (req, res) => {
       } else {
         leftTimeLimit = difference
       }
-    } else {
-      leftTimeLimit = undefined;
     }
     res.json({
       leftTimeLimit,

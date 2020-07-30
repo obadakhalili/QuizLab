@@ -5,7 +5,8 @@ const recordSchema = new mongoose.Schema({
     type: Number
   }],
   taken_attempts: {
-    type: Number
+    type: Number,
+    default: 1
   },
   quiz: {
     type: mongoose.Schema.Types.ObjectId

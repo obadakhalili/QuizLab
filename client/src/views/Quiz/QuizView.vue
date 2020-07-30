@@ -9,7 +9,7 @@ export default {
   async beforeCreate() {
     try {
       const response = await API("/records", "post", {
-        quizID: this.$route.params.id,
+        quizID: "5f22a8b4b08f4618a479d081",
         entranceDate: new Date()
       });
       console.log(response);

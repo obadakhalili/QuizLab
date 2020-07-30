@@ -6,9 +6,10 @@
     <b-form-textarea
       v-model="question.title"
       size="sm"
-      class="col-10"
+      class="col-10 mb-1"
       placeholder="Question Title"
     ></b-form-textarea>
+    <b-input v-model="question.weight" size="sm" type="number" class="weight-input" placeholder="Weight"></b-input>
     <div class="noselect">
       <small
         @click="changeToMultipleChoice"
@@ -24,7 +25,7 @@
         Written Solution
       </small>
     </div>
-    <div v-if="question.choices" class="mt-3">
+    <div v-if="question.choices">
       <b-list-group>
         <b-list-group-item
           v-for="(choice, index) in question.choices"
@@ -124,5 +125,8 @@ small {
 }
 .selected {
   color: #ea6650;
+}
+.weight-input {
+  width: 80px;
 }
 </style>

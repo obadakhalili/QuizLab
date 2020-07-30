@@ -51,6 +51,7 @@ export default {
     addQuestion() {
       this.section.content.push({
         title: "",
+        weight: "",
         choices: [
           { title: "" },
           {
