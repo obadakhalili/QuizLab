@@ -9,7 +9,13 @@
       class="col-10 mb-1"
       placeholder="Question Title"
     ></b-form-textarea>
-    <b-input v-model="question.weight" size="sm" type="number" class="weight-input" placeholder="Weight"></b-input>
+    <b-input
+      v-model="question.weight"
+      size="sm"
+      type="number"
+      class="weight-input"
+      placeholder="Weight"
+    ></b-input>
     <div class="noselect">
       <small
         @click="changeToMultipleChoice"
