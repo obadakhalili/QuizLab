@@ -5,9 +5,9 @@ import QuizQestion from "./LabQuestion";
 export default {
   name: "QuizContent",
   render(createVNode) {
-    function createContentVNode(context, index) {
+    function createContentVNode(context, _) {
       if (context.content) {
-        const isNotFirstSection = index !== undefined;
+        const isNotFirstSection = _ !== undefined;
         const contentVNode = context.content.map(createContentVNode);
         const section = createVNode(QuizSection, {
           props: {
