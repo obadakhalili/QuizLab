@@ -103,25 +103,7 @@ export default {
   name: "QuizLab",
   created() {
     if (this.routeIsNew) {
-      this.labContent = {
-        options: {
-          shuffledQuiz: true,
-          showQuizResults: true,
-          blockQuestionAfterAnswer: false,
-          openQuiz: false,
-          startDate: "",
-          startTime: "",
-          closeDate: "",
-          closeTime: "",
-          noTimeLimit: false,
-          timeLimit: 30,
-          allowedAttempts: 1
-        },
-        mainSection: {
-          title: "",
-          content: []
-        }
-      };
+      this.resetLabContent();
     } else {
       this.setQuiz();
     }
@@ -166,7 +148,7 @@ export default {
             message: "Quiz was submitted successfully",
             color: "success"
           });
-          this.clearContentTitles(this.labContent.mainSection);
+          this.resetLabContent();
         } else {
           const response = await API(
             "/quizzes/" + this.$route.params.id,
@@ -197,16 +179,37 @@ export default {
         );
       }
     },
-    clearContentTitles(context) {
-      context.title = "";
-      if (context.content) {
-        context.content.forEach(this.clearContentTitles);
-      } else {
-        if (context.choices) {
-          context.choices.forEach(this.clearContentTitles);
+    resetLabContent() {
+      this.labContent = {
+        options: {
+          shuffledQuiz: true,
+          showQuizResults: true,
+          blockQuestionAfterAnswer: false,
+          openQuiz: false,
+          startDate: "",
+          startTime: "",
+          closeDate: "",
+          closeTime: "",
+          noTimeLimit: false,
+          timeLimit: 30,
+          allowedAttempts: 1
+        },
+        mainSection: {
+          title: "",
+          content: []
         }
-      }
+      };
     }
+    // clearContentTitles(context) {
+    //   context.title = "";
+    //   if (context.content) {
+    //     context.content.forEach(this.clearContentTitles);
+    //   } else {
+    //     if (context.choices) {
+    //       context.choices.forEach(this.clearContentTitles);
+    //     }
+    //   }
+    // }
   },
   components: {
     LabContent: () => import("@/components/Quiz/LabContent/Content")
