@@ -5,7 +5,15 @@
       <strong>Loading ...</strong>
     </div>
     <div v-else>
-      <b-form-group label="Quiz Options:" class="noselect">
+      <h5>
+        Quiz options
+        <small>
+          <a @click="showQuizOptions = !showQuizOptions">
+            {{ showQuizOptions ? "Hide" : "Show" }}
+          </a>
+        </small>
+      </h5>
+      <b-form-group v-show="showQuizOptions" class="noselect">
         <b-form-checkbox v-model="labContent.options.shuffledQuiz">
           Shuffle questions. Questions from different sections won't be mixed
           up.
@@ -120,7 +128,8 @@ export default {
   },
   data() {
     return {
-      labContent: null
+      labContent: null,
+      showQuizOptions: true
     };
   },
   computed: {
