@@ -52,7 +52,7 @@
           ></b-form-timepicker>
         </b-form-group>
         <b-form-checkbox v-model="labContent.options.noTimeLimit">
-          No time limit
+          No time limit. If you specified a start and close date, then time limit would be the duration between start date and end date no matter what you choose this option to be
         </b-form-checkbox>
         <b-row
           no-gutters

@@ -9,7 +9,7 @@ export default {
   async beforeCreate() {
     try {
       const response = await API("/records", "post", {
-        quizID: "5f22a8b4b08f4618a479d081",
+        quizID: "5f2320a61478a71e5467d3d9",
         entranceDate: new Date()
       });
       console.log(response);
