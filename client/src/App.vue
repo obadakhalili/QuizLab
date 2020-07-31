@@ -43,9 +43,9 @@ export default {
           );
           const { data: info } = await API("/users", "get");
           this.$store.dispatch("updateUserInfo", info);
-        } catch ({ response: { data: message } }) {
+        } catch (e) {
           this.$store.dispatch("updateAlerts", {
-            message,
+            message: e.response.data,
             color: "danger"
           });
         }
