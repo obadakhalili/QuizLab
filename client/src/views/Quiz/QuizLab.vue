@@ -27,7 +27,7 @@
         <b-form-checkbox v-model="labContent.options.openQuiz">
           Open quiz, quiz can be attended any date at any time.
         </b-form-checkbox>
-        <b-form-group :class="{ 'd-none': labContent.options.openQuiz }">
+        <b-form-group v-show="!labContent.options.openQuiz">
           Start date
           <b-datepicker
             v-model="labContent.options.startDate"
@@ -51,12 +51,8 @@
             class="w-75"
           ></b-form-timepicker>
         </b-form-group>
-        <b-form-checkbox v-model="labContent.options.noTimeLimit">
-          No time limit. If you specified a start and close date, then time limit would be the duration between start date and end date no matter what you choose this option to be
-        </b-form-checkbox>
         <b-row
           no-gutters
-          :class="{ 'd-none': labContent.options.noTimeLimit }"
           class="my-2"
         >
           <b-col sm="3">
@@ -67,6 +63,7 @@
               v-model="labContent.options.timeLimit"
               type="number"
               size="sm"
+              :placeholder="labContent.options.openQuiz ? 'If left empty then no time limit is specified' : 'required'"
             ></b-input>
           </b-col>
         </b-row>
@@ -190,7 +187,6 @@ export default {
           startTime: "",
           closeDate: "",
           closeTime: "",
-          noTimeLimit: false,
           timeLimit: 30,
           allowedAttempts: 1
         },

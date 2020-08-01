@@ -25,7 +25,15 @@ const quizSchema = new Schema({
   },
   start_date: Date,
   close_date: Date,
-  time_limit: Number,
+  time_limit: {
+    type: Number,
+    required: [
+      function() {
+        return this.start_date;
+      },
+      "Time limit is required if the quiz is not an open quiz"
+    ]
+  },
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"
