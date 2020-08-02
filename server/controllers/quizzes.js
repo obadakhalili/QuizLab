@@ -25,6 +25,9 @@ exports.addQuiz = async (req, res) => {
       }
       quiz.start_date = startDate;
       quiz.close_date = closeDate;
+    } else {
+      quiz.start_date = undefined;
+      quiz.close_date = undefined;
     }
     await quiz.save();
     res.end();
@@ -76,6 +79,9 @@ exports.updateQuiz = async (req, res) => {
       }
       quiz.start_date = startDate;
       quiz.close_date = closeDate;
+    } else {
+      quiz.start_date = undefined;
+      quiz.close_date = undefined;
     }
     const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();

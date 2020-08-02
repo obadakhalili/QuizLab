@@ -38,7 +38,7 @@ const quizSchema = new Schema({
     min: [0, "Time limit should be an integer thats at least 0"],
     required: [
       function() {
-        return !this.start_date;
+        return this.start_date;
       },
       "Time limit is required if the quiz is not an open quiz"
     ]
