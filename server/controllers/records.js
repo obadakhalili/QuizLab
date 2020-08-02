@@ -17,11 +17,11 @@ exports.checkRecord = async (req, res) => {
       quiz: req.body.quizID,
       owner: req.user._id
     });
-    req.body.entranceDate = new Date(req.body.entranceDate);
+    const entranceDate = new Date();
     if (quiz.start_date) {
-      if (req.body.entranceDate < quiz.start_date) {
+      if (entranceDate < quiz.start_date) {
         return res.status(201).send("You are early, exam starts at " + quiz.start_date.toLocaleString());
-      } else if (req.body.entranceDate > quiz.close_date) {
+      } else if (entranceDate > quiz.close_date) {
         return res.status(201).send("You are late, exam closed at " + quiz.close_date.toLocaleString());
       }
     }
@@ -36,7 +36,7 @@ exports.checkRecord = async (req, res) => {
     await record.save();
     let leftTimeLimit;
     if (quiz.time_limit !== undefined || quiz.start_date) {
-      const difference = quiz.close_date - req.body.entranceDate;
+      const difference = quiz.close_date - entranceDate;
       if (difference > quiz.time_limit || !quiz.start_date) {
         leftTimeLimit = quiz.time_limit;
       } else {
