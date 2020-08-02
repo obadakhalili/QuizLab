@@ -18,19 +18,13 @@ exports.addQuiz = async (req, res) => {
     if (!options.openQuiz) {
       const startDate = new Date(`${options.startDate} ${options.startTime}`);
       const closeDate = new Date(`${options.closeDate} ${options.closeTime}`);
-      const startDateTime = startDate.getTime();
-      const closeDateTime = closeDate.getTime();
-      if (startDateTime !== startDateTime) {
+      if (!startDate.getTime()) {
         throw "Start date input is invalid";
-      } else if (closeDateTime !== closeDateTime) {
+      } else if (!closeDate.getTime()) {
         throw "Close date input is invalid";
       }
-      if (startDate >= closeDate) {
-        throw "Close date should be less that start date, duh!";
-      } else {
-        quiz.start_date = startDate;
-        quiz.close_date = closeDate;
-      }
+      quiz.start_date = startDate;
+      quiz.close_date = closeDate;
     }
     await quiz.save();
     res.end();
@@ -38,7 +32,7 @@ exports.addQuiz = async (req, res) => {
     const errors = [];
     if (e.name === "ValidationError") {
       Object.values(e.errors).forEach(({ message })=> errors.push(message));
-    } else if (["Close date should be less that start date, duh!", "Start date input is invalid", "Close date input is invalid"].includes(e)) {
+    } else if (e === "Start date input is invalid" || e === "Close date input is invalid") {
       errors.push(e);
     } else {
       return res.status(500).send("Internal Server Error");
@@ -75,22 +69,13 @@ exports.updateQuiz = async (req, res) => {
     if (!options.openQuiz) {
       const startDate = new Date(`${options.startDate} ${options.startTime}`);
       const closeDate = new Date(`${options.closeDate} ${options.closeTime}`);
-      const startDateTime = startDate.getTime();
-      const closeDateTime = closeDate.getTime();
-      if (startDateTime !== startDateTime) {
+      if (!startDate.getTime()) {
         throw "Start date input is invalid";
-      } else if (closeDateTime !== closeDateTime) {
+      } else if (!closeDate.getTime()) {
         throw "Close date input is invalid";
       }
-      if (startDate >= closeDate) {
-        throw "Close date should be less that start date, duh!";
-      } else {
-        quiz.start_date = startDate;
-        quiz.close_date = closeDate;
-      }
-    } else {
-      quiz.start_date = undefined;
-      quiz.close_date = undefined;
+      quiz.start_date = startDate;
+      quiz.close_date = closeDate;
     }
     const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();

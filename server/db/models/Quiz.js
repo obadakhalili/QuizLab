@@ -23,10 +23,27 @@ const quizSchema = new Schema({
     type: Boolean,
     required: [true, "Show quiz results option is required"]
   },
-  start_date: Date,
-  close_date: Date,
+  start_date: {
+    type: Date,
+    validate: {
+      validator(v) {
+        return v >= new Date();
+      },
+      message: "Start date should be greater than the current date"
+    }
+  },
+  close_date: {
+    type: Date,
+    validate: {
+      validator(v) {
+        return v > this.start_date;
+      },
+      message: "Close date should be greater than start date"
+    }
+  },
   time_limit: {
     type: Number,
+    min: [0, "Time limit should be an integer thats at least 0"],
     required: [
       function() {
         return this.start_date;
