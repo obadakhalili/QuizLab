@@ -10,9 +10,9 @@ const userSchema = new Schema({
       validator(v) {
         return /^\w+ \w+$/.test(v);
       },
-      message: "Not a valid name"
+      message: "Not a valid name",
     },
-    maxlength: [18, "Name should not be more than 18 characters long"]
+    maxlength: [18, "Name should not be more than 18 characters long"],
   },
   email: {
     type: String,
@@ -24,19 +24,19 @@ const userSchema = new Schema({
           v
         );
       },
-      message: "Not a valid email"
+      message: "Not a valid email",
     },
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
     required: [true, "Password is required"],
-    minlength: [7, "Password must have a minimum length of 7"]
+    minlength: [7, "Password must have a minimum length of 7"],
   },
-  avatar: Buffer
+  avatar: Buffer,
 });
 
-userSchema.pre("save", async function(next) {
+userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await hash(this.password);
   }

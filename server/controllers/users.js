@@ -37,7 +37,7 @@ exports.signup = async (req, res) => {
     } else if (e.code === 11000) {
       errors.push("Email alrady exists. Try different email");
     } else {
-      return res.status(500).send("Internal Server Error")
+      return res.status(500).send("Internal Server Error");
     }
     res.status(400).json(errors);
   }
@@ -55,13 +55,13 @@ exports.updateAccount = async (req, res) => {
     }
   }
   try {
-    const userIsModified = allowedUpdates.some(update =>
+    const userIsModified = allowedUpdates.some((update) =>
       req.user.isModified(update)
     );
     await req.user.save();
     res.json({
       userIsModified,
-      user: userIsModified ? req.user : undefined
+      user: userIsModified ? req.user : undefined,
     });
   } catch (e) {
     const errors = [];
@@ -70,7 +70,7 @@ exports.updateAccount = async (req, res) => {
     } else if (e.code === 11000) {
       errors.push("Email alrady exists. Try different email");
     } else {
-      return res.status(500).send("Internal Server Error")
+      return res.status(500).send("Internal Server Error");
     }
     res.status(400).json(errors);
   }
@@ -96,10 +96,7 @@ exports.updateAvatar = async (req, res) => {
     if (!req.file) {
       throw "You probably should upload a photo first";
     }
-    req.user.avatar = await sharp(req.file.buffer)
-      .resize(250)
-      .png()
-      .toBuffer();
+    req.user.avatar = await sharp(req.file.buffer).resize(250).png().toBuffer();
     await req.user.save();
     res.end();
   } catch (e) {

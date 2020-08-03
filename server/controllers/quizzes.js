@@ -2,18 +2,16 @@ const Quiz = require("../db/models/Quiz.js");
 
 exports.addQuiz = async (req, res) => {
   try {
-    const {
-      title,
-      options,
-      labContent
-    } = req.body;
+    const { title, options, labContent } = req.body;
     const quiz = Quiz({
       lab_content: labContent,
       title,
       show_results: options.showQuizResults,
       allowed_attempts: options.allowedAttempts,
-      time_limit: !options.timeLimit ? undefined : options.timeLimit * 60 * 1000,
-      owner: req.user._id
+      time_limit: !options.timeLimit
+        ? undefined
+        : options.timeLimit * 60 * 1000,
+      owner: req.user._id,
     });
     if (!options.openQuiz) {
       const startDate = new Date(`${options.startDate} ${options.startTime}`);
@@ -34,8 +32,11 @@ exports.addQuiz = async (req, res) => {
   } catch (e) {
     const errors = [];
     if (e.name === "ValidationError") {
-      Object.values(e.errors).forEach(({ message })=> errors.push(message));
-    } else if (e === "Start date input is invalid" || e === "Close date input is invalid") {
+      Object.values(e.errors).forEach(({ message }) => errors.push(message));
+    } else if (
+      e === "Start date input is invalid" ||
+      e === "Close date input is invalid"
+    ) {
       errors.push(e);
     } else {
       return res.status(500).send("Internal Server Error");
@@ -55,12 +56,11 @@ exports.getMyQuizzes = async (req, res) => {
 
 exports.updateQuiz = async (req, res) => {
   try {
-    const {
-      title,
-      options,
-      labContent
-    } = req.body;
-    const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id });
+    const { title, options, labContent } = req.body;
+    const quiz = await Quiz.findOne({
+      _id: req.params.id,
+      owner: req.user._id,
+    });
     if (!quiz) {
       throw "Quiz not found";
     }
@@ -68,7 +68,9 @@ exports.updateQuiz = async (req, res) => {
     quiz.title = title;
     quiz.allowed_attempts = options.allowedAttempts;
     quiz.show_results = options.showQuizResults;
-    quiz.time_limit = !options.timeLimit ? undefined : options.timeLimit * 60 * 1000;
+    quiz.time_limit = !options.timeLimit
+      ? undefined
+      : options.timeLimit * 60 * 1000;
     if (!options.openQuiz) {
       const startDate = new Date(`${options.startDate} ${options.startTime}`);
       const closeDate = new Date(`${options.closeDate} ${options.closeTime}`);
@@ -83,7 +85,8 @@ exports.updateQuiz = async (req, res) => {
       quiz.start_date = undefined;
       quiz.close_date = undefined;
     }
-    const quizIsModified = quiz.isModified("title") || quiz.isModified("lab_content");
+    const quizIsModified =
+      quiz.isModified("title") || quiz.isModified("lab_content");
     await quiz.save();
     res.json({ quizIsModified });
   } catch (e) {
@@ -92,7 +95,13 @@ exports.updateQuiz = async (req, res) => {
       Object.values(e.errors).forEach(({ message }) => errors.push(message));
     } else if (e.name === "CastError" || e === "Quiz not found") {
       errors.push("Quiz not found");
-    } else if (["Close date should be less that start date, duh!", "Start date input is invalid", "Close date input is invalid"].includes(e)) {
+    } else if (
+      [
+        "Close date should be less that start date, duh!",
+        "Start date input is invalid",
+        "Close date input is invalid",
+      ].includes(e)
+    ) {
       errors.push(e);
     } else {
       return res.status(500).send("Internal Server Error");
@@ -105,7 +114,7 @@ exports.deleteQuizzes = async (req, res) => {
   try {
     const { deletedCount } = await Quiz.deleteMany({
       _id: { $in: req.body },
-      owner: req.user._id
+      owner: req.user._id,
     });
     if (deletedCount < 1) {
       throw "Quiz not found";
@@ -121,7 +130,10 @@ exports.deleteQuizzes = async (req, res) => {
 
 exports.getLabContent = async (req, res) => {
   try {
-    const quiz = await Quiz.findOne({ _id: req.params.id, owner: req.user._id }, { lab_content: true, _id: false });
+    const quiz = await Quiz.findOne(
+      { _id: req.params.id, owner: req.user._id },
+      { lab_content: true, _id: false }
+    );
     if (!quiz) {
       throw "Quiz not found";
     }

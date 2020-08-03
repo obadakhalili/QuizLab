@@ -6,7 +6,7 @@ const { connect } = require("mongoose");
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     });
     console.log("Connected to database");
     require("../");

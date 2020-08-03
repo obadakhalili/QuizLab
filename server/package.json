@@ -20,6 +20,7 @@
   "author": "Obada Khalili",
   "devDependencies": {
     "env-cmd": "^10.1.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "prettier": "2.0.5"
   }
 }
