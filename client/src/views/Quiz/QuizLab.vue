@@ -7,7 +7,7 @@
     <div v-else>
       <h5>
         Quiz options
-        <small>
+        <small class="noselect">
           <a @click="showQuizOptions = !showQuizOptions">
             {{ showQuizOptions ? "Hide" : "Show" }}
           </a>
