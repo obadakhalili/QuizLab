@@ -51,10 +51,7 @@
             class="w-75"
           ></b-form-timepicker>
         </b-form-group>
-        <b-row
-          no-gutters
-          class="my-2"
-        >
+        <b-row no-gutters class="my-2">
           <b-col sm="3">
             Time limit (mins)
           </b-col>
@@ -63,7 +60,11 @@
               v-model="labContent.options.timeLimit"
               type="number"
               size="sm"
-              :placeholder="labContent.options.openQuiz ? 'If left empty then no time limit is specified' : 'required'"
+              :placeholder="
+                labContent.options.openQuiz
+                  ? 'If left empty then no time limit is specified'
+                  : 'required'
+              "
             ></b-input>
           </b-col>
         </b-row>

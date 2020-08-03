@@ -8,7 +8,9 @@ import API from "@/api";
 export default {
   async beforeCreate() {
     try {
-      const response = await API("/records", "post", { quizID: this.$route.params.id });
+      const response = await API("/records", "post", {
+        quizID: this.$route.params.id
+      });
       console.log(response);
     } catch (e) {
       console.log(e.response);

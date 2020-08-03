@@ -38,7 +38,9 @@ export default {
   },
   computed: {
     name() {
-      return `${this.$store.getters.userField("firstname")} ${this.$store.getters.userField("lastname")}`;
+      return `${this.$store.getters.userField(
+        "firstname"
+      )} ${this.$store.getters.userField("lastname")}`;
     }
   },
   methods: {
