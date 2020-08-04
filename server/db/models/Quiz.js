@@ -36,13 +36,7 @@ const quizSchema = new Schema(
     },
     time_limit: {
       type: Number,
-      min: [0, "Time limit should be an integer thats at least 0"],
-      required: [
-        function () {
-          return this.start_date;
-        },
-        "Time limit is required if the quiz is not an open quiz",
-      ],
+      min: [0, "Time limit should be an integer thats at least 0"]
     },
     owner: {
       type: Schema.Types.ObjectId,

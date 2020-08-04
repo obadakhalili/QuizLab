@@ -53,19 +53,24 @@
         </b-form-group>
         <b-row no-gutters class="my-2">
           <b-col sm="3">
-            Time limit (mins)
+            Maximum time limit (mins)
           </b-col>
           <b-col sm="9">
             <b-input
               v-model="labContent.options.timeLimit"
               type="number"
               size="sm"
-              :placeholder="
-                labContent.options.openQuiz
-                  ? 'If left empty then no time limit is specified'
-                  : 'required'
-              "
             ></b-input>
+            <template v-if="labContent.options.openQuiz">
+              <li>If left empty, then no maximum time limit is specified.</li>
+            </template>
+            <template v-else>
+              <label>
+                The maximum time limit is set to the duration between start date and close date, if:
+              </label>
+              <li>Input is left empty.</li>
+              <li>If the maximum time limit input is greater than the duration between the start date and close date.</li>
+            </template>
           </b-col>
         </b-row>
         <b-row no-gutters>
@@ -188,7 +193,7 @@ export default {
           startTime: "",
           closeDate: "",
           closeTime: "",
-          timeLimit: 30,
+          timeLimit: "",
           allowedAttempts: 1
         },
         mainSection: {
