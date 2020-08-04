@@ -62,6 +62,9 @@ export default {
 </script>
 
 <style>
+html {
+  scroll-behavior: smooth;
+}
 form {
   max-width: 575px;
 }
