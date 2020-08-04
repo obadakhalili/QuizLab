@@ -70,7 +70,7 @@ export default {
 
 <style scoped>
 .section {
-  background-color: #F1F1F1;
+  background-color: #f1f1f1;
   padding: 10px 0 5px 15px;
   min-height: 70px;
 }

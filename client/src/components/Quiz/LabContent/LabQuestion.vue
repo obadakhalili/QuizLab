@@ -20,7 +20,9 @@
         ></b-input>
       </b-col>
       <b-col cols="2">
-        <b-checkbox v-model="question.isBonus" class="noselect float-right mt-1">Bonus</b-checkbox>
+        <b-checkbox v-model="question.isBonus" class="noselect float-right mt-1"
+          >Bonus</b-checkbox
+        >
       </b-col>
     </b-row>
     <div class="noselect">
@@ -128,7 +130,7 @@ export default {
 
 <style scoped>
 .question {
-  background-color: #FCF9DB;
+  background-color: #fcf9db;
   padding: 10px 0 10px 15px;
   min-height: 50px;
 }
