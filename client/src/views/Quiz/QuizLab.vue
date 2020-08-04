@@ -66,10 +66,14 @@
             </template>
             <template v-else>
               <label>
-                The maximum time limit is set to the duration between start date and close date, if:
+                The maximum time limit is set to the duration between start date
+                and close date, if:
               </label>
               <li>Input is left empty.</li>
-              <li>If the maximum time limit input is greater than the duration between the start date and close date.</li>
+              <li>
+                If the maximum time limit input is greater than the duration
+                between the start date and close date.
+              </li>
             </template>
           </b-col>
         </b-row>

@@ -1,5 +1,5 @@
 <template>
-  <div class="question mt-2 ml-5">
+  <div class="question mt-2 ml-4">
     <button @click="deleteQuestion" type="button" class="close mr-2">
       ×
     </button>
