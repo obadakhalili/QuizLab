@@ -96,11 +96,8 @@ exports.updateQuiz = async (req, res) => {
     } else if (e.name === "CastError" || e === "Quiz not found") {
       errors.push("Quiz not found");
     } else if (
-      [
-        "Close date should be less that start date, duh!",
-        "Start date input is invalid",
-        "Close date input is invalid",
-      ].includes(e)
+      e === "Start date input is invalid" ||
+      e === "Close date input is invalid"
     ) {
       errors.push(e);
     } else {
