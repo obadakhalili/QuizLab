@@ -38,7 +38,7 @@
         Written Solution
       </small>
     </div>
-    <small v-show="question.choices" class="text-right">Select correct choices</small>
+    <small v-show="question.choices">Select correct choices</small>
     <div v-if="question.choices">
       <b-list-group>
         <b-list-group-item
