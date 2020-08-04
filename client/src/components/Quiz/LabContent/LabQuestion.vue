@@ -20,14 +20,14 @@
     <div class="noselect">
       <small
         @click="changeToMultipleChoice"
-        :class="{ selected: question.choices }"
+        :class="{ 'selected-type-of-question': question.choices }"
         class="mr-2"
       >
         Multiple-Choice
       </small>
       <small
         @click="changeToWrittenSolution"
-        :class="{ selected: !question.choices }"
+        :class="{ 'selected-type-of-question': !question.choices }"
       >
         Written Solution
       </small>
@@ -122,7 +122,7 @@ export default {
 
 <style scoped>
 .question {
-  background-color: #f6f7e8;
+  background-color: #FCF9DB;
   padding: 10px 0 10px 15px;
   min-height: 50px;
 }
@@ -130,7 +130,7 @@ small {
   color: black;
   cursor: pointer;
 }
-.selected {
+.selected-type-of-question {
   color: #ea6650;
 }
 .weight-input {
