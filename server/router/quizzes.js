@@ -3,12 +3,12 @@ const {
   getMyQuizzes,
   updateQuiz,
   deleteQuizzes,
-  getLabContent,
+  getLabContent
 } = require("../controllers/quizzes.js");
 const {
   auth,
   validatePseudorandom,
-  setHeaderAndPayloadCookie,
+  setHeaderAndPayloadCookie
 } = require("../middlewares");
 const { Router } = require("express");
 

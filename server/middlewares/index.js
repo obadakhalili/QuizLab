@@ -28,12 +28,12 @@ exports.setPseudorandomAndSignatureCookies = (req, res, next) => {
   res.cookie("token-signature", req.signature, {
     httpOnly: true,
     sameSite: true,
-    secure: isProduction,
+    secure: isProduction
   });
   const pseudorandom = Math.floor(Math.random() * 1000000000);
   res.cookie("pseudorandom", pseudorandom, {
     sameSite: true,
-    secure: isProduction,
+    secure: isProduction
   });
   next();
 };
@@ -42,7 +42,7 @@ exports.setHeaderAndPayloadCookie = (req, res, next) => {
   res.cookie("token-header.payload", req.tokenHeaderAndPayload, {
     sameSite: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 60, // 60 mins
+    maxAge: 1000 * 60 * 60 // 60 mins
   });
   next();
 };

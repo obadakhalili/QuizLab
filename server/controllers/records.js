@@ -10,7 +10,7 @@ exports.checkRecord = async (req, res) => {
         start_date: true,
         close_date: true,
         time_limit: true,
-        _id: false,
+        _id: false
       }
     );
     if (!quiz) {
@@ -34,7 +34,7 @@ exports.checkRecord = async (req, res) => {
     }
     let record = await Record.findOne({
       quiz: req.body.quizID,
-      owner: req.user._id,
+      owner: req.user._id
     });
     if (record) {
       if (record.taken_attempts >= quiz.allowed_attempts) {
@@ -56,7 +56,7 @@ exports.checkRecord = async (req, res) => {
     }
     res.json({
       leftTimeLimit,
-      quizView: "...",
+      quizView: "..."
     });
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {

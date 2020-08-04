@@ -61,7 +61,7 @@ exports.updateAccount = async (req, res) => {
     await req.user.save();
     res.json({
       userIsModified,
-      user: userIsModified ? req.user : undefined,
+      user: userIsModified ? req.user : undefined
     });
   } catch (e) {
     const errors = [];

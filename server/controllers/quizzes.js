@@ -11,7 +11,7 @@ exports.addQuiz = async (req, res) => {
       time_limit: !options.timeLimit
         ? undefined
         : options.timeLimit * 60 * 1000,
-      owner: req.user._id,
+      owner: req.user._id
     });
     if (!options.openQuiz) {
       const startDate = new Date(`${options.startDate} ${options.startTime}`);
@@ -59,7 +59,7 @@ exports.updateQuiz = async (req, res) => {
     const { title, options, labContent } = req.body;
     const quiz = await Quiz.findOne({
       _id: req.params.id,
-      owner: req.user._id,
+      owner: req.user._id
     });
     if (!quiz) {
       throw "Quiz not found";
@@ -111,7 +111,7 @@ exports.deleteQuizzes = async (req, res) => {
   try {
     const { deletedCount } = await Quiz.deleteMany({
       _id: { $in: req.body },
-      owner: req.user._id,
+      owner: req.user._id
     });
     if (deletedCount < 1) {
       throw "Quiz not found";

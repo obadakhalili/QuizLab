@@ -4,11 +4,11 @@ const quizSchema = new Schema(
   {
     lab_content: {
       type: String,
-      required: [true, "Quiz is required"],
+      required: [true, "Quiz is required"]
     },
     title: {
       type: String,
-      required: [true, "Quiz title is required"],
+      required: [true, "Quiz title is required"]
     },
     allowed_attempts: {
       type: Number,
@@ -17,12 +17,12 @@ const quizSchema = new Schema(
         validator(v) {
           return Number.isInteger(v) && v > 0;
         },
-        message: "Allowed attempts should be an integer greater than 0",
-      },
+        message: "Allowed attempts should be an integer greater than 0"
+      }
     },
     show_results: {
       type: Boolean,
-      required: [true, "Show quiz results option is required"],
+      required: [true, "Show quiz results option is required"]
     },
     start_date: Date,
     close_date: {
@@ -31,8 +31,8 @@ const quizSchema = new Schema(
         validator(v) {
           return v > this.start_date;
         },
-        message: "Close date should be greater than start date",
-      },
+        message: "Close date should be greater than start date"
+      }
     },
     time_limit: {
       type: Number,
@@ -40,8 +40,8 @@ const quizSchema = new Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "User",
-    },
+      ref: "User"
+    }
   },
   { timestamps: true }
 );
