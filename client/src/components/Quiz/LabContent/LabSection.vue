@@ -52,6 +52,7 @@ export default {
       this.section.content.push({
         title: "",
         weight: "",
+        isBonus: false,
         choices: [
           { title: "" },
           {

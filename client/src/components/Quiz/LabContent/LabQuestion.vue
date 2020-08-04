@@ -16,6 +16,7 @@
       class="weight-input"
       placeholder="Weight"
     ></b-input>
+    <b-checkbox v-model="question.isBonus">Bonus</b-checkbox>
     <div class="noselect">
       <small
         @click="changeToMultipleChoice"
