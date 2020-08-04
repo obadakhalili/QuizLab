@@ -32,6 +32,7 @@
         Written Solution
       </small>
     </div>
+    <label>Select correct choices</label>
     <div v-if="question.choices">
       <b-list-group>
         <b-list-group-item
@@ -84,7 +85,7 @@ export default {
         this.question.choices = [
           { title: "" },
           {
-            title: "Click on right choice to highlight",
+            title: "",
             correct: true
           }
         ];
@@ -97,8 +98,7 @@ export default {
     },
     changeCorrectness(index) {
       const choices = this.question.choices;
-      delete choices.find(choice => choice.correct)?.correct;
-      choices[index].correct = true;
+      choices[index].correct = !choices[index].correct;
       this.$forceUpdate();
     },
     addNewChoice() {
@@ -122,7 +122,7 @@ export default {
 
 <style scoped>
 .question {
-  background-color: #f6f8d7;
+  background-color: #f6f7e8;
   padding: 10px 0 10px 15px;
   min-height: 50px;
 }
