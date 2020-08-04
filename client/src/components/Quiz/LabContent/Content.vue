@@ -18,7 +18,7 @@ export default {
         contentVNode.unshift(section);
         return createVNode(
           "div",
-          { class: isNotFirstSection ? "ml-5 mt-2" : "" },
+          { class: isNotFirstSection ? "mt-2 ml-4" : "" },
           contentVNode
         );
       }

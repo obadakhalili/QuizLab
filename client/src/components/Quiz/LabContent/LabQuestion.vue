@@ -9,14 +9,20 @@
       class="col-10 mb-1"
       placeholder="Question Title"
     ></b-form-textarea>
-    <b-input
-      v-model="question.weight"
-      size="sm"
-      type="number"
-      class="weight-input"
-      placeholder="Weight"
-    ></b-input>
-    <b-checkbox v-model="question.isBonus" class="noselect">Bonus</b-checkbox>
+    <b-row>
+      <b-col cols="8">
+        <b-input
+          v-model="question.weight"
+          size="sm"
+          type="number"
+          class="weight-input"
+          placeholder="Weight"
+        ></b-input>
+      </b-col>
+      <b-col cols="2">
+        <b-checkbox v-model="question.isBonus" class="noselect float-right mt-1">Bonus</b-checkbox>
+      </b-col>
+    </b-row>
     <div class="noselect">
       <small
         @click="changeToMultipleChoice"
@@ -32,7 +38,7 @@
         Written Solution
       </small>
     </div>
-    <label>Select correct choices</label>
+    <small v-show="question.choices" class="text-right">Select correct choices</small>
     <div v-if="question.choices">
       <b-list-group>
         <b-list-group-item
