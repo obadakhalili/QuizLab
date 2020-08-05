@@ -6,7 +6,7 @@
       <DeleteAccountForm class="mb-5" />
     </b-col>
     <b-col md="6">
-      <UpdateAccountInfoForm />
+      <UpdateAccountInfoForm class="mb-5" />
     </b-col>
   </b-row>
 </template>
