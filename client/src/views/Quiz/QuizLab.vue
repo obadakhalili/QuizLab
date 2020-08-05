@@ -93,6 +93,7 @@
               v-model="labContent.options.allowedAttempts"
               type="number"
               size="sm"
+              placeholder="required"
             ></b-input>
           </b-col>
         </b-row>
