@@ -3,7 +3,7 @@
     <b-col md="6">
       <UpdateAvatarForm />
       <DeleteAvatarForm class="my-5" />
-      <DeleteAccountForm />
+      <DeleteAccountForm class="mb-5" />
     </b-col>
     <b-col md="6">
       <UpdateAccountInfoForm />
