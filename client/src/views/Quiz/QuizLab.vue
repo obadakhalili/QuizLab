@@ -14,9 +14,16 @@
         </small>
       </h5>
       <b-form-group v-show="showQuizOptions" class="noselect">
-        <b-form-checkbox v-model="labContent.options.shuffledQuiz">
-          Shuffle questions. Questions from different sections won't be mixed
+        <b-form-checkbox v-model="labContent.options.shuffleQuestion">
+          Shuffle questions within each section. Questions from different sections won't be mixed
           up.
+        </b-form-checkbox>
+        <b-form-checkbox v-model="labContent.options.shuffleSections">
+          Shuffle sections order. Also questions from different sections won't be mixed
+          up.
+        </b-form-checkbox>
+        <b-form-checkbox v-model="labContent.options.shuffleChoices">
+          Shuffle choices.
         </b-form-checkbox>
         <b-form-checkbox v-model="labContent.options.showQuizResults">
           Show quiz results.
@@ -192,7 +199,9 @@ export default {
     resetLabContent() {
       this.labContent = {
         options: {
-          shuffledQuiz: true,
+          shuffleSections: true,
+          shuffleQuestion: true,
+          shuffleChoices: true,
           showQuizResults: true,
           blockQuestionAfterAnswer: false,
           openQuiz: false,
