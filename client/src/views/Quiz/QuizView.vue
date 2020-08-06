@@ -1,9 +1,25 @@
 <template>
-  <h1>QuizView</h1>
+  <b-row v-if="viewContent">
+    <b-col md="4">
+      <b-row>
+        <b-col cols="8">
+          <label>{{ viewContent.title }}</label>
+        </b-col>
+        <b-col v-if="timeLimit" cols="4" class="text-right">
+          <ViewCounter @timeUp="submitQuiz" :timeLimit="timeLimit" />
+        </b-col>
+      </b-row>
+    </b-col>
+    <b-col md="8">
+      Quiz View
+    </b-col>
+  </b-row>
+  <ContentLoading v-else />
 </template>
 
 <script>
 import { parse } from "flatted";
+import ContentLoading from "@/components/Quiz/ContentLoading";
 import API from "@/api";
 
 export default {
@@ -16,12 +32,7 @@ export default {
         throw { response, color: "info" };
       }
       this.viewContent = parse(response.data.viewContent);
-      if (response.data.leftTimeLimit) {
-        setTimeout(
-          () => (this.thereIsTimeLeftForSubmit = false),
-          response.data.leftTimeLimit
-        );
-      }
+      this.timeLimit = response.data.timeLimit;
     } catch (e) {
       this.$router.push("/quizzes");
       return this.$store.dispatch("updateAlerts", {
@@ -32,9 +43,17 @@ export default {
   },
   data() {
     return {
-      viewContent: null,
-      thereIsTimeLeftForSubmit: true
+      viewContent: null
     };
+  },
+  methods: {
+    submitQuiz() {
+      console.log("Cool!");
+    }
+  },
+  components: {
+    ContentLoading,
+    ViewCounter: () => import("@/components/Quiz/ViewCounter")
   }
 };
 </script>

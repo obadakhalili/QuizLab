@@ -46,18 +46,18 @@ exports.checkRecord = async (req, res) => {
       record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
     await record.save();
-    let leftTimeLimit;
+    let timeLimit;
     if (quiz.time_limit || quiz.start_date) {
       const difference = quiz.close_date - entranceDate;
       if (difference > quiz.time_limit || !quiz.start_date) {
-        leftTimeLimit = quiz.time_limit;
+        timeLimit = quiz.time_limit;
       } else {
-        leftTimeLimit = difference;
+        timeLimit = difference;
       }
     }
     res.json({
       viewContent: quiz.view_content,
-      leftTimeLimit
+      timeLimit
     });
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {

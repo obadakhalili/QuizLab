@@ -1,112 +1,108 @@
 <template>
-  <div class="lab mx-auto">
-    <div v-if="!labContent" class="text-center my-5">
-      <b-spinner class="align-middle mr-2"></b-spinner>
-      <strong>Loading ...</strong>
-    </div>
-    <div v-else>
-      <h5>
-        Quiz options
-        <small class="noselect">
-          <a @click="showQuizOptions = !showQuizOptions">
-            {{ showQuizOptions ? "Hide" : "Show" }}
-          </a>
-        </small>
-      </h5>
-      <b-form-group v-show="showQuizOptions" class="noselect">
-        <b-form-checkbox v-model="labContent.options.shuffleQuiz">
-          Shuffle quiz. Questions from different sections won't be mixed up.
-        </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.shuffleChoices">
-          Shuffle choices.
-        </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.showQuizResults">
-          Show quiz results.
-        </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
-          Block question after answer.
-        </b-form-checkbox>
-        <b-form-checkbox v-model="labContent.options.openQuiz">
-          Open quiz, quiz can be attended any date at any time.
-        </b-form-checkbox>
-        <b-form-group v-show="!labContent.options.openQuiz">
-          Start date
-          <b-datepicker
-            v-model="labContent.options.startDate"
-            size="sm"
-            class="my-2 w-75"
-          ></b-datepicker>
-          <b-form-timepicker
-            v-model="labContent.options.startTime"
-            size="sm"
-            class="w-75"
-          ></b-form-timepicker>
-          Close date
-          <b-datepicker
-            v-model="labContent.options.closeDate"
-            size="sm"
-            class="my-2 w-75"
-          ></b-datepicker>
-          <b-form-timepicker
-            v-model="labContent.options.closeTime"
-            size="sm"
-            class="w-75"
-          ></b-form-timepicker>
-        </b-form-group>
-        <b-row no-gutters class="my-2">
-          <b-col sm="3">
-            Maximum time limit (mins)
-          </b-col>
-          <b-col sm="9">
-            <b-input
-              v-model="labContent.options.timeLimit"
-              type="number"
-              size="sm"
-            ></b-input>
-            <template v-if="labContent.options.openQuiz">
-              <li>If left empty, then no maximum time limit is specified.</li>
-            </template>
-            <template v-else>
-              <label>
-                The maximum time limit is set to the duration between start date
-                and close date, if:
-              </label>
-              <li>Input is left empty.</li>
-              <li>
-                If the maximum time limit input is greater than the duration
-                between the start date and close date.
-              </li>
-            </template>
-          </b-col>
-        </b-row>
-        <b-row no-gutters>
-          <b-col sm="3">
-            Allowed attempts
-          </b-col>
-          <b-col sm="9">
-            <b-input
-              v-model="labContent.options.allowedAttempts"
-              type="number"
-              size="sm"
-              placeholder="required"
-            ></b-input>
-          </b-col>
-        </b-row>
+  <div v-if="labContent" class="lab mx-auto">
+    <h5>
+      Quiz options
+      <small class="noselect">
+        <a @click="showQuizOptions = !showQuizOptions">
+          {{ showQuizOptions ? "Hide" : "Show" }}
+        </a>
+      </small>
+    </h5>
+    <b-form-group v-show="showQuizOptions" class="noselect">
+      <b-form-checkbox v-model="labContent.options.shuffleQuiz">
+        Shuffle quiz. Questions from different sections won't be mixed up.
+      </b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.shuffleChoices">
+        Shuffle choices.
+      </b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.showQuizResults">
+        Show quiz results.
+      </b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.blockQuestionAfterAnswer">
+        Block question after answer.
+      </b-form-checkbox>
+      <b-form-checkbox v-model="labContent.options.openQuiz">
+        Open quiz, quiz can be attended any date at any time.
+      </b-form-checkbox>
+      <b-form-group v-show="!labContent.options.openQuiz">
+        Start date
+        <b-datepicker
+          v-model="labContent.options.startDate"
+          size="sm"
+          class="my-2 w-75"
+        ></b-datepicker>
+        <b-form-timepicker
+          v-model="labContent.options.startTime"
+          size="sm"
+          class="w-75"
+        ></b-form-timepicker>
+        Close date
+        <b-datepicker
+          v-model="labContent.options.closeDate"
+          size="sm"
+          class="my-2 w-75"
+        ></b-datepicker>
+        <b-form-timepicker
+          v-model="labContent.options.closeTime"
+          size="sm"
+          class="w-75"
+        ></b-form-timepicker>
       </b-form-group>
-      <LabContent :labContent="labContent" />
-      <b-button
-        @click="submitQuiz"
-        :variant="routeIsNew ? 'dark' : 'success'"
-        class="float-right mt-3 mb-3"
-      >
-        Submit
-      </b-button>
-    </div>
+      <b-row no-gutters class="my-2">
+        <b-col sm="3">
+          Maximum time limit (mins)
+        </b-col>
+        <b-col sm="9">
+          <b-input
+            v-model="labContent.options.timeLimit"
+            type="number"
+            size="sm"
+          ></b-input>
+          <template v-if="labContent.options.openQuiz">
+            <li>If left empty, then no maximum time limit is specified.</li>
+          </template>
+          <template v-else>
+            <label>
+              The maximum time limit is set to the duration between start date
+              and close date, if:
+            </label>
+            <li>Input is left empty.</li>
+            <li>
+              If the maximum time limit input is greater than the duration
+              between the start date and close date.
+            </li>
+          </template>
+        </b-col>
+      </b-row>
+      <b-row no-gutters>
+        <b-col sm="3">
+          Allowed attempts
+        </b-col>
+        <b-col sm="9">
+          <b-input
+            v-model="labContent.options.allowedAttempts"
+            type="number"
+            size="sm"
+            placeholder="required"
+          ></b-input>
+        </b-col>
+      </b-row>
+    </b-form-group>
+    <LabContent :labContent="labContent" />
+    <b-button
+      @click="submitQuiz"
+      :variant="routeIsNew ? 'dark' : 'success'"
+      class="float-right mt-3 mb-3"
+    >
+      Submit
+    </b-button>
   </div>
+  <ContentLoading v-else />
 </template>
 
 <script>
 import { parse, stringify } from "flatted";
+import ContentLoading from "@/components/Quiz/ContentLoading";
 import API from "@/api";
 
 export default {
@@ -213,19 +209,10 @@ export default {
         }
       };
     }
-    // clearContentTitles(context) {
-    //   context.title = "";
-    //   if (context.content) {
-    //     context.content.forEach(this.clearContentTitles);
-    //   } else {
-    //     if (context.choices) {
-    //       context.choices.forEach(this.clearContentTitles);
-    //     }
-    //   }
-    // }
   },
   components: {
-    LabContent: () => import("@/components/Quiz/LabContent/Content")
+    ContentLoading,
+    LabContent: () => import("@/components/Quiz/LabContent")
   }
 };
 </script>
