@@ -27,6 +27,7 @@ exports.addQuiz = async (req, res) => {
       quiz.start_date = undefined;
       quiz.close_date = undefined;
     }
+    quiz.view_content = quiz.createViewContent();
     await quiz.save();
     res.end();
   } catch (e) {
@@ -85,8 +86,10 @@ exports.updateQuiz = async (req, res) => {
       quiz.start_date = undefined;
       quiz.close_date = undefined;
     }
-    const quizIsModified =
-      quiz.isModified("title") || quiz.isModified("lab_content");
+    const quizIsModified = quiz.isModified("lab_content");
+    if (quizIsModified) {
+      quiz.view_content = quiz.createViewContent();
+    }
     await quiz.save();
     res.json({ quizIsModified });
   } catch (e) {

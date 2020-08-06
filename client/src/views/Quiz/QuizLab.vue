@@ -15,8 +15,7 @@
       </h5>
       <b-form-group v-show="showQuizOptions" class="noselect">
         <b-form-checkbox v-model="labContent.options.shuffleQuiz">
-          Shuffle quiz. Questions from different
-          sections won't be mixed up.
+          Shuffle quiz. Questions from different sections won't be mixed up.
         </b-form-checkbox>
         <b-form-checkbox v-model="labContent.options.shuffleChoices">
           Shuffle choices.

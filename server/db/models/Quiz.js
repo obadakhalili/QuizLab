@@ -1,11 +1,10 @@
 const { Schema, model } = require("mongoose");
+const { parse, stringify } = require("flatted");
 
 const quizSchema = new Schema(
   {
-    lab_content: {
-      type: String,
-      required: [true, "Quiz is required"]
-    },
+    lab_content: String,
+    view_content: String,
     title: {
       type: String,
       required: [true, "Quiz title is required"]
@@ -47,6 +46,21 @@ const quizSchema = new Schema(
 );
 
 class QuizMethods {
+  createViewContent() {
+    const { lab_content } = this;
+    const { mainSection: viewContent } = parse(lab_content);
+
+    const removeCorrectProperty = (context) => {
+      if (context.choices) {
+        context.choices.forEach((choice) => delete choice.correct);
+      } else if (context.content) {
+        context.content.forEach(removeCorrectProperty);
+      }
+    };
+
+    viewContent.content.forEach(removeCorrectProperty);
+    return stringify(viewContent);
+  }
   toJSON() {
     const quizObject = this.toObject();
     quizObject.__v = undefined;
@@ -54,6 +68,7 @@ class QuizMethods {
     quizObject.allowed_attempts = undefined;
     quizObject.owner = undefined;
     quizObject.lab_content = undefined;
+    quizObject.view_content = undefined;
     quizObject.start_date = undefined;
     quizObject.close_date = undefined;
     quizObject.time_limit = undefined;
