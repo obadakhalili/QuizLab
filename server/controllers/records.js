@@ -6,6 +6,7 @@ exports.checkRecord = async (req, res) => {
     const quiz = await Quiz.findOne(
       { _id: req.body.quizID },
       {
+        view_content: true,
         allowed_attempts: true,
         start_date: true,
         close_date: true,
@@ -55,8 +56,8 @@ exports.checkRecord = async (req, res) => {
       }
     }
     res.json({
-      leftTimeLimit,
-      quizView: "..."
+      viewContent: quiz.view_content,
+      leftTimeLimit
     });
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {
