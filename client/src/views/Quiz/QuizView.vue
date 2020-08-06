@@ -6,7 +6,7 @@
           <label>{{ viewContent.title }}</label>
         </b-col>
         <b-col v-if="timeLimit" cols="4" class="text-right">
-          <ViewCounter @timeUp="submitQuiz" :timeLimit="timeLimit" />
+          <ViewCounter @timeUp="submitAnswers" :timeLimit="timeLimit" />
         </b-col>
       </b-row>
     </b-col>
@@ -47,8 +47,8 @@ export default {
     };
   },
   methods: {
-    submitQuiz() {
-      // ..
+    submitAnswers() {
+      console.log("Clock!");
     }
   },
   components: {

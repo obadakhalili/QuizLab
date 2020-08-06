@@ -55,7 +55,7 @@ exports.updateAccount = async (req, res) => {
     }
   }
   try {
-    const userIsModified = allowedUpdates.some((update) =>
+    const userIsModified = allowedUpdates.some(update =>
       req.user.isModified(update)
     );
     await req.user.save();

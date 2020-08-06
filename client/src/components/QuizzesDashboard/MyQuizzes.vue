@@ -50,7 +50,7 @@
         <a
           v-b-tooltip.hover
           title="Copy exam attendance link"
-          v-clipboard="'/attend/' + data.item._id"
+          v-clipboard="data.item._id"
         >
           {{ data.item._id }}
         </a>

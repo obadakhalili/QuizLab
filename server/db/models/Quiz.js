@@ -50,9 +50,9 @@ class QuizMethods {
     const { lab_content } = this;
     const { mainSection: viewContent } = parse(lab_content);
 
-    const removeCorrectProperty = (context) => {
+    const removeCorrectProperty = context => {
       if (context.choices) {
-        context.choices.forEach((choice) => delete choice.correct);
+        context.choices.forEach(choice => delete choice.correct);
       } else if (context.content) {
         context.content.forEach(removeCorrectProperty);
       }

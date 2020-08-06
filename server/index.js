@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === "production") {
 
 const port = process.env.PORT;
 
-app.listen(port, (e) => {
+app.listen(port, e => {
   if (e) {
     console.log("Could not start listening to server\n", e);
     return process.exit(1);
