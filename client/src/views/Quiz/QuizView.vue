@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     submitQuiz() {
-      console.log("Cool!");
+      // ..
     }
   },
   components: {
