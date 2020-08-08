@@ -1,5 +1,5 @@
 <template>
-  <b-row v-if="quizTitle">
+  <b-row v-if="viewedSection">
     <b-col lg="3">
       <b-row>
         <b-col cols="8">
@@ -49,8 +49,8 @@ export default {
         throw { response, color: "info" };
       }
       this.viewedSection = parse(response.data.viewContent);
-      this.timeLimit = response.data.timeLimit;
       this.quizTitle = this.viewedSection.title;
+      this.timeLimit = response.data.timeLimit;
     } catch (e) {
       this.$router.push("/quizzes");
       return this.$store.dispatch("updateAlerts", {
