@@ -1,17 +1,34 @@
 <template>
-  <b-row v-if="viewContent">
-    <b-col md="4">
+  <b-row v-if="quizTitle">
+    <b-col lg="3">
       <b-row>
         <b-col cols="8">
-          <label>{{ viewContent.title }}</label>
+          <h5>{{ quizTitle }}</h5>
         </b-col>
         <b-col v-if="timeLimit" cols="4" class="text-right">
-          <ViewCounter @timeUp="submitAnswers" :timeLimit="timeLimit" />
+          <CountdownTimer @timeUp="submitAnswers" :timeLimit="timeLimit" />
         </b-col>
       </b-row>
+      <div v-if="path.length" class="my-2">
+        <strong v-for="(section, index) in path" :key="index" class="noselect">
+          <span @click="viewedSection = section" class="section-name">
+            {{ nameSection(section.title) }}
+          </span>
+          <RightArrow v-if="index < path.length - 1" />
+        </strong>
+      </div>
+      <SectionNavigator
+        @change-viewed-section="
+          newViewedSection => (viewedSection = newViewedSection)
+        "
+        :viewedSection="viewedSection"
+      />
     </b-col>
-    <b-col md="8">
-      Quiz View
+    <b-col lg="8">
+      Question View
+    </b-col>
+    <b-col lg="1">
+      Details
     </b-col>
   </b-row>
   <ContentLoading v-else />
@@ -19,7 +36,7 @@
 
 <script>
 import { parse } from "flatted";
-import ContentLoading from "@/components/Quiz/ContentLoading";
+import ContentLoading from "@/components/ContentLoading";
 import API from "@/api";
 
 export default {
@@ -31,8 +48,9 @@ export default {
       if (response.status === 201) {
         throw { response, color: "info" };
       }
-      this.viewContent = parse(response.data.viewContent);
+      this.viewedSection = parse(response.data.viewContent);
       this.timeLimit = response.data.timeLimit;
+      this.quizTitle = this.viewedSection.title;
     } catch (e) {
       this.$router.push("/quizzes");
       return this.$store.dispatch("updateAlerts", {
@@ -43,17 +61,51 @@ export default {
   },
   data() {
     return {
-      viewContent: null
+      quizTitle: "",
+      viewedSection: null,
+      timeLimit: null
     };
   },
+  computed: {
+    path() {
+      const path = [];
+      const pushToPath = section => {
+        path.unshift(section);
+        if (section.parentSection) {
+          pushToPath(section.parentSection);
+        }
+      };
+      if (this.viewedSection.parentSection) {
+        pushToPath(this.viewedSection.parentSection);
+        path.push(this.viewedSection);
+      }
+      return path;
+    }
+  },
   methods: {
+    nameSection(title) {
+      if (!title) {
+        return "Unnamed section";
+      } else if (title === this.quizTitle) {
+        return "Main";
+      }
+      return title;
+    },
     submitAnswers() {
-      console.log("Clock!");
+      // ..
     }
   },
   components: {
     ContentLoading,
-    ViewCounter: () => import("@/components/Quiz/ViewCounter")
+    CountdownTimer: () => import("@/components/View/CountdownTimer"),
+    SectionNavigator: () => import("@/components/View/SectionNavigator")
   }
 };
 </script>
+
+<style scoped>
+.section-name:hover {
+  color: #17a2b8;
+  cursor: pointer;
+}
+</style>

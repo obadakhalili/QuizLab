@@ -102,7 +102,7 @@
 
 <script>
 import { parse, stringify } from "flatted";
-import ContentLoading from "@/components/Quiz/ContentLoading";
+import ContentLoading from "@/components/ContentLoading";
 import API from "@/api";
 
 export default {
@@ -212,7 +212,7 @@ export default {
   },
   components: {
     ContentLoading,
-    LabContent: () => import("@/components/Quiz/LabContent")
+    LabContent: () => import("@/components/Lab/LabContent")
   }
 };
 </script>
