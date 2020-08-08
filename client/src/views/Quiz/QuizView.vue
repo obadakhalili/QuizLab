@@ -9,23 +9,34 @@
           <CountdownTimer @timeUp="submitAnswers" :timeLimit="timeLimit" />
         </b-col>
       </b-row>
-      <div v-if="path.length" class="my-2">
-        <strong v-for="(section, index) in path" :key="index" class="noselect">
-          <span @click="viewedSection = section" class="section-name">
+      <div v-if="path.length" class="noselect my-2">
+        <strong v-for="(section, index) in path" :key="index">
+          <span @click="changeViewedSection(section)" class="section-path-name">
             {{ nameSection(section.title) }}
           </span>
-          <RightArrow v-if="index < path.length - 1" />
+          <RightArrow
+            v-if="!(index === path.length - 1 && !viewedQuestionNumber)"
+          />
+        </strong>
+        <strong v-if="viewedQuestionNumber" class="viewed-question-number">
+          {{ viewedQuestionNumber }}
         </strong>
       </div>
-      <SectionNavigator
-        @change-viewed-section="
-          newViewedSection => (viewedSection = newViewedSection)
-        "
-        :viewedSection="viewedSection"
+      <SectionsNavigator
+        @change-viewed-section="changeViewedSection"
+        v-if="nestedSections.length"
+        :sections="nestedSections"
       />
+      <QuestionsNavigator
+        @change-viewed-question="question => (viewedQuestion = question)"
+        v-if="nestedQuestions.length"
+        :questions="nestedQuestions"
+        :viewedQuestion="viewedQuestion"
+      />
+      <b-button variant="dark" size="sm" class="mt-3">Submit Answers</b-button>
     </b-col>
     <b-col lg="8">
-      Question View
+      <QuestionView v-if="viewedQuestion" :question="viewedQuestion" />
     </b-col>
     <b-col lg="1">
       Details
@@ -49,6 +60,9 @@ export default {
         throw { response, color: "info" };
       }
       this.viewedSection = parse(response.data.viewContent);
+      this.viewedQuestion = this.viewedSection.content.find(
+        context => context.weight !== undefined
+      );
       this.quizTitle = this.viewedSection.title;
       this.timeLimit = response.data.timeLimit;
     } catch (e) {
@@ -63,6 +77,7 @@ export default {
     return {
       quizTitle: "",
       viewedSection: null,
+      viewedQuestion: null,
       timeLimit: null
     };
   },
@@ -80,9 +95,30 @@ export default {
         path.push(this.viewedSection);
       }
       return path;
+    },
+    nestedSections() {
+      return this.viewedSection.content.filter(context => context.content);
+    },
+    nestedQuestions() {
+      return this.viewedSection.content.filter(
+        context => context.weight !== undefined
+      );
+    },
+    viewedQuestionNumber() {
+      return (
+        this.nestedQuestions.findIndex(
+          question => question === this.viewedQuestion
+        ) + 1
+      );
     }
   },
   methods: {
+    changeViewedSection(section) {
+      this.viewedSection = section;
+      this.viewedQuestion = section.content.find(
+        context => context.weight !== undefined
+      );
+    },
     nameSection(title) {
       if (!title) {
         return "Unnamed section";
@@ -98,14 +134,19 @@ export default {
   components: {
     ContentLoading,
     CountdownTimer: () => import("@/components/View/CountdownTimer"),
-    SectionNavigator: () => import("@/components/View/SectionNavigator")
+    SectionsNavigator: () => import("@/components/View/SectionsNavigator"),
+    QuestionsNavigator: () => import("@/components/View/QuestionsNavigator"),
+    QuestionView: () => import("@/components/View/QuestionView")
   }
 };
 </script>
 
 <style scoped>
-.section-name:hover {
+.section-path-name:hover {
   color: #17a2b8;
   cursor: pointer;
+}
+.viewed-question-number {
+  color: #17a2b8;
 }
 </style>
