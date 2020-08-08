@@ -38,7 +38,7 @@
     <b-col lg="8">
       <QuestionView v-if="viewedQuestion" :question="viewedQuestion" />
     </b-col>
-    <b-col lg="1" class="text-center p-0">
+    <b-col v-if="viewedQuestion" lg="1" class="text-center p-0">
       <div class="question-details-container">
         <div class="question-number-label text-white">Q. {{ viewedQuestionNumber }}</div>
         <h1 class="display-4 m-0">{{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}</h1>
