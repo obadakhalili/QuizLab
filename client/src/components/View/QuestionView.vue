@@ -15,6 +15,5 @@ export default {
 .question-view-container {
   background-color: #fcf9db;
   padding: 10px 15px;
-  /* color: #fff; */
 }
 </style>
