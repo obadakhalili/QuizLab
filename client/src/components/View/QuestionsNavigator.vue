@@ -7,7 +7,7 @@
         :key="index"
         @click="$emit('change-viewed-question', question)"
         :class="{ selected: question === viewedQuestion }"
-        class="question-card text-center py-2 mb-1 mr-1"
+        class="question-card noselect text-center py-2 mb-1 mr-1"
         cols="2"
       >
         {{ index + 1 }}

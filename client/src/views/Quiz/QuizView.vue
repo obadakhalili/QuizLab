@@ -33,13 +33,18 @@
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
       />
-      <b-button variant="dark" size="sm" class="mt-3">Submit Answers</b-button>
+      <b-button variant="dark" size="sm" class="my-3">Submit Answers</b-button>
     </b-col>
     <b-col lg="8">
       <QuestionView v-if="viewedQuestion" :question="viewedQuestion" />
     </b-col>
-    <b-col lg="1">
-      Details
+    <b-col lg="1" class="text-center p-0">
+      <div class="question-details-container">
+        <div class="question-number-label text-white">Q. {{ viewedQuestionNumber }}</div>
+        <h1 class="display-4 m-0">{{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}</h1>
+        <label>Weight</label>
+      </div>
+      <div v-if="viewedQuestion.isBonus" class="bonus-question">Bonus</div>
     </b-col>
   </b-row>
   <ContentLoading v-else />
@@ -148,5 +153,18 @@ export default {
 }
 .viewed-question-number {
   color: #17a2b8;
+}
+.question-details-container {
+  background-color: #e9e9e9;
+  padding: 0;
+  height: 125px;
+}
+.question-number-label {
+  background-color: #4e6b9f;
+  padding: 2.5px 0;
+}
+.bonus-question {
+  background-color: #81E081;
+  padding-bottom: 1px;
 }
 </style>
