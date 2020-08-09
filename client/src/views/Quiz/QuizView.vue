@@ -11,14 +11,14 @@
       </b-row>
       <div v-if="path.length" class="noselect my-2">
         <strong v-for="(section, index) in path" :key="index">
-          <span @click="changeViewedSection(section)" class="section-path-name">
+          <span @click="changeViewedSection(section)" class="path--section-name">
             {{ nameSection(section.title) }}
           </span>
           <RightArrow
             v-if="!(index === path.length - 1 && !viewedQuestionNumber)"
           />
         </strong>
-        <strong v-if="viewedQuestionNumber" class="viewed-question-number">
+        <strong v-if="viewedQuestionNumber" class="path--viewed-question-number">
           {{ viewedQuestionNumber }}
         </strong>
       </div>
@@ -40,11 +40,11 @@
     </b-col>
     <b-col v-if="viewedQuestion" lg="1" class="text-center p-0">
       <div class="question-details-container">
-        <div class="question-number-label text-white">Q. {{ viewedQuestionNumber }}</div>
+        <div class="details--viewed-question-number text-white">Q. {{ viewedQuestionNumber }}</div>
         <h1 class="display-4 m-0">{{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}</h1>
         <label>Weight</label>
       </div>
-      <div v-if="viewedQuestion.isBonus" class="bonus-question">Bonus</div>
+      <div v-if="viewedQuestion.isBonus" class="details--bonus-question">Bonus</div>
     </b-col>
   </b-row>
   <ContentLoading v-else />
@@ -89,14 +89,14 @@ export default {
   computed: {
     path() {
       const path = [];
-      const pushToPath = section => {
+      const addToPath = section => {
         path.unshift(section);
         if (section.parentSection) {
-          pushToPath(section.parentSection);
+          addToPath(section.parentSection);
         }
       };
       if (this.viewedSection.parentSection) {
-        pushToPath(this.viewedSection.parentSection);
+        addToPath(this.viewedSection.parentSection);
         path.push(this.viewedSection);
       }
       return path;
@@ -118,12 +118,6 @@ export default {
     }
   },
   methods: {
-    changeViewedSection(section) {
-      this.viewedSection = section;
-      this.viewedQuestion = section.content.find(
-        context => context.weight !== undefined
-      );
-    },
     nameSection(title) {
       if (!title) {
         return "Unnamed section";
@@ -132,9 +126,13 @@ export default {
       }
       return title;
     },
-    submitAnswers() {
-      // ..
-    }
+    changeViewedSection(section) {
+      this.viewedSection = section;
+      this.viewedQuestion = section.content.find(
+        context => context.weight !== undefined
+      );
+    },
+    submitAnswers() {}
   },
   components: {
     ContentLoading,
@@ -147,11 +145,11 @@ export default {
 </script>
 
 <style scoped>
-.section-path-name:hover {
+.path--section-name:hover {
   color: #17a2b8;
   cursor: pointer;
 }
-.viewed-question-number {
+.path--viewed-question-number {
   color: #17a2b8;
 }
 .question-details-container {
@@ -159,11 +157,11 @@ export default {
   padding: 0;
   height: 125px;
 }
-.question-number-label {
+.details--viewed-question-number {
   background-color: #4e6b9f;
   padding: 2.5px 0;
 }
-.bonus-question {
+.details--bonus-question {
   background-color: #81E081;
   padding-bottom: 1px;
 }
