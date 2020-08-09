@@ -20,9 +20,9 @@
         ></b-input>
       </b-col>
       <b-col cols="2">
-        <b-checkbox v-model="question.isBonus" class="noselect float-right mt-1"
-          >Bonus</b-checkbox
-        >
+        <b-checkbox v-model="question.isBonus" class="noselect float-right mt-1">
+          Bonus
+        </b-checkbox>
       </b-col>
     </b-row>
     <div class="noselect">
@@ -51,7 +51,6 @@
           button
         >
           <button
-            v-if="question.choices.length > 2"
             @click.stop="deleteChoice(index)"
             type="button"
             class="close mr-2"
@@ -88,8 +87,7 @@ export default {
       this.$parent.$forceUpdate();
     },
     changeToMultipleChoice() {
-      const choices = this.question.choices;
-      if (!choices) {
+      if (!this.question.choices) {
         this.question.choices = [
           { title: "" },
           {
@@ -97,32 +95,34 @@ export default {
             correct: true
           }
         ];
+        this.question.isMultipleAnswer = false;
+        delete this.question.solution;
         this.$forceUpdate();
       }
     },
     changeToWrittenSolution() {
       delete this.question.choices;
+      delete this.question.isMultipleAnswer;
+      this.question.solution = "";
       this.$forceUpdate();
     },
     changeCorrectness(index) {
       const choices = this.question.choices;
       choices[index].correct = !choices[index].correct;
+      this.question.isMultipleAnswer = this.isMultipleAnswer();
       this.$forceUpdate();
     },
     addNewChoice() {
-      const choices = this.question.choices;
-      choices.push({ title: "" });
+      this.question.choices.push({ title: "" });
       this.$forceUpdate();
     },
     deleteChoice(index) {
-      const choices = this.question.choices;
-      if (choices.length > 2) {
-        choices.splice(index, 1);
-        if (choices.every(choice => !choice.correct)) {
-          choices[0].correct = true;
-        }
-        this.$forceUpdate();
-      }
+      this.question.choices.splice(index, 1);
+      this.question.isMultipleAnswer = this.isMultipleAnswer();
+      this.$forceUpdate();
+    },
+    isMultipleAnswer() {
+      return this.question.choices.filter(choice => choice.correct).length > 1;
     }
   }
 };

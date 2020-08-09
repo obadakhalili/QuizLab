@@ -60,6 +60,7 @@ export default {
             correct: true
           }
         ],
+        isMultipleAnswer: false,
         parentSection: this.section
       });
       this.$parent.$forceUpdate();
