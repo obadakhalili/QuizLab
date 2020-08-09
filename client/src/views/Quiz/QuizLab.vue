@@ -219,6 +219,6 @@ export default {
 
 <style scoped>
 .lab {
-  max-width: 900px;
+  max-width: 1200px;
 }
 </style>
