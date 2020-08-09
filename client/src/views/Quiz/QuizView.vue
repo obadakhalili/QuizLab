@@ -11,14 +11,20 @@
       </b-row>
       <div v-if="path.length" class="noselect my-2">
         <strong v-for="(section, index) in path" :key="index">
-          <span @click="changeViewedSection(section)" class="path--section-name">
+          <span
+            @click="changeViewedSection(section)"
+            class="path--section-name"
+          >
             {{ nameSection(section.title) }}
           </span>
           <RightArrow
             v-if="!(index === path.length - 1 && !viewedQuestionNumber)"
           />
         </strong>
-        <strong v-if="viewedQuestionNumber" class="path--viewed-question-number">
+        <strong
+          v-if="viewedQuestionNumber"
+          class="path--viewed-question-number"
+        >
           {{ viewedQuestionNumber }}
         </strong>
       </div>
@@ -40,11 +46,17 @@
     </b-col>
     <b-col v-if="viewedQuestion" lg="1" class="text-center p-0">
       <div class="question-details-container">
-        <div class="details--viewed-question-number text-white">Q. {{ viewedQuestionNumber }}</div>
-        <h1 class="display-4 m-0">{{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}</h1>
+        <div class="details--viewed-question-number text-white">
+          Q. {{ viewedQuestionNumber }}
+        </div>
+        <h1 class="display-4 m-0">
+          {{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}
+        </h1>
         <label>Weight</label>
       </div>
-      <div v-if="viewedQuestion.isBonus" class="details--bonus-question">Bonus</div>
+      <div v-if="viewedQuestion.isBonus" class="details--bonus-question">
+        Bonus
+      </div>
     </b-col>
   </b-row>
   <ContentLoading v-else />
@@ -162,7 +174,7 @@ export default {
   padding: 2.5px 0;
 }
 .details--bonus-question {
-  background-color: #81E081;
+  background-color: #81e081;
   padding-bottom: 1px;
 }
 </style>

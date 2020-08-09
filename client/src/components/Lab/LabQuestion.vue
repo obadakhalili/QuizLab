@@ -20,7 +20,10 @@
         ></b-input>
       </b-col>
       <b-col cols="2">
-        <b-checkbox v-model="question.isBonus" class="noselect float-right mt-1">
+        <b-checkbox
+          v-model="question.isBonus"
+          class="noselect float-right mt-1"
+        >
           Bonus
         </b-checkbox>
       </b-col>

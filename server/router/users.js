@@ -51,7 +51,6 @@ router
 
 router
   .route("/avatar")
-  .get(auth, setHeaderAndPayloadCookie, getAvatar)
   .post(
     auth,
     validatePseudorandom,
@@ -62,6 +61,7 @@ router
       res.status(400).send(message);
     }
   )
+  .get(auth, setHeaderAndPayloadCookie, getAvatar)
   .delete(auth, validatePseudorandom, setHeaderAndPayloadCookie, deleteAvatar);
 
 module.exports = router;

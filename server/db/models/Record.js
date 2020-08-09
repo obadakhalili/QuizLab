@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 
 const recordSchema = new mongoose.Schema({
-  latest_results: [
-    {
-      type: Number
-    }
-  ],
+  latest_results: [{ type: Number }],
   taken_attempts: {
     type: Number,
     default: 1
