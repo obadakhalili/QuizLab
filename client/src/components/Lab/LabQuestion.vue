@@ -62,7 +62,7 @@
           </button>
           <b-input
             @click.stop
-            v-model="choice.title"
+            v-model="choice.text"
             size="sm"
             class="col-10"
             placeholder="Choice Title"
@@ -92,13 +92,18 @@ export default {
     changeToMultipleChoice() {
       if (!this.question.choices) {
         this.question.choices = [
-          { title: "" },
           {
-            title: "",
+            text: "",
+            id: 0
+          },
+          {
+            text: "",
+            id: 1,
             correct: true
           }
         ];
         this.question.isMultipleAnswer = false;
+        this.question.selected = null;
         delete this.question.solution;
         this.$forceUpdate();
       }
@@ -106,6 +111,7 @@ export default {
     changeToWrittenSolution() {
       delete this.question.choices;
       delete this.question.isMultipleAnswer;
+      delete this.question.selected;
       this.question.solution = "";
       this.$forceUpdate();
     },
@@ -116,7 +122,11 @@ export default {
       this.$forceUpdate();
     },
     addNewChoice() {
-      this.question.choices.push({ title: "" });
+      const choices = this.question.choices;
+      choices.push({
+        text: "",
+        id: choices.length
+      });
       this.$forceUpdate();
     },
     deleteChoice(index) {

@@ -54,12 +54,17 @@ export default {
         weight: "",
         isBonus: false,
         choices: [
-          { title: "" },
           {
-            title: "",
+            text: "",
+            id: 0
+          },
+          {
+            text: "",
+            id: 1,
             correct: true
           }
         ],
+        selected: null,
         isMultipleAnswer: false,
         parentSection: this.section
       });
