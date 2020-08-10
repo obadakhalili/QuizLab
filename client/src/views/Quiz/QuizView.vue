@@ -42,7 +42,7 @@
       <b-button variant="dark" size="sm" class="my-3">Submit Answers</b-button>
     </b-col>
     <b-col lg="8">
-      <QuestionView v-if="viewedQuestion" :question="viewedQuestion" />
+      <QuestionView @view-next-question="viewNextQuestion" v-if="viewedQuestion" :question="viewedQuestion" :thereIsNext="thereIsNext" />
     </b-col>
     <b-col v-if="viewedQuestion" lg="1" class="text-center p-0">
       <div class="question-details-container">
@@ -121,12 +121,14 @@ export default {
         context => context.weight !== undefined
       );
     },
+    viewedQuestionIndex() {
+      return this.nestedQuestions.findIndex(question => question === this.viewedQuestion);
+    },
     viewedQuestionNumber() {
-      return (
-        this.nestedQuestions.findIndex(
-          question => question === this.viewedQuestion
-        ) + 1
-      );
+      return this.viewedQuestionIndex + 1;
+    },
+    thereIsNext() {
+      return this.viewedQuestionNumber < this.nestedQuestions.length;
     }
   },
   methods: {
@@ -143,6 +145,9 @@ export default {
       this.viewedQuestion = section.content.find(
         context => context.weight !== undefined
       );
+    },
+    viewNextQuestion() {
+      this.viewedQuestion = this.nestedQuestions[this.viewedQuestionIndex + 1];
     },
     submitAnswers() {}
   },

@@ -7,6 +7,7 @@
       v-model="question.title"
       size="sm"
       class="col-10 mb-1"
+      rows="5"
       placeholder="Question Title"
     ></b-form-textarea>
     <b-row>
