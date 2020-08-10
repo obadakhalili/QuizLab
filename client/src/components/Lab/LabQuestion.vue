@@ -62,7 +62,7 @@
           </button>
           <b-input
             @click.stop
-            v-model="choice.text"
+            v-model="choice.title"
             size="sm"
             class="col-10"
             placeholder="Choice Title"
@@ -93,11 +93,11 @@ export default {
       if (!this.question.choices) {
         this.question.choices = [
           {
-            text: "",
+            title: "",
             id: 0
           },
           {
-            text: "",
+            title: "",
             id: 1,
             correct: true
           }
@@ -124,7 +124,7 @@ export default {
     addNewChoice() {
       const choices = this.question.choices;
       choices.push({
-        text: "",
+        title: "",
         id: choices.length
       });
       this.$forceUpdate();

@@ -55,11 +55,11 @@ export default {
         isBonus: false,
         choices: [
           {
-            text: "",
+            title: "",
             id: 0
           },
           {
-            text: "",
+            title: "",
             id: 1,
             correct: true
           }

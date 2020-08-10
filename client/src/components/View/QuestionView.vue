@@ -7,10 +7,7 @@
 <script>
 export default {
   name: "QuestionView",
-  props: ["question"],
-  created() {
-    console.log(this.question);
-  }
+  props: ["question"]
 };
 </script>
 
