@@ -7,6 +7,7 @@ exports.addQuiz = async (req, res) => {
       lab_content: labContent,
       title,
       show_results: options.showQuizResults,
+      block_after_answer: options.blockQuestionAfterAnswer,
       allowed_attempts: options.allowedAttempts,
       time_limit: !options.timeLimit
         ? undefined
@@ -69,6 +70,7 @@ exports.updateQuiz = async (req, res) => {
     quiz.title = title;
     quiz.allowed_attempts = options.allowedAttempts;
     quiz.show_results = options.showQuizResults;
+    quiz.block_after_answer = options.blockQuestionAfterAnswer;
     quiz.time_limit = !options.timeLimit
       ? undefined
       : options.timeLimit * 60 * 1000;

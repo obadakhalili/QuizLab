@@ -5,8 +5,8 @@
       <b-col
         v-for="(question, index) in questions"
         :key="index"
-        @click="$emit('change-viewed-question', question)"
-        :class="{ selected: question === viewedQuestion }"
+        @click="blockAfterAnswer || $emit('change-viewed-question', question)"
+        :class="{ selected: question === viewedQuestion, disabled: blockAfterAnswer && question !== viewedQuestion }"
         class="question-card noselect text-center py-2 mb-1 mr-1"
         cols="2"
       >
@@ -19,7 +19,7 @@
 <script>
 export default {
   name: "QuesionsNavigator",
-  props: ["questions", "viewedQuestion"]
+  props: ["questions", "viewedQuestion", "blockAfterAnswer"]
 };
 </script>
 
@@ -41,5 +41,13 @@ export default {
 }
 .question-card.selected:hover {
   background-color: #4e6b9f;
+  cursor: auto;
+}
+.question-card.disabled {
+  opacity: .65;
+}
+.question-card.disabled:hover {
+  background-color: #e9e9e9;
+  cursor: auto;
 }
 </style>

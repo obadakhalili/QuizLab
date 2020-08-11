@@ -3,8 +3,6 @@ const { parse, stringify } = require("flatted");
 
 const quizSchema = new Schema(
   {
-    lab_content: String,
-    view_content: String,
     title: {
       type: String,
       required: [true, "Quiz title is required"]
@@ -19,11 +17,14 @@ const quizSchema = new Schema(
         message: "Allowed attempts should be an integer greater than 0"
       }
     },
-    show_results: {
-      type: Boolean,
-      required: [true, "Show quiz results option is required"]
+    time_limit: {
+      type: Number,
+      min: [0, "Time limit should be an integer thats at least 0"]
     },
-    start_date: Date,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
     close_date: {
       type: Date,
       validate: {
@@ -33,14 +34,11 @@ const quizSchema = new Schema(
         message: "Close date should be greater than start date"
       }
     },
-    time_limit: {
-      type: Number,
-      min: [0, "Time limit should be an integer thats at least 0"]
-    },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }
+    start_date: Date,
+    show_results: Boolean,
+    block_after_answer: Boolean,
+    lab_content: String,
+    view_content: String
   },
   { timestamps: true }
 );

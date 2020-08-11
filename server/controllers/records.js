@@ -8,6 +8,7 @@ exports.checkRecord = async (req, res) => {
       {
         view_content: true,
         allowed_attempts: true,
+        block_after_answer: true,
         start_date: true,
         close_date: true,
         time_limit: true,
@@ -57,6 +58,7 @@ exports.checkRecord = async (req, res) => {
     }
     res.json({
       viewContent: quiz.view_content,
+      blockAfterAnswer: quiz.block_after_answer,
       timeLimit
     });
   } catch (e) {

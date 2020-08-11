@@ -38,10 +38,11 @@
         v-if="nestedQuestions.length"
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
+        :blockAfterAnswer="blockAfterAnswer"
       />
-      <b-button @click="confirmSubmission" variant="dark" size="sm" class="my-3"
-        >Submit Answers</b-button
-      >
+      <b-button @click="confirmSubmission" variant="dark" size="sm" class="my-3">
+        Submit Answers
+      </b-button>
     </b-col>
     <b-col lg="8">
       <QuestionView
@@ -88,6 +89,7 @@ export default {
         context => context.weight !== undefined
       );
       this.quizTitle = this.viewedSection.title;
+      this.blockAfterAnswer = response.data.blockAfterAnswer
       this.timeLimit = response.data.timeLimit;
     } catch (e) {
       this.$router.push("/quizzes");
@@ -102,7 +104,8 @@ export default {
       quizTitle: "",
       viewedSection: null,
       viewedQuestion: null,
-      timeLimit: null
+      timeLimit: null,
+      blockAfterAnswer: false
     };
   },
   computed: {
