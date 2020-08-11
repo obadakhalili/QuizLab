@@ -10,6 +10,7 @@ exports.addQuiz = async (req, res) => {
       block_after_answer: options.blockQuestionAfterAnswer,
       allowed_attempts: options.allowedAttempts,
       shuffle_quiz: options.shuffleQuiz,
+      shuffle_choices: options.shuffleChoices,
       time_limit: !options.timeLimit
         ? undefined
         : options.timeLimit * 60 * 1000,
@@ -73,6 +74,7 @@ exports.updateQuiz = async (req, res) => {
     quiz.show_results = options.showQuizResults;
     quiz.block_after_answer = options.blockQuestionAfterAnswer;
     quiz.shuffle_quiz = options.shuffleQuiz;
+    quiz.shuffle_choices = options.shuffleChoices;
     quiz.time_limit = !options.timeLimit
       ? undefined
       : options.timeLimit * 60 * 1000;

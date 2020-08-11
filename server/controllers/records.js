@@ -10,6 +10,7 @@ exports.checkRecord = async (req, res) => {
         allowed_attempts: true,
         block_after_answer: true,
         shuffle_quiz: true,
+        shuffle_choices: true,
         start_date: true,
         close_date: true,
         time_limit: true,
@@ -58,7 +59,7 @@ exports.checkRecord = async (req, res) => {
       }
     }
     res.json({
-      viewContent: quiz.shuffle_quiz ? quiz.shuffleQuiz() : quiz.view_content,
+      viewContent: quiz.shuffle_quiz ? quiz.shuffleQuiz(quiz.shuffle_choices) : quiz.view_content,
       blockAfterAnswer: quiz.block_after_answer,
       timeLimit
     });
