@@ -62,7 +62,9 @@ class QuizMethods {
     const { view_content } = this;
     const viewContent = parse(view_content);
     const shuffleArray = array => {
-      let current = array.length, randomIndex, tempVal;
+      let current = array.length,
+        randomIndex,
+        tempVal;
       while (current) {
         randomIndex = Math.floor(Math.random() * current--);
         tempVal = array[current];

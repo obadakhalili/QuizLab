@@ -6,7 +6,10 @@
         v-for="(question, index) in questions"
         :key="index"
         @click="blockAfterAnswer || $emit('change-viewed-question', question)"
-        :class="{ selected: question === viewedQuestion, disabled: blockAfterAnswer && question !== viewedQuestion }"
+        :class="{
+          selected: question === viewedQuestion,
+          disabled: blockAfterAnswer && question !== viewedQuestion
+        }"
         class="question-card noselect text-center py-2 mb-1 mr-1"
         cols="2"
       >
@@ -44,7 +47,7 @@ export default {
   cursor: auto;
 }
 .question-card.disabled {
-  opacity: .65;
+  opacity: 0.65;
 }
 .question-card.disabled:hover {
   background-color: #e9e9e9;

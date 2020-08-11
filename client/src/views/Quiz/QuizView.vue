@@ -40,7 +40,12 @@
         :viewedQuestion="viewedQuestion"
         :blockAfterAnswer="blockAfterAnswer"
       />
-      <b-button @click="confirmSubmission" variant="dark" size="sm" class="my-3">
+      <b-button
+        @click="confirmSubmission"
+        variant="dark"
+        size="sm"
+        class="my-3"
+      >
         Submit Answers
       </b-button>
     </b-col>
@@ -89,7 +94,7 @@ export default {
         context => context.weight !== undefined
       );
       this.quizTitle = this.viewedSection.title;
-      this.blockAfterAnswer = response.data.blockAfterAnswer
+      this.blockAfterAnswer = response.data.blockAfterAnswer;
       this.timeLimit = response.data.timeLimit;
     } catch (e) {
       this.$router.push("/quizzes");
