@@ -43,7 +43,7 @@ exports.signup = async (req, res) => {
   }
 };
 
-exports.getAccount = async (req, res) => {
+exports.getAccount = (req, res) => {
   res.json(req.user);
 };
 
@@ -86,7 +86,7 @@ exports.deleteAccount = async (req, res) => {
   }
 };
 
-exports.getAvatar = async (req, res) => {
+exports.getAvatar = (req, res) => {
   res.set("Content-Type", "image/png");
   res.send(req.user.avatar);
 };

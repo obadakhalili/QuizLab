@@ -1,5 +1,5 @@
 <template>
-  <b-row v-if="viewedSection">
+  <b-row v-if="viewedSection" class="mb-5">
     <b-col lg="3">
       <b-row>
         <b-col cols="8">
@@ -173,7 +173,9 @@ export default {
       });
       this.$bvModal.show("confirm-modal");
     },
-    submitAnswers() {}
+    submitAnswers() {
+      // ..
+    }
   },
   components: {
     ContentLoading,
