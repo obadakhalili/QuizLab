@@ -1,7 +1,7 @@
 const Record = require("../db/models/Record.js");
 const Quiz = require("../db/models/Quiz.js");
 
-exports.checkRecord = async (req, res) => {
+exports.attemptQuiz = async (req, res) => {
   try {
     const quiz = await Quiz.findOne(
       { _id: req.body.quizID },
@@ -72,5 +72,6 @@ exports.checkRecord = async (req, res) => {
 };
 
 exports.submitAnswers = async (req, res) => {
+  console.log(req.body);
   res.send("POST answers");
 };

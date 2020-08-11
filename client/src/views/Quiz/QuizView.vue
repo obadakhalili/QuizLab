@@ -76,14 +76,14 @@
 </template>
 
 <script>
-import { parse } from "flatted";
+import { parse, stringify } from "flatted";
 import ContentLoading from "@/components/ContentLoading";
 import API from "@/api";
 
 export default {
   async beforeCreate() {
     try {
-      const response = await API("/records/check-record", "post", {
+      const response = await API("/records/attempt-quiz", "post", {
         quizID: this.$route.params.id
       });
       if (response.status === 201) {
@@ -174,7 +174,7 @@ export default {
       this.$bvModal.show("confirm-modal");
     },
     async submitAnswers() {
-      const response = await API("/records/submit-answers", "post");
+      const response = await API("/records/submit-answers", "post", { answers: stringify(this.viewedSection) });
       console.log(response);
     }
   },

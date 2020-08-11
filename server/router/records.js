@@ -1,4 +1,4 @@
-const { checkRecord, submitAnswers } = require("../controllers/records.js");
+const { attemptQuiz, submitAnswers } = require("../controllers/records.js");
 const {
   auth,
   validatePseudorandom,
@@ -9,11 +9,11 @@ const { Router } = require("express");
 const router = new Router();
 
 router.post(
-  "/check-record",
+  "/attempt-quiz",
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
-  checkRecord
+  attemptQuiz
 );
 
 router.post(
