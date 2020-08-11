@@ -89,7 +89,6 @@ class QuizMethods {
     quizObject.__v = undefined;
     quizObject.show_results = undefined;
     quizObject.block_after_answer = undefined;
-    quizObject.shuffle_choices = undefined;
     quizObject.shuffle_quiz = undefined;
     quizObject.allowed_attempts = undefined;
     quizObject.owner = undefined;
