@@ -59,7 +59,7 @@ exports.checkRecord = async (req, res) => {
       }
     }
     res.json({
-      viewContent: quiz.shuffle_quiz ? quiz.shuffleQuiz(quiz.shuffle_choices) : quiz.view_content,
+      viewContent: quiz.shuffle_quiz ? quiz.shuffleQuiz() : quiz.view_content,
       blockAfterAnswer: quiz.block_after_answer,
       timeLimit
     });

@@ -38,7 +38,6 @@ const quizSchema = new Schema(
     show_results: Boolean,
     block_after_answer: Boolean,
     shuffle_quiz: Boolean,
-    shuffle_choices: Boolean,
     lab_content: String,
     view_content: String
   },
@@ -59,7 +58,7 @@ class QuizMethods {
     viewContent.content.forEach(removeCorrectProperty);
     return stringify(viewContent);
   }
-  shuffleQuiz(shuffleChoices) {
+  shuffleQuiz() {
     const { view_content } = this;
     const viewContent = parse(view_content);
     const shuffleArray = array => {
@@ -72,14 +71,17 @@ class QuizMethods {
       }
       return array;
     };
-    const shuffleContent = ({ content }) => {
+    const shuffleContent = content => {
       shuffleArray(content);
-      content.filter(context => context.content).forEach(shuffleContent);
-      if (shuffleChoices) {
-        content.filter(context => context.choices).forEach(({ choices }) => shuffleArray(choices));
-      }
+      content.forEach(context => {
+        if (context.content) {
+          shuffleContent(context.content);
+        } else if (context.choices) {
+          shuffleArray(context.choices);
+        }
+      });
     };
-    shuffleContent(viewContent);
+    shuffleContent(viewContent.content);
     return stringify(viewContent);
   }
   toJSON() {
