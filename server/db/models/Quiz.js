@@ -37,6 +37,7 @@ const quizSchema = new Schema(
     start_date: Date,
     show_results: Boolean,
     block_after_answer: Boolean,
+    shuffle_quiz: Boolean,
     lab_content: String,
     view_content: String
   },
@@ -47,7 +48,6 @@ class QuizMethods {
   createViewContent() {
     const { lab_content } = this;
     const { mainSection: viewContent } = parse(lab_content);
-
     const removeCorrectProperty = context => {
       if (context.choices) {
         context.choices.forEach(choice => delete choice.correct);
@@ -55,8 +55,27 @@ class QuizMethods {
         context.content.forEach(removeCorrectProperty);
       }
     };
-
     viewContent.content.forEach(removeCorrectProperty);
+    return stringify(viewContent);
+  }
+  shuffleQuiz() {
+    const { view_content } = this;
+    const viewContent = parse(view_content);
+    const shuffleArray = array => {
+      let current = array.length, randomIndex, tempVal;
+      while (current) {
+        randomIndex = Math.floor(Math.random() * current--);
+        tempVal = array[current];
+        array[current] = array[randomIndex];
+        array[randomIndex] = tempVal;
+      }
+      return array;
+    };
+    const shuffleContent = ({ content }) => {
+      shuffleArray(content);
+      content.filter(context => context.content).forEach(shuffleContent);
+    };
+    shuffleContent(viewContent);
     return stringify(viewContent);
   }
   toJSON() {
