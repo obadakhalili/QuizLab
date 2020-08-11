@@ -1,7 +1,7 @@
 <template>
   <div class="question-view-container">
     <p>{{ question.title }}</p>
-    <b-form-group v-if="question.choices" :label="choicesLabel" >
+    <b-form-group v-if="question.choices" :label="choicesLabel">
       <b-form-checkbox-group
         v-if="question.isMultipleAnswer"
         v-model="question.selected"
@@ -23,9 +23,21 @@
     </b-form-group>
     <template v-else>
       <label>Write your answer</label>
-      <b-textarea v-model="question.solution" placeholder="Your answer ..." rows="3" class="mb-3"></b-textarea>
+      <b-textarea
+        v-model="question.solution"
+        placeholder="Your answer ..."
+        rows="3"
+        class="mb-3"
+      ></b-textarea>
     </template>
-    <b-button v-if="thereIsNext" @click="$emit('view-next-question')" variant="secondary" size="sm">Next</b-button>
+    <b-button
+      v-if="thereIsNext"
+      @click="$emit('view-next-question')"
+      variant="secondary"
+      size="sm"
+    >
+      Next
+    </b-button>
   </div>
 </template>
 
@@ -35,7 +47,9 @@ export default {
   props: ["question", "thereIsNext"],
   computed: {
     choicesLabel() {
-      return "Select correct choice" + (this.question.isMultipleAnswer ? "s" : "");
+      return (
+        "Select correct choice" + (this.question.isMultipleAnswer ? "s" : "")
+      );
     }
   }
 };

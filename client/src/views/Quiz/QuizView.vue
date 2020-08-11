@@ -18,7 +18,7 @@
             {{ nameSection(section.title) }}
           </span>
           <RightArrow
-            v-if="!(index === path.length - 1 && !viewedQuestionNumber)"
+            v-if="!(index === path.length - 1 && viewedQuestionIndex === -1)"
           />
         </strong>
         <strong
@@ -39,10 +39,17 @@
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
       />
-      <b-button variant="dark" size="sm" class="my-3">Submit Answers</b-button>
+      <b-button @click="confirmSubmission" variant="dark" size="sm" class="my-3"
+        >Submit Answers</b-button
+      >
     </b-col>
     <b-col lg="8">
-      <QuestionView @view-next-question="viewNextQuestion" v-if="viewedQuestion" :question="viewedQuestion" :thereIsNext="thereIsNext" />
+      <QuestionView
+        @view-next-question="viewNextQuestion"
+        v-if="viewedQuestion"
+        :question="viewedQuestion"
+        :thereIsNext="thereIsNext"
+      />
     </b-col>
     <b-col v-if="viewedQuestion" lg="1" class="text-center p-0">
       <div class="question-details-container">
@@ -122,7 +129,9 @@ export default {
       );
     },
     viewedQuestionIndex() {
-      return this.nestedQuestions.findIndex(question => question === this.viewedQuestion);
+      return this.nestedQuestions.findIndex(
+        question => question === this.viewedQuestion
+      );
     },
     viewedQuestionNumber() {
       return this.viewedQuestionIndex + 1;
@@ -148,6 +157,13 @@ export default {
     },
     viewNextQuestion() {
       this.viewedQuestion = this.nestedQuestions[this.viewedQuestionIndex + 1];
+    },
+    confirmSubmission() {
+      this.$store.dispatch("updateModalInfo", {
+        message: "Sure you want to submit answers?",
+        procedure: this.submitAnswers
+      });
+      this.$bvModal.show("confirm-modal");
     },
     submitAnswers() {}
   },
