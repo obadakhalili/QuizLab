@@ -70,3 +70,7 @@ exports.checkRecord = async (req, res) => {
     res.status(500).end();
   }
 };
+
+exports.submitAnswers = async (req, res) => {
+  res.send("POST answers");
+};

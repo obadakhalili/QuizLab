@@ -83,7 +83,7 @@ import API from "@/api";
 export default {
   async beforeCreate() {
     try {
-      const response = await API("/records", "post", {
+      const response = await API("/records/check-record", "post", {
         quizID: this.$route.params.id
       });
       if (response.status === 201) {
@@ -173,8 +173,9 @@ export default {
       });
       this.$bvModal.show("confirm-modal");
     },
-    submitAnswers() {
-      // ..
+    async submitAnswers() {
+      const response = await API("/records/submit-answers", "post");
+      console.log(response);
     }
   },
   components: {
