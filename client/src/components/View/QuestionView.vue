@@ -1,11 +1,7 @@
 <template>
   <div class="question-view-container">
     <p>{{ question.title }}</p>
-    <template v-if="question.solution !== undefined">
-      <label>Write your answer</label>
-      <b-textarea v-model="question.solution" placeholder="Your answer ..." rows="3" class="mb-3"></b-textarea>
-    </template>
-    <b-form-group v-else :label="choicesLabel" >
+    <b-form-group v-if="question.choices" :label="choicesLabel" >
       <b-form-checkbox-group
         v-if="question.isMultipleAnswer"
         v-model="question.selected"
@@ -25,6 +21,10 @@
       >
       </b-form-radio-group>
     </b-form-group>
+    <template v-else>
+      <label>Write your answer</label>
+      <b-textarea v-model="question.solution" placeholder="Your answer ..." rows="3" class="mb-3"></b-textarea>
+    </template>
     <b-button v-if="thereIsNext" @click="$emit('view-next-question')" variant="secondary" size="sm">Next</b-button>
   </div>
 </template>
@@ -33,10 +33,10 @@
 export default {
   name: "QuestionView",
   props: ["question", "thereIsNext"],
-  data() {
-    return {
-      choicesLabel: "Select correct choice" + (this.question.isMultipleAnswer ? "s" : "")
-    };
+  computed: {
+    choicesLabel() {
+      return "Select correct choice" + (this.question.isMultipleAnswer ? "s" : "");
+    }
   }
 };
 </script>
