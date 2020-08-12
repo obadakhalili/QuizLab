@@ -54,6 +54,7 @@ export default {
         title: "",
         weight: "",
         isBonus: false,
+        answered: false,
         choices: [
           {
             title: "",

@@ -34,7 +34,7 @@
         :sections="nestedSections"
       />
       <QuestionsNavigator
-        @change-viewed-question="question => (viewedQuestion = question)"
+        @change-viewed-question="viewSelectedQuestion"
         v-if="nestedQuestions.length"
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
@@ -95,10 +95,8 @@ export default {
         throw { response, color: "info" };
       }
       this.viewedSection = parse(response.data.viewContent);
+      this.viewedQuestion = this.nestedQuestions[0];
       this.quiz = this.viewedSection;
-      this.viewedQuestion = this.viewedSection.content.find(
-        context => context.weight !== undefined
-      );
       this.quizTitle = this.viewedSection.title;
       this.blockAfterAnswer = response.data.blockAfterAnswer;
       this.timeLimit = response.data.timeLimit;
@@ -153,9 +151,8 @@ export default {
   methods: {
     changeViewedSection(section) {
       this.viewedSection = section;
-      this.viewedQuestion = section.content.find(
-        context => context.weight !== undefined
-      );
+      const nextToAnswer = this.nestedQuestions.find(question => question.answered === false);
+      this.viewedQuestion = nextToAnswer ? nextToAnswer : this.nestedQuestions[this.nestedQuestions.length - 1];
     },
     nameSection(title) {
       if (!title) {
@@ -165,7 +162,12 @@ export default {
       }
       return title;
     },
+    viewSelectedQuestion(question) {
+      this.viewedQuestion.answerd = true;
+      this.viewedQuestion = question;
+    },
     viewNextQuestion() {
+      this.viewedQuestion.answerd = true;
       this.viewedQuestion = this.nestedQuestions[this.viewedQuestionNumber];
     },
     confirmSubmission() {
