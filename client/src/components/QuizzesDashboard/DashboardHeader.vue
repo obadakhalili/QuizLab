@@ -18,9 +18,9 @@
             ></b-input>
           </b-col>
           <b-col cols="4">
-            <router-link :to="'/quiz/' + this.quizID">
+            <router-link :to="'/attempt/' + this.quizID">
               <b-button size="sm" variant="primary" class="w-100">
-                Attend
+                Attempt
               </b-button>
             </router-link>
           </b-col>
