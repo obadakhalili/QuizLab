@@ -9,7 +9,6 @@
           <CountdownTimer @timeUp="submitAnswers" :timeLimit="timeLimit" />
         </b-col>
       </b-row>
-      <h6 v-if="viewedSection.content.length === 0">No sections or questions to show</h6>
       <div v-if="path.length" class="noselect my-2">
         <strong v-for="(section, index) in path" :key="index">
           <span
@@ -19,7 +18,7 @@
             {{ nameSection(section.title) }}
           </span>
           <RightArrow
-            v-if="!(index === path.length - 1 && viewedQuestionIndex === -1)"
+            v-if="!(index === path.length - 1 && viewedQuestionNumber === 0)"
           />
         </strong>
         <strong
@@ -41,6 +40,7 @@
         :viewedQuestion="viewedQuestion"
         :blockAfterAnswer="blockAfterAnswer"
       />
+      <h6 v-if="viewedSection.content.length === 0">No sections or questions to show</h6>
       <b-button
         @click="confirmSubmission"
         variant="dark"
@@ -50,27 +50,31 @@
         Submit Answers
       </b-button>
     </b-col>
-    <b-col lg="8">
-      <QuestionView
-        @view-next-question="viewNextQuestion"
-        v-if="viewedQuestion"
-        :question="viewedQuestion"
-        :thereIsNext="thereIsNext"
-      />
-    </b-col>
-    <b-col v-if="viewedQuestion" lg="1" class="text-center p-0">
-      <div class="question-details-container">
-        <div class="details--viewed-question-number text-white">
-          Q. {{ viewedQuestionNumber }}
-        </div>
-        <h1 class="display-4 m-0">
-          {{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}
-        </h1>
-        <label>Weight</label>
-      </div>
-      <div v-if="viewedQuestion.isBonus" class="details--bonus-question">
-        Bonus
-      </div>
+    <b-col lg="9">
+      <b-row>
+        <b-col cols="10">
+          <QuestionView
+            @view-next-question="viewNextQuestion"
+            v-if="viewedQuestion"
+            :question="viewedQuestion"
+            :thereIsNext="thereIsNext"
+          />
+        </b-col>
+        <b-col v-if="viewedQuestion" cols="2" class="text-center p-0">
+          <div class="question-details-container">
+            <div class="details--viewed-question-number text-white">
+              Q. {{ viewedQuestionNumber }}
+            </div>
+            <h1 class="display-4 m-0">
+              {{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}
+            </h1>
+            <label>Weight</label>
+          </div>
+          <div v-if="viewedQuestion.isBonus" class="details--bonus-question">
+            Bonus
+          </div>
+        </b-col>
+      </b-row>
     </b-col>
   </b-row>
   <ContentLoading v-else />
@@ -91,7 +95,7 @@ export default {
         throw { response, color: "info" };
       }
       this.viewedSection = parse(response.data.viewContent);
-      this.quizView = this.viewedSection;
+      this.quiz = this.viewedSection;
       this.viewedQuestion = this.viewedSection.content.find(
         context => context.weight !== undefined
       );
@@ -108,7 +112,7 @@ export default {
   },
   data() {
     return {
-      quizView: null,
+      quiz: null,
       viewedSection: null,
       viewedQuestion: null,
       quizTitle: "",
@@ -139,19 +143,20 @@ export default {
         context => context.weight !== undefined
       );
     },
-    viewedQuestionIndex() {
-      return this.nestedQuestions.findIndex(
-        question => question === this.viewedQuestion
-      );
-    },
     viewedQuestionNumber() {
-      return this.viewedQuestionIndex + 1;
+      return this.nestedQuestions.findIndex(question => question === this.viewedQuestion) + 1;
     },
     thereIsNext() {
       return this.viewedQuestionNumber < this.nestedQuestions.length;
     }
   },
   methods: {
+    changeViewedSection(section) {
+      this.viewedSection = section;
+      this.viewedQuestion = section.content.find(
+        context => context.weight !== undefined
+      );
+    },
     nameSection(title) {
       if (!title) {
         return "Unnamed section";
@@ -160,14 +165,8 @@ export default {
       }
       return title;
     },
-    changeViewedSection(section) {
-      this.viewedSection = section;
-      this.viewedQuestion = section.content.find(
-        context => context.weight !== undefined
-      );
-    },
     viewNextQuestion() {
-      this.viewedQuestion = this.nestedQuestions[this.viewedQuestionIndex + 1];
+      this.viewedQuestion = this.nestedQuestions[this.viewedQuestionNumber];
     },
     confirmSubmission() {
       this.$store.dispatch("updateModalInfo", {
@@ -179,20 +178,13 @@ export default {
     async submitAnswers() {
       const response = await API("/records/submit-answers", "post", {
         quizID: this.$route.params.id,
-        answers: stringify(this.quizView)
+        answers: stringify(this.quiz)
       });
       this.$router.push("/quizzes");
-      if (response.status === 200) {
-        this.$store.dispatch("updateAlerts", {
-          message: "Answers were submitted",
-          color: "info"
-        });
-      } else {
-        this.$store.dispatch("updateAlerts", {
-          message: response.data,
-          color: "danger"
-        });
-      }
+      this.$store.dispatch("updateAlerts", {
+        message: response.data,
+        color: response.status === 200 ? "success" : "info"
+      });
     }
   },
   components: {
@@ -215,7 +207,6 @@ export default {
 }
 .question-details-container {
   background-color: #e9e9e9;
-  padding: 0;
   height: 125px;
 }
 .details--viewed-question-number {
@@ -225,5 +216,9 @@ export default {
 .details--bonus-question {
   background-color: #81e081;
   padding-bottom: 1px;
+}
+.question-details-container,
+.details--bonus-question {
+  width: 75%;
 }
 </style>

@@ -95,7 +95,7 @@ exports.submitAnswers = async (req, res) => {
     latestAttempt.view = req.body.answers;
     record.markModified("attempts");
     await record.save();
-    res.end();
+    res.send("Answers were submitted");
   } catch {
     res.status(500).send("Internal Server Error");
   }
