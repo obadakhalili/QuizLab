@@ -30,14 +30,13 @@
         class="mb-3"
       ></b-textarea>
     </template>
-    <b-button
+    <button
       v-if="thereIsNext"
       @click="$emit('view-next-question')"
-      variant="secondary"
-      size="sm"
+      class="btn btn-sm next-btn text-white"
     >
       Next
-    </b-button>
+    </button>
   </div>
 </template>
 
@@ -57,7 +56,13 @@ export default {
 
 <style scoped>
 .question-view-container {
-  background-color: #fcf9db;
+  background-color: #e9e9e9;
   padding: 10px 15px;
+}
+.next-btn {
+  background-color: #4e6b9f;
+}
+.next-btn:hover {
+  background-color: #3d547d;
 }
 </style>
