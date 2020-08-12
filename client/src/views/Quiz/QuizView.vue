@@ -34,7 +34,7 @@
         :sections="nestedSections"
       />
       <QuestionsNavigator
-        @change-viewed-question="viewSelectedQuestion"
+        @change-viewed-question="question => viewedQuestion = question"
         v-if="nestedQuestions.length"
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
@@ -162,12 +162,8 @@ export default {
       }
       return title;
     },
-    viewSelectedQuestion(question) {
-      this.viewedQuestion.answerd = true;
-      this.viewedQuestion = question;
-    },
     viewNextQuestion() {
-      this.viewedQuestion.answerd = true;
+      this.viewedQuestion.answered = true;
       this.viewedQuestion = this.nestedQuestions[this.viewedQuestionNumber];
     },
     confirmSubmission() {
