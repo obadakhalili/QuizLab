@@ -90,6 +90,7 @@ export default {
         throw { response, color: "info" };
       }
       this.viewedSection = parse(response.data.viewContent);
+      this.quizView = this.viewedSection;
       this.viewedQuestion = this.viewedSection.content.find(
         context => context.weight !== undefined
       );
@@ -98,7 +99,7 @@ export default {
       this.timeLimit = response.data.timeLimit;
     } catch (e) {
       this.$router.push("/quizzes");
-      return this.$store.dispatch("updateAlerts", {
+      this.$store.dispatch("updateAlerts", {
         message: e.response.data,
         color: e.color || "danger"
       });
@@ -106,11 +107,12 @@ export default {
   },
   data() {
     return {
-      quizTitle: "",
+      quizView: null,
       viewedSection: null,
       viewedQuestion: null,
-      timeLimit: null,
-      blockAfterAnswer: false
+      quizTitle: "",
+      blockAfterAnswer: false,
+      timeLimit: null
     };
   },
   computed: {
@@ -174,8 +176,22 @@ export default {
       this.$bvModal.show("confirm-modal");
     },
     async submitAnswers() {
-      const response = await API("/records/submit-answers", "post", { answers: stringify(this.viewedSection) });
-      console.log(response);
+      const response = await API("/records/submit-answers", "post", {
+        quizID: this.$route.params.id,
+        answers: stringify(this.quizView)
+      });
+      this.$router.push("/quizzes");
+      if (response.status === 200) {
+        this.$store.dispatch("updateAlerts", {
+          message: "Answers were submitted",
+          color: "info"
+        });
+      } else {
+        this.$store.dispatch("updateAlerts", {
+          message: response.data,
+          color: "danger"
+        });
+      }
     }
   },
   components: {

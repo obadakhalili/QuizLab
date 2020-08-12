@@ -86,6 +86,72 @@ class QuizMethods {
     shuffleContent(viewContent.content);
     return stringify(viewContent);
   }
+  gradeAnswers(answers) {
+    let grade = 0,
+      totalMark = 0;
+    const { lab_content } = this;
+    const labContent = parse(lab_content);
+    answers = parse(answers);
+    const getOriginalQuestion = path => {
+      let currentContent = labContent.mainSection.content;
+      path.forEach(id => {
+        const context = currentContent.find(context => context.id === id);
+        currentContent = context.content ? context.content : context;
+      });
+      return currentContent;
+    };
+    const generatePath = (context, path) => {
+      if (!context.parentSection) {
+        return path;
+      }
+      path.unshift(context.id);
+      return generatePath(context.parentSection, path);
+    };
+    const markQuestion = question => {
+      const path = generatePath(question, []);
+      const originalQuestion = getOriginalQuestion(path);
+      const weight = Number(originalQuestion.weight);
+      if (typeof question.selected === "number") {
+        const correctAnswer = originalQuestion.choices.find(
+          choice => choice.correct
+        ).id;
+        if (question.selected === correctAnswer) {
+          grade += weight ? weight : 0;
+        }
+        totalMark += question.isBonus ? 0 : weight;
+      } else if (question.selected?.constructor === Array) {
+        const selectedAnswers = question.selected.sort();
+        const correctAnswers = originalQuestion.choices
+          .reduce(
+            (array, choice) => (choice.correct ? [...array, choice.id] : array),
+            []
+          )
+          .sort();
+        if (
+          correctAnswers.every((id, index) => id === selectedAnswers[index])
+        ) {
+          grade += weight ? weight : 0;
+        }
+        totalMark += question.isBonus ? 0 : weight;
+      } else {
+        totalMark += question.isBonus ? 0 : weight;
+      }
+    };
+    const markContent = content => {
+      content.forEach(context => {
+        if (context.weight) {
+          markQuestion(context);
+        } else if (context.content) {
+          markContent(context.content);
+        }
+      });
+    };
+    markContent(answers.content);
+    return {
+      grade,
+      totalMark
+    };
+  }
   toJSON() {
     const quizObject = this.toObject();
     quizObject.__v = undefined;

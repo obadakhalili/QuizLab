@@ -44,13 +44,13 @@ export default {
 }
 .question-card.selected:hover {
   background-color: #4e6b9f;
-  cursor: auto;
+  cursor: default;
 }
 .question-card.disabled {
   opacity: 0.65;
 }
 .question-card.disabled:hover {
   background-color: #e9e9e9;
-  cursor: auto;
+  cursor: default;
 }
 </style>

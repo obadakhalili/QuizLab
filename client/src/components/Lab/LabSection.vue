@@ -44,7 +44,7 @@ export default {
       this.section.content.unshift({
         title: "",
         content: [],
-        id: this.section.content.filter(context => context.content).length,
+        id: this.section.content.length,
         parentSection: this.section
       });
       this.$parent.$forceUpdate();
@@ -67,7 +67,7 @@ export default {
         ],
         selected: null,
         isMultipleAnswer: false,
-        id: this.section.content.filter(context => context.weight !== undefined).length,
+        id: this.section.content.length,
         parentSection: this.section
       });
       this.$parent.$forceUpdate();
