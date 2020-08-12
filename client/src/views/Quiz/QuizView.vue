@@ -9,6 +9,7 @@
           <CountdownTimer @timeUp="submitAnswers" :timeLimit="timeLimit" />
         </b-col>
       </b-row>
+      <h6 v-if="viewedSection.content.length === 0">No sections or questions to show</h6>
       <div v-if="path.length" class="noselect my-2">
         <strong v-for="(section, index) in path" :key="index">
           <span
