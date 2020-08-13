@@ -15,16 +15,11 @@ exports.attemptQuiz = async (req, res) => {
     const quiz = await Quiz.findOne(
       { _id: req.body.quizID },
       {
-        title: true,
-        view_content: true,
-        allowed_attempts: true,
-        block_after_answer: true,
-        shuffle_quiz: true,
-        shuffle_choices: true,
-        start_date: true,
-        close_date: true,
-        time_limit: true,
-        show_results: true,
+        lab_content: false,
+        owner: false,
+        createdAt: false,
+        updatedAt: false,
+        __v: false,
         _id: false
       }
     );
