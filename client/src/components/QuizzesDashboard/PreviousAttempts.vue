@@ -29,8 +29,9 @@
               v-if="index === 0"
               :rowspan="record.previous_attempts.length"
               class="text-left"
-              >{{ record.quiz_title }}</b-th
             >
+              {{ record.quiz_title }}
+            </b-th>
             <b-td>{{ humanizeDate(attempt.start_date) }}</b-td>
             <template v-if="attempt.submission_date">
               <b-td>{{ humanizeDate(attempt.submission_date) }}</b-td>
