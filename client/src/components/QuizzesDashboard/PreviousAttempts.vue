@@ -36,7 +36,7 @@
               <b-td>{{ humanizeDate(attempt.submission_date) }}</b-td>
               <template v-if="attempt.grade !== undefined">
                 <b-td>{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
-                <b-td><a href="#">Preview</a></b-td>
+                <b-td><a href="#">Review</a></b-td>
               </template>
               <template v-else>
                 <b-td colspan="2" class="text-muted">Not Permited</b-td>
