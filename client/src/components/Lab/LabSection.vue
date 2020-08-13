@@ -11,6 +11,7 @@
     <b-input
       v-model="section.title"
       :placeholder="isNotFirstSection ? 'Section Title' : 'Quiz Title'"
+      size="sm"
       class="col-10"
     ></b-input>
     <div class="noselect">
