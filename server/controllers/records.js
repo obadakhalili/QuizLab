@@ -96,7 +96,8 @@ exports.submitAnswers = async (req, res) => {
       quiz: req.body.quizID,
       owner: req.user._id
     });
-    const latestAttempt = record.previous_attempts[record.previous_attempts.length - 1];
+    const latestAttempt =
+      record.previous_attempts[record.previous_attempts.length - 1];
     latestAttempt.submission_date = new Date();
     latestAttempt.grade = grade;
     latestAttempt.total_mark = totalMark;

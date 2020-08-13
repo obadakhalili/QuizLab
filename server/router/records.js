@@ -1,4 +1,8 @@
-const { attemptQuiz, submitAnswers, getMyRecords } = require("../controllers/records.js");
+const {
+  attemptQuiz,
+  submitAnswers,
+  getMyRecords
+} = require("../controllers/records.js");
 const {
   auth,
   validatePseudorandom,

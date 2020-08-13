@@ -12,7 +12,7 @@ const recordSchema = new mongoose.Schema({
   show_results: Boolean
 });
 
-recordSchema.methods.toJSON = function() {
+recordSchema.methods.toJSON = function () {
   const recordObject = this.toObject();
   recordObject.previous_attempts.forEach(attempt => {
     if (!recordObject.show_results) {
@@ -26,6 +26,6 @@ recordSchema.methods.toJSON = function() {
   recordObject.quiz = undefined;
   recordObject.__v = undefined;
   return recordObject;
-}
+};
 
 module.exports = new mongoose.model("Record", recordSchema);
