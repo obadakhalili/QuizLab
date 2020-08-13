@@ -8,7 +8,7 @@
       size="sm"
       class="col-10 mb-1"
       rows="5"
-      placeholder="Question Title"
+      placeholder="Question title"
     ></b-form-textarea>
     <b-row>
       <b-col cols="8">

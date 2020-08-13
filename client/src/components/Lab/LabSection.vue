@@ -10,7 +10,7 @@
     </button>
     <b-input
       v-model="section.title"
-      :placeholder="isNotFirstSection ? 'Section Title' : 'Quiz Title'"
+      :placeholder="isNotFirstSection ? 'Section title' : 'Quiz title'"
       size="sm"
       class="col-10"
     ></b-input>
