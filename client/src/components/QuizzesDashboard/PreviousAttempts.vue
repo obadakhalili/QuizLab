@@ -15,7 +15,7 @@
           <b-th>Start Date</b-th>
           <b-th>Submission Date</b-th>
           <b-th>Grade</b-th>
-          <b-th>Preview</b-th>
+          <b-th>Review</b-th>
         </b-tr>
       </b-thead>
       <b-tbody>
