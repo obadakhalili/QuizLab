@@ -59,12 +59,13 @@ export default {
         choices: [
           {
             title: "",
+            correct: false,
             id: 0
           },
           {
             title: "",
-            id: 1,
-            correct: true
+            correct: true,
+            id: 1
           }
         ],
         selected: null,

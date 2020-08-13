@@ -44,32 +44,22 @@
         Written Solution
       </small>
     </div>
-    <small v-show="question.choices">Select correct choices</small>
+    <small v-show="question.choices">Select correct choice(s)</small>
     <div v-if="question.choices">
-      <b-list-group>
-        <b-list-group-item
-          v-for="(choice, index) in question.choices"
-          :key="index"
-          @click="changeCorrectness(index)"
-          :variant="choice.correct ? 'secondary' : ''"
-          button
-        >
-          <button
-            @click.stop="deleteChoice(index)"
-            type="button"
-            class="close mr-2"
-          >
-            ×
-          </button>
-          <b-input
-            @click.stop
-            v-model="choice.title"
-            size="sm"
-            class="col-10"
-            placeholder="Choice Title"
-          ></b-input>
-        </b-list-group-item>
-      </b-list-group>
+      <div
+        v-for="(choice, index) in question.choices"
+        :key="index"
+      >
+        <b-row no-gutters class="my-2">
+          <b-col cols="4" class="mr-2">
+            <b-input :value="choice.title" size="sm" class="mb-1" placeholder="Choice title"></b-input>
+            <b-checkbox :checked="choice.correct" @change="changeCorrectness(index)" size="sm">Mark correct</b-checkbox>
+          </b-col>
+          <b-col cols="2">
+            <b-button @click="deleteChoice(index)" variant="danger" size="sm">Delete</b-button>
+          </b-col>
+        </b-row>
+      </div>
       <b-button @click="addNewChoice" variant="info" class="mt-2 btn-sm">
         Add Choice
       </b-button>
@@ -95,12 +85,13 @@ export default {
         this.question.choices = [
           {
             title: "",
+            correct: false,
             id: 0
           },
           {
             title: "",
-            id: 1,
-            correct: true
+            correct: true,
+            id: 1
           }
         ];
         this.question.isMultipleAnswer = false;
@@ -126,6 +117,7 @@ export default {
       const choices = this.question.choices;
       choices.push({
         title: "",
+        correct: false,
         id: choices.length
       });
       this.$forceUpdate();
