@@ -1,11 +1,21 @@
 const Record = require("../db/models/Record.js");
 const Quiz = require("../db/models/Quiz.js");
 
+exports.getMyRecords = async (req, res) => {
+  try {
+    const myRecords = await Record.find({ owner: req.user._id });
+    res.json(myRecords);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 exports.attemptQuiz = async (req, res) => {
   try {
     const quiz = await Quiz.findOne(
       { _id: req.body.quizID },
       {
+        title: true,
         view_content: true,
         allowed_attempts: true,
         block_after_answer: true,
@@ -14,6 +24,7 @@ exports.attemptQuiz = async (req, res) => {
         start_date: true,
         close_date: true,
         time_limit: true,
+        show_results: true,
         _id: false
       }
     );
@@ -41,13 +52,15 @@ exports.attemptQuiz = async (req, res) => {
       owner: req.user._id
     });
     if (record) {
-      if (record.attempts.length >= quiz.allowed_attempts) {
+      if (record.previous_attempts.length >= quiz.allowed_attempts) {
         return res.status(201).send("You are out of attempts");
       }
     } else {
       record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
-    record.attempts.push({ start_date: entranceDate });
+    record.quiz_title = quiz.title;
+    record.show_results = quiz.show_results;
+    record.previous_attempts.push({ start_date: entranceDate });
     await record.save();
     let timeLimit;
     if (quiz.time_limit || quiz.start_date) {
@@ -88,12 +101,12 @@ exports.submitAnswers = async (req, res) => {
       quiz: req.body.quizID,
       owner: req.user._id
     });
-    const latestAttempt = record.attempts[record.attempts.length - 1];
+    const latestAttempt = record.previous_attempts[record.previous_attempts.length - 1];
     latestAttempt.submission_date = new Date();
     latestAttempt.grade = grade;
     latestAttempt.total_mark = totalMark;
     latestAttempt.view = req.body.answers;
-    record.markModified("attempts");
+    record.markModified("previous_attempts");
     await record.save();
     res.send("Answers were submitted");
   } catch {

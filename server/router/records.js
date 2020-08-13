@@ -1,4 +1,4 @@
-const { attemptQuiz, submitAnswers } = require("../controllers/records.js");
+const { attemptQuiz, submitAnswers, getMyRecords } = require("../controllers/records.js");
 const {
   auth,
   validatePseudorandom,
@@ -7,6 +7,14 @@ const {
 const { Router } = require("express");
 
 const router = new Router();
+
+router.get(
+  "/",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  getMyRecords
+);
 
 router.post(
   "/attempt-quiz",
