@@ -217,6 +217,6 @@ export default {
 }
 .question-details-container,
 .details--bonus-question {
-  width: 75%;
+  width: 85%;
 }
 </style>
