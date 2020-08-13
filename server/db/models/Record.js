@@ -15,8 +15,13 @@ const recordSchema = new mongoose.Schema({
 recordSchema.methods.toJSON = function() {
   const recordObject = this.toObject();
   recordObject.previous_attempts.forEach(attempt => {
+    if (!recordObject.show_results) {
+      attempt.grade = undefined;
+      attempt.total_mark = undefined;
+    }
     attempt.view = undefined;
   });
+  recordObject.show_results = undefined;
   recordObject.owner = undefined;
   recordObject.quiz = undefined;
   recordObject.__v = undefined;

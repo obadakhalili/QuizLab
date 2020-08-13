@@ -46,17 +46,26 @@
     </div>
     <small v-show="question.choices">Select correct choice(s)</small>
     <div v-if="question.choices">
-      <div
-        v-for="(choice, index) in question.choices"
-        :key="index"
-      >
+      <div v-for="(choice, index) in question.choices" :key="index">
         <b-row no-gutters class="my-2">
           <b-col cols="4" class="mr-2">
-            <b-input v-model="choice.title" size="sm" class="mb-1" placeholder="Choice title"></b-input>
-            <b-checkbox :checked="choice.correct" @change="changeCorrectness(index)" size="sm">Mark correct</b-checkbox>
+            <b-input
+              v-model="choice.title"
+              size="sm"
+              class="mb-1"
+              placeholder="Choice title"
+            ></b-input>
+            <b-checkbox
+              :checked="choice.correct"
+              @change="changeCorrectness(index)"
+              size="sm"
+              >Mark correct</b-checkbox
+            >
           </b-col>
           <b-col cols="2">
-            <b-button @click="deleteChoice(index)" variant="danger" size="sm">Delete</b-button>
+            <b-button @click="deleteChoice(index)" variant="danger" size="sm"
+              >Delete</b-button
+            >
           </b-col>
         </b-row>
       </div>
@@ -138,7 +147,7 @@ export default {
 .question {
   background-color: #fcf9db;
   padding: 10px 0 10px 15px;
-  margin: .5rem 0 0 2.25rem;
+  margin: 0.5rem 0 0 2.25rem;
   min-height: 50px;
 }
 small {

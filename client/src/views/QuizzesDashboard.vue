@@ -1,8 +1,8 @@
 <template>
   <div>
     <DashboardHeader />
-    <MyQuizzes class="mt-4" />
-    <PreviousAttempts />
+    <MyQuizzes class="my-quizzes-container" />
+    <PreviousAttempts class="previous-attempt-container" />
   </div>
 </template>
 
@@ -20,3 +20,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.my-quizzes-container {
+  margin: 2rem 0 5rem 0;
+}
+.previous-attempt-container {
+  margin-bottom: 10rem;
+}
+</style>

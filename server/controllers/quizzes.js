@@ -1,4 +1,5 @@
 const Quiz = require("../db/models/Quiz.js");
+const Record = require("../db/models/Record.js");
 
 exports.addQuiz = async (req, res) => {
   try {
@@ -93,6 +94,9 @@ exports.updateQuiz = async (req, res) => {
     const quizIsModified = quiz.isModified("lab_content");
     if (quizIsModified) {
       quiz.view_content = quiz.createViewContent();
+    }
+    if (quiz.isModified("show_results") || quiz.isModified("title")) {
+      await Record.updateMany({ quiz: quiz._id }, { show_results: quiz.show_results, quiz_title: quiz.title });
     }
     await quiz.save();
     res.json({ quizIsModified });

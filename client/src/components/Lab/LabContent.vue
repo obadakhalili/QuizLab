@@ -40,6 +40,6 @@ export default {
 
 <style scoped>
 .section-container {
-  margin: .5rem 0 0 2.25rem;
+  margin: 0.5rem 0 0 2.25rem;
 }
 </style>

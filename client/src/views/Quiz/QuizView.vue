@@ -34,13 +34,15 @@
         :sections="nestedSections"
       />
       <QuestionsNavigator
-        @change-viewed-question="question => viewedQuestion = question"
+        @change-viewed-question="question => (viewedQuestion = question)"
         v-if="nestedQuestions.length"
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
         :blockAfterAnswer="blockAfterAnswer"
       />
-      <h6 v-if="viewedSection.content.length === 0">No sections or questions to show</h6>
+      <h6 v-if="viewedSection.content.length === 0">
+        No sections or questions to show
+      </h6>
       <b-button
         @click="confirmSubmission"
         variant="dark"
@@ -142,7 +144,11 @@ export default {
       );
     },
     viewedQuestionNumber() {
-      return this.nestedQuestions.findIndex(question => question === this.viewedQuestion) + 1;
+      return (
+        this.nestedQuestions.findIndex(
+          question => question === this.viewedQuestion
+        ) + 1
+      );
     },
     thereIsNext() {
       return this.viewedQuestionNumber < this.nestedQuestions.length;
@@ -151,8 +157,12 @@ export default {
   methods: {
     changeViewedSection(section) {
       this.viewedSection = section;
-      const nextToAnswer = this.nestedQuestions.find(question => question.answered === false);
-      this.viewedQuestion = nextToAnswer ? nextToAnswer : this.nestedQuestions[this.nestedQuestions.length - 1];
+      const nextToAnswer = this.nestedQuestions.find(
+        question => question.answered === false
+      );
+      this.viewedQuestion = nextToAnswer
+        ? nextToAnswer
+        : this.nestedQuestions[this.nestedQuestions.length - 1];
     },
     nameSection(title) {
       if (!title) {
