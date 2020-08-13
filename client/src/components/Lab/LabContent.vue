@@ -1,6 +1,6 @@
 <script>
-import QuizSection from "./LabSection";
-import QuizQestion from "./LabQuestion";
+import LabSection from "./LabSection";
+import LabQuestion from "./LabQuestion";
 
 export default {
   name: "QuizContent",
@@ -9,7 +9,7 @@ export default {
       if (context.content) {
         const isNotFirstSection = _ !== undefined;
         const contentVNode = context.content.map(createContentVNode);
-        const section = createVNode(QuizSection, {
+        const section = createVNode(LabSection, {
           props: {
             section: context,
             isNotFirstSection
@@ -18,11 +18,11 @@ export default {
         contentVNode.unshift(section);
         return createVNode(
           "div",
-          { class: isNotFirstSection ? "mt-2 ml-4" : "" },
+          { class: isNotFirstSection ? "section-container" : "" },
           contentVNode
         );
       }
-      return createVNode(QuizQestion, {
+      return createVNode(LabQuestion, {
         props: {
           question: context
         }
@@ -32,8 +32,14 @@ export default {
   },
   props: ["labContent"],
   components: {
-    QuizSection,
-    QuizQestion
+    LabSection,
+    LabQuestion
   }
 };
 </script>
+
+<style scoped>
+.section-container {
+  margin: .5rem 0 0 2.25rem;
+}
+</style>

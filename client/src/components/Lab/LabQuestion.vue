@@ -1,5 +1,5 @@
 <template>
-  <div class="question mt-2 ml-4">
+  <div class="question">
     <button @click="deleteQuestion" type="button" class="close mr-2">
       ×
     </button>
@@ -138,6 +138,7 @@ export default {
 .question {
   background-color: #fcf9db;
   padding: 10px 0 10px 15px;
+  margin: .5rem 0 0 2.25rem;
   min-height: 50px;
 }
 small {
