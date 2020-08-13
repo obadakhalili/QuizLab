@@ -3,6 +3,7 @@
     <b-table-simple v-if="myRecords" hover small responsive bordered>
       <caption>
         Previous Attempts
+        <template v-if="!myRecords.length">(Nothing to show)</template>
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
