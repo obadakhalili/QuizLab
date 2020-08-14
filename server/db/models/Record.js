@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 const recordSchema = new mongoose.Schema({
   previous_attempts: [{ type: Object }],
   quiz: { type: mongoose.Schema.Types.ObjectId, ref: 'Quiz' },
-  owner: {
-    type: mongoose.Schema.Types.ObjectId
-  }
+  owner: mongoose.Schema.Types.ObjectId
 });
 
 recordSchema.methods.toJSON = function () {
