@@ -5,7 +5,9 @@ exports.getMyRecords = async (req, res) => {
   try {
     const myRecords = await Record.find({ owner: req.user._id });
     for (let i = 0, l = myRecords.length; i < l; i++) {
-      await myRecords[i].populate("quiz", ["title", "show_results", "owner"]).execPopulate();
+      await myRecords[i]
+        .populate("quiz", ["title", "show_results", "owner"])
+        .execPopulate();
       if (myRecords[i].quiz) {
         await myRecords[i].quiz.populate("owner", "name").execPopulate();
       }
@@ -73,8 +75,8 @@ exports.attemptQuiz = async (req, res) => {
     res.json({
       viewContent: quiz.shuffle_quiz ? quiz.shuffleQuiz() : quiz.view_content,
       options: {
-        blockAfterAnswer: quiz.block_after_answer,
-        timeLimit
+        timeLimit,
+        blockAfterAnswer: quiz.block_after_answer
       }
     });
   } catch (e) {

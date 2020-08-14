@@ -37,7 +37,11 @@
               </b-th>
               <b-th class="text-muted">
                 <!-- This is not necessary since a quiz can't exists without its owner, just in case account was deleted from DB not the UI -->
-                {{ record.quiz.owner ? record.quiz.owner.name : "[DELETED ACCOUNT]" }}
+                {{
+                  record.quiz.owner
+                    ? record.quiz.owner.name
+                    : "[DELETED ACCOUNT]"
+                }}
               </b-th>
             </template>
             <template v-else>
@@ -54,7 +58,9 @@
             <template v-if="attempt.submission_date">
               <b-td>{{ humanizeDate(attempt.submission_date) }}</b-td>
               <b-td>
-                {{ computeTimeTaken(attempt.submission_date, attempt.start_date) }}
+                {{
+                  computeTimeTaken(attempt.submission_date, attempt.start_date)
+                }}
               </b-td>
               <template v-if="attempt.grade !== undefined">
                 <b-td>{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
