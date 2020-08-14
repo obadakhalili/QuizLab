@@ -90,7 +90,7 @@
     <b-button
       @click="submitQuiz"
       :variant="routeIsNew ? 'dark' : 'success'"
-      class="float-right mt-3 mb-3"
+      class="float-right mt-3"
     >
       Submit
     </b-button>

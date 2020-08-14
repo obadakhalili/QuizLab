@@ -65,6 +65,9 @@ export default {
 html {
   scroll-behavior: smooth;
 }
+#app {
+  margin-bottom: 10rem;
+}
 form {
   max-width: 575px;
 }

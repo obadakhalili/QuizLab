@@ -1,5 +1,5 @@
 <template>
-  <b-row v-if="viewedSection" class="mb-5">
+  <b-row v-if="viewedSection">
     <b-col lg="3">
       <b-row>
         <b-col cols="8">

@@ -6,7 +6,7 @@
     <b-col md="6">
       <UpdateAvatarForm />
       <DeleteAvatarForm class="my-5" />
-      <DeleteAccountForm class="mb-5" />
+      <DeleteAccountForm />
     </b-col>
   </b-row>
 </template>

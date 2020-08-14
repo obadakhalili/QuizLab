@@ -2,7 +2,7 @@
   <div>
     <DashboardHeader />
     <MyQuizzes class="my-quizzes-container" />
-    <PreviousAttempts class="previous-attempt-container" />
+    <PreviousAttempts />
   </div>
 </template>
 
@@ -24,8 +24,5 @@ export default {
 <style scoped>
 .my-quizzes-container {
   margin: 2rem 0 5rem 0;
-}
-.previous-attempt-container {
-  margin-bottom: 10rem;
 }
 </style>
