@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const recordSchema = new mongoose.Schema({
   previous_attempts: [{ type: Object }],
-  quiz: { type: mongoose.Schema.Types.ObjectId, ref: 'Quiz' },
-  owner: mongoose.Schema.Types.ObjectId
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  quiz: { type: mongoose.Schema.Types.ObjectId, ref: "Quiz" }
 });
 
 recordSchema.methods.toJSON = function () {
@@ -18,10 +18,13 @@ recordSchema.methods.toJSON = function () {
   if (recordObject.quiz) {
     recordObject.quiz.show_results = undefined;
     recordObject.quiz._id = undefined;
+    if (recordObject.quiz.owner) {
+      // This is not necessary since a quiz can't exists without its owner, just in case account was deleted from DB not the UI
+      recordObject.quiz.owner._id = undefined;
+    }
   }
-  recordObject.owner = undefined;
+  recordObject.owner._id = undefined;
   recordObject.__v = undefined;
-  console.log(recordObject);
   return recordObject;
 };
 

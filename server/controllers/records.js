@@ -5,7 +5,10 @@ exports.getMyRecords = async (req, res) => {
   try {
     const myRecords = await Record.find({ owner: req.user._id });
     for (let i = 0, l = myRecords.length; i < l; i++) {
-      await myRecords[i].populate("quiz", ["title", "show_results"]).execPopulate();
+      await myRecords[i].populate("quiz", ["title", "show_results", "owner"]).execPopulate();
+      if (myRecords[i].quiz) {
+        await myRecords[i].quiz.populate("owner", "name").execPopulate();
+      }
     }
     res.json(myRecords);
   } catch {

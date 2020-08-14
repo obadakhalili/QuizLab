@@ -8,10 +8,11 @@
       <b-thead head-variant="dark">
         <b-tr>
           <b-th>Quiz</b-th>
-          <b-th colspan="5" class="text-center">Attempts Summary</b-th>
+          <b-th colspan="6" class="text-center">Attempts Summary</b-th>
         </b-tr>
         <b-tr class="text-center">
           <b-th></b-th>
+          <b-th>Exam by</b-th>
           <b-th>Started on</b-th>
           <b-th>Submission Date</b-th>
           <b-th>Time Taken</b-th>
@@ -26,21 +27,29 @@
             :key="index"
             class="text-center"
           >
-            <b-th
-              v-if="index === 0"
-              :rowspan="record.previous_attempts.length"
-              class="text-left"
-            >
-              <template v-if="record.quiz">
+            <template v-if="record.quiz">
+              <b-th
+                v-if="index === 0"
+                :rowspan="record.previous_attempts.length"
+                class="text-left"
+              >
                 {{ record.quiz.title }}
-              </template>
-              <template v-else>
-                [DELETED]
-                <div class="text-muted">
+              </b-th>
+              <b-th class="text-muted">
+                <!-- This is not necessary since a quiz can't exists without its owner, just in case account was deleted from DB not the UI -->
+                {{ record.quiz.owner ? record.quiz.owner.name : "[DELETED ACCOUNT]" }}
+              </b-th>
+            </template>
+            <template v-else>
+              <b-th colspan="2">
+                <span class="text-muted">
+                  [DELETED]
+                </span>
+                <small>
                   Review is still available
-                </div>
-              </template>
-            </b-th>
+                </small>
+              </b-th>
+            </template>
             <b-td>{{ humanizeDate(attempt.start_date) }}</b-td>
             <template v-if="attempt.submission_date">
               <b-td>{{ humanizeDate(attempt.submission_date) }}</b-td>
