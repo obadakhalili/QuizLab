@@ -69,8 +69,10 @@ exports.attemptQuiz = async (req, res) => {
     }
     res.json({
       viewContent: quiz.shuffle_quiz ? quiz.shuffleQuiz() : quiz.view_content,
-      blockAfterAnswer: quiz.block_after_answer,
-      timeLimit
+      options: {
+        blockAfterAnswer: quiz.block_after_answer,
+        timeLimit
+      }
     });
   } catch (e) {
     if (e.name === "CastError" || e === "Quiz not found") {

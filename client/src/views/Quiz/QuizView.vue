@@ -100,8 +100,8 @@ export default {
       this.viewedQuestion = this.nestedQuestions[0];
       this.quiz = this.viewedSection;
       this.quizTitle = this.viewedSection.title;
-      this.blockAfterAnswer = response.data.blockAfterAnswer;
-      this.timeLimit = response.data.timeLimit;
+      this.blockAfterAnswer = response.data.options.blockAfterAnswer;
+      this.timeLimit = response.data.options.timeLimit;
     } catch (e) {
       this.$router.push("/quizzes");
       this.$store.dispatch("updateAlerts", {
