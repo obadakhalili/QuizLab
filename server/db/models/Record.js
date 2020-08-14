@@ -9,16 +9,19 @@ const recordSchema = new mongoose.Schema({
 recordSchema.methods.toJSON = function () {
   const recordObject = this.toObject();
   recordObject.previous_attempts.forEach(attempt => {
-    if (!recordObject.quiz.show_results) {
+    if (recordObject.quiz && !recordObject.quiz.show_results) {
       attempt.grade = undefined;
       attempt.total_mark = undefined;
     }
     attempt.view = undefined;
   });
-  recordObject.quiz.show_results = undefined;
-  recordObject.quiz._id = undefined;
+  if (recordObject.quiz) {
+    recordObject.quiz.show_results = undefined;
+    recordObject.quiz._id = undefined;
+  }
   recordObject.owner = undefined;
   recordObject.__v = undefined;
+  console.log(recordObject);
   return recordObject;
 };
 

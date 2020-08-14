@@ -31,14 +31,22 @@
               :rowspan="record.previous_attempts.length"
               class="text-left"
             >
-              {{ record.quiz.title }}
+              <template v-if="record.quiz">
+                {{ record.quiz.title }}
+              </template>
+              <template v-else>
+                [DELETED]
+                <div class="text-muted">
+                  Review is still available
+                </div>
+              </template>
             </b-th>
             <b-td>{{ humanizeDate(attempt.start_date) }}</b-td>
             <template v-if="attempt.submission_date">
               <b-td>{{ humanizeDate(attempt.submission_date) }}</b-td>
-              <b-td>{{
-                computeTimeTaken(attempt.submission_date, attempt.start_date)
-              }}</b-td>
+              <b-td>
+                {{ computeTimeTaken(attempt.submission_date, attempt.start_date) }}
+              </b-td>
               <template v-if="attempt.grade !== undefined">
                 <b-td>{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
                 <b-td><a href="#">Review</a></b-td>
