@@ -59,13 +59,15 @@
               :checked="choice.correct"
               @change="changeCorrectness(index)"
               size="sm"
-              >Mark correct</b-checkbox
+              class="noselect"
             >
+              Mark correct
+            </b-checkbox>
           </b-col>
           <b-col cols="2">
-            <b-button @click="deleteChoice(index)" variant="danger" size="sm"
-              >Delete</b-button
-            >
+            <b-button @click="deleteChoice(index)" variant="danger" size="sm">
+              Delete
+            </b-button>
           </b-col>
         </b-row>
       </div>
