@@ -12,7 +12,7 @@
         </b-tr>
         <b-tr class="text-center">
           <b-th></b-th>
-          <b-th>Start Date</b-th>
+          <b-th>Started on</b-th>
           <b-th>Submission Date</b-th>
           <b-th>Time Taken</b-th>
           <b-th>Grade</b-th>
