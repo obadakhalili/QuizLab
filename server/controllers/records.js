@@ -4,6 +4,9 @@ const Quiz = require("../db/models/Quiz.js");
 exports.getMyRecords = async (req, res) => {
   try {
     const myRecords = await Record.find({ owner: req.user._id });
+    for (let i = 0, l = myRecords.length; i < l; i++) {
+      await myRecords[i].populate("quiz", ["title", "show_results"]).execPopulate();
+    }
     res.json(myRecords);
   } catch {
     res.status(500).send("Internal Server Error");
@@ -53,8 +56,6 @@ exports.attemptQuiz = async (req, res) => {
     } else {
       record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
-    record.quiz_title = quiz.title;
-    record.show_results = quiz.show_results;
     record.previous_attempts.push({ start_date: entranceDate });
     await record.save();
     let timeLimit;
@@ -96,8 +97,7 @@ exports.submitAnswers = async (req, res) => {
       quiz: req.body.quizID,
       owner: req.user._id
     });
-    const latestAttempt =
-      record.previous_attempts[record.previous_attempts.length - 1];
+    const latestAttempt = record.previous_attempts[record.previous_attempts.length - 1];
     latestAttempt.submission_date = new Date();
     latestAttempt.grade = grade;
     latestAttempt.total_mark = totalMark;
