@@ -56,7 +56,7 @@ exports.attemptQuiz = async (req, res) => {
     } else {
       record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
-    record.previous_attempts.push({ start_date: entranceDate });
+    record.previous_attempts.unshift({ start_date: entranceDate });
     await record.save();
     let timeLimit;
     if (quiz.time_limit || quiz.start_date) {
@@ -99,7 +99,7 @@ exports.submitAnswers = async (req, res) => {
       quiz: req.body.quizID,
       owner: req.user._id
     });
-    const [latestAttempt] = record.previous_attempts.slice(-1);
+    const latestAttempt = record.previous_attempts[0];
     latestAttempt.submission_date = new Date();
     latestAttempt.grade = grade;
     latestAttempt.total_mark = totalMark;
