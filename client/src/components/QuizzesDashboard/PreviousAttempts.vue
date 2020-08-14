@@ -14,6 +14,7 @@
           <b-th></b-th>
           <b-th>Start Date</b-th>
           <b-th>Submission Date</b-th>
+          <b-th>Time Taken</b-th>
           <b-th>Grade</b-th>
           <b-th>Review</b-th>
         </b-tr>
@@ -35,6 +36,9 @@
             <b-td>{{ humanizeDate(attempt.start_date) }}</b-td>
             <template v-if="attempt.submission_date">
               <b-td>{{ humanizeDate(attempt.submission_date) }}</b-td>
+              <b-td>{{
+                computeTimeTaken(attempt.submission_date, attempt.start_date)
+              }}</b-td>
               <template v-if="attempt.grade !== undefined">
                 <b-td>{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
                 <b-td><a href="#">Review</a></b-td>
@@ -43,7 +47,7 @@
                 <b-td colspan="2" class="text-muted">Not Permited</b-td>
               </template>
             </template>
-            <b-td v-else variant="secondary" colspan="3">Not Complete</b-td>
+            <b-td v-else variant="secondary" colspan="4">Not Complete</b-td>
           </b-tr>
         </template>
       </b-tbody>
@@ -70,6 +74,26 @@ export default {
   methods: {
     humanizeDate(date) {
       return new Date(date).toLocaleString();
+    },
+    computeTimeTaken(endDate, startDate) {
+      const diff = new Date(endDate) - new Date(startDate);
+      const hours = Math.trunc(diff / 3600000);
+      const minutes = Math.trunc((diff % 3600000) / 60000);
+      const seconds = Math.trunc((diff % 60000) / 1000);
+      const formatted =
+        (hours
+          ? hours +
+            " hr" +
+            (hours > 1 ? "s" : "") +
+            (minutes || seconds ? ", " : "")
+          : "") +
+        (minutes
+          ? minutes + " min" + (minutes > 1 ? "s" : "") + (seconds ? ", " : "")
+          : "") +
+        (seconds
+          ? seconds + " sec" + (seconds > 1 || seconds === 0 ? "s" : "")
+          : "");
+      return formatted ? formatted : "0 secs";
     }
   },
   components: {

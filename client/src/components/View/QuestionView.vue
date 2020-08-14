@@ -47,7 +47,8 @@ export default {
   computed: {
     choicesLabel() {
       return (
-        "Select the correct choice" + (this.question.isMultipleAnswer ? "s" : "")
+        "Select the correct choice" +
+        (this.question.isMultipleAnswer ? "s" : "")
       );
     }
   }
