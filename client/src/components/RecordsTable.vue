@@ -6,10 +6,19 @@
       small
       responsive
       bordered
+      caption-top
       class="text-center"
     >
       <caption>
-        Previous Attempts
+        <template v-if="isMyRecordsTable">
+          Previous Attempts
+        </template>
+        <template>
+          Results of:
+          <strong>
+            {{ quizTitle }}
+          </strong>
+        </template>
         <template v-if="!records.length">(Nothing to show)</template>
       </caption>
       <b-thead head-variant="dark">
@@ -121,7 +130,8 @@ export default {
         const response = await API("/records/my-quiz-records", "get", {
           headers: { quizID: this.$route.params.id }
         });
-        this.records = response.data;
+        this.records = response.data.quizRecords;
+        this.quizTitle = response.data.quizTitle;
       } catch (e) {
         this.$router.push("/quizzes");
         this.$store.dispatch("updateAlerts", {
@@ -133,7 +143,8 @@ export default {
   },
   data() {
     return {
-      records: null
+      records: null,
+      quizTitle: ""
     };
   },
   methods: {
