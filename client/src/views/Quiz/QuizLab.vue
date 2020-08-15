@@ -72,7 +72,7 @@
           </template>
         </b-col>
       </b-row>
-      <b-row no-gutters>
+      <b-row no-gutters  class="mb-2">
         <b-col sm="3">
           Allowed attempts
         </b-col>
@@ -82,6 +82,18 @@
             type="number"
             size="sm"
             placeholder="required"
+          ></b-input>
+        </b-col>
+      </b-row>
+      <b-row no-gutters>
+        <b-col sm="3">
+          Pass grade
+        </b-col>
+        <b-col sm="9">
+          <b-input
+            v-model="labContent.options.passGrade"
+            type="number"
+            size="sm"
           ></b-input>
         </b-col>
       </b-row>
@@ -198,7 +210,8 @@ export default {
           closeDate: "",
           closeTime: "",
           timeLimit: "",
-          allowedAttempts: 1
+          allowedAttempts: 1,
+          passGrade: ""
         },
         mainSection: {
           title: "",

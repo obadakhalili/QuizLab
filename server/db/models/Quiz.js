@@ -39,7 +39,8 @@ const quizSchema = new Schema(
     block_after_answer: Boolean,
     shuffle_quiz: Boolean,
     lab_content: String,
-    view_content: String
+    view_content: String,
+    pass_grade: Number
   },
   { timestamps: true }
 );

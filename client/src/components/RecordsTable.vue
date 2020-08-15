@@ -68,7 +68,7 @@
                 }}
               </b-td>
               <template v-if="attempt.grade !== undefined">
-                <b-td>{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
+                <b-td :variant="computeVariant(attempt.grade, record.quiz)">{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
                 <b-td><a href="#">Review</a></b-td>
               </template>
               <template v-else>
@@ -114,6 +114,14 @@ export default {
           ? seconds + " sec" + (seconds > 1 || seconds === 0 ? "s" : "")
           : "");
       return formatted ? formatted : "0 secs";
+    },
+    computeVariant(grade, quiz) {
+      if (!quiz || quiz.pass_grade === null) {
+        return "";
+      } else if (grade >= quiz.pass_grade) {
+        return "success";
+      }
+      return "danger";
     }
   },
   components: {

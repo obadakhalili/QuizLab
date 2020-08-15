@@ -6,7 +6,7 @@ exports.getMyRecords = async (req, res) => {
     const myRecords = await Record.find({ owner: req.user._id });
     for (let i = 0, l = myRecords.length; i < l; i++) {
       await myRecords[i]
-        .populate("quiz", ["title", "show_results", "owner"])
+        .populate("quiz", ["title", "show_results", "pass_grade", "owner"])
         .execPopulate();
       if (myRecords[i].quiz) {
         await myRecords[i].quiz.populate("owner", "name").execPopulate();
