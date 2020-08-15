@@ -97,10 +97,9 @@ export default {
         throw { response, color: "info" };
       }
       this.quiz = parse(response.data.viewContent);
+      this.options = response.data.options;
       this.viewedSection = this.quiz;
       this.viewedQuestion = this.nestedQuestions[0];
-      this.options.timeLimit = response.data.options.timeLimit;
-      this.options.blockAfterAnswer = response.data.options.blockAfterAnswer;
     } catch (e) {
       this.$router.push("/quizzes");
       this.$store.dispatch("updateAlerts", {
@@ -112,10 +111,7 @@ export default {
   data() {
     return {
       quiz: null,
-      options: {
-        timeLimit: null,
-        blockAfterAnswer: false
-      },
+      options: null,
       viewedSection: null,
       viewedQuestion: null
     };
