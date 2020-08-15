@@ -2,21 +2,31 @@
   <div>
     <DashboardHeader />
     <MyQuizzes class="my-quizzes-container" />
-    <PreviousAttempts />
+    <RecordsTable :records="myRecords" />
   </div>
 </template>
 
 <script>
 import DashboardHeader from "@/components/QuizzesDashboard/DashboardHeader";
 import MyQuizzes from "@/components/QuizzesDashboard/MyQuizzes";
-import PreviousAttempts from "@/components/QuizzesDashboard/PreviousAttempts";
+import RecordsTable from "@/components/RecordsTable";
+import API from "@/api";
 
 export default {
   name: "Quizzes",
+  async created() {
+    const response = await API("/records/my-records", "get");
+    this.myRecords = response.data;
+  },
+  data() {
+    return {
+      myRecords: null
+    };
+  },
   components: {
     MyQuizzes,
     DashboardHeader,
-    PreviousAttempts
+    RecordsTable
   }
 };
 </script>

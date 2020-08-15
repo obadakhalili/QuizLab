@@ -1,17 +1,17 @@
 <template>
   <div>
-    <b-table-simple v-if="records" hover small responsive bordered>
+    <b-table-simple v-if="records" hover small responsive bordered class="text-center">
       <caption>
         Previous Attempts
         <template v-if="!records.length">(Nothing to show)</template>
       </caption>
       <b-thead head-variant="dark">
-        <b-tr class="text-center">
+        <b-tr>
           <b-th>Quiz</b-th>
-          <b-th>Quiz by</b-th>
+          <b-th>Exam by</b-th>
           <b-th colspan="6">Attempts Summary</b-th>
         </b-tr>
-        <b-tr class="text-center">
+        <b-tr>
           <b-th colspan="2"></b-th>
           <b-th>Started on</b-th>
           <b-th>Submission Date</b-th>
@@ -25,7 +25,6 @@
           <b-tr
             v-for="(attempt, index) in record.previous_attempts"
             :key="record._id + index"
-            class="text-center"
           >
             <template v-if="record.quiz">
               <b-th
@@ -34,7 +33,7 @@
               >
                 {{ record.quiz.title }}
               </b-th>
-              <b-th
+              <b-th 
                 v-if="index === 0"
                 :rowspan="record.previous_attempts.length"
               >
@@ -42,7 +41,7 @@
                   {{ record.quiz.owner.name }}
                 </template>
                 <span v-else class="text-muted">
-                  [DELETED ACCOUNT]
+                  [ACCOUNT DELETED]
                 </span>
               </b-th>
             </template>
@@ -70,9 +69,7 @@
               </b-td>
               <template v-if="attempt.grade !== undefined">
                 <b-td>{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
-                <b-td>
-                  <a href="#">Review</a>
-                </b-td>
+                <b-td><a href="#">Review</a></b-td>
               </template>
               <template v-else>
                 <b-td colspan="2" class="text-muted">Not Permited</b-td>
@@ -89,9 +86,10 @@
 
 <script>
 import ContentLoading from "./ContentLoading";
+import API from "@/api";
 
 export default {
-  name: "RecordsTable",
+  name: "PreviousAttempts",
   props: ["records"],
   methods: {
     humanizeDate(date) {

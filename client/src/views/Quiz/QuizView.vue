@@ -1,12 +1,12 @@
 <template>
-  <b-row v-if="viewedSection">
+  <b-row v-if="quiz">
     <b-col lg="3">
       <b-row>
         <b-col cols="8">
-          <h5>{{ quizTitle }}</h5>
+          <h5>{{ quiz.title }}</h5>
         </b-col>
-        <b-col v-if="timeLimit" cols="4" class="text-right">
-          <CountdownTimer @timeUp="submitAnswers" :timeLimit="timeLimit" />
+        <b-col v-if="options.timeLimit" cols="4" class="text-right">
+          <CountdownTimer @timeUp="submitAnswers" :timeLimit="options.timeLimit" />
         </b-col>
       </b-row>
       <div v-if="path.length" class="noselect my-2">
@@ -38,7 +38,7 @@
         v-if="nestedQuestions.length"
         :questions="nestedQuestions"
         :viewedQuestion="viewedQuestion"
-        :blockAfterAnswer="blockAfterAnswer"
+        :blockAfterAnswer="options.blockAfterAnswer"
       />
       <h6 v-if="viewedSection.content.length === 0">
         No sections or questions to show
@@ -96,12 +96,11 @@ export default {
       if (response.status === 201) {
         throw { response, color: "info" };
       }
-      this.viewedSection = parse(response.data.viewContent);
+      this.quiz = parse(response.data.viewContent);
+      this.viewedSection = this.quiz;
       this.viewedQuestion = this.nestedQuestions[0];
-      this.quiz = this.viewedSection;
-      this.quizTitle = this.viewedSection.title;
-      this.blockAfterAnswer = response.data.options.blockAfterAnswer;
-      this.timeLimit = response.data.options.timeLimit;
+      this.options.timeLimit = response.data.options.timeLimit;
+      this.options.blockAfterAnswer = response.data.options.blockAfterAnswer;
     } catch (e) {
       this.$router.push("/quizzes");
       this.$store.dispatch("updateAlerts", {
@@ -113,11 +112,12 @@ export default {
   data() {
     return {
       quiz: null,
+      options: {
+        timeLimit: null,
+        blockAfterAnswer: false
+      },
       viewedSection: null,
-      viewedQuestion: null,
-      quizTitle: "",
-      blockAfterAnswer: false,
-      timeLimit: null
+      viewedQuestion: null
     };
   },
   computed: {
