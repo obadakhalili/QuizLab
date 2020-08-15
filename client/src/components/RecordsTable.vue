@@ -1,6 +1,13 @@
 <template>
   <div>
-    <b-table-simple v-if="records" hover small responsive bordered class="text-center">
+    <b-table-simple
+      v-if="records"
+      hover
+      small
+      responsive
+      bordered
+      class="text-center"
+    >
       <caption>
         Previous Attempts
         <template v-if="!records.length">(Nothing to show)</template>
@@ -33,7 +40,7 @@
               >
                 {{ record.quiz.title }}
               </b-th>
-              <b-th 
+              <b-th
                 v-if="index === 0"
                 :rowspan="record.previous_attempts.length"
               >
@@ -68,7 +75,13 @@
                 }}
               </b-td>
               <template v-if="attempt.grade !== undefined">
-                <b-td :variant="computeVariant(attempt.grade, record.quiz)">{{ attempt.grade + "/" + attempt.total_mark }}</b-td>
+                <b-td
+                  :variant="computeVariant(attempt, record.quiz)"
+                  v-b-tooltip.hover
+                  :title="attempt.fully_graded ? undefined : 'Not fully graded'"
+                >
+                  {{ attempt.grade + "/" + attempt.total_mark }}
+                </b-td>
                 <b-td><a href="#">Review</a></b-td>
               </template>
               <template v-else>
@@ -86,7 +99,6 @@
 
 <script>
 import ContentLoading from "./ContentLoading";
-import API from "@/api";
 
 export default {
   name: "PreviousAttempts",
@@ -115,10 +127,12 @@ export default {
           : "");
       return formatted ? formatted : "0 secs";
     },
-    computeVariant(grade, quiz) {
-      if (!quiz || quiz.pass_grade === null) {
+    computeVariant(attempt, quiz) {
+      if (!attempt.fully_graded) {
+        return "warning";
+      } else if (!quiz || quiz.pass_grade === null) {
         return "";
-      } else if (grade >= quiz.pass_grade) {
+      } else if (attempt.grade >= quiz.pass_grade) {
         return "success";
       }
       return "danger";

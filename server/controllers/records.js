@@ -99,7 +99,9 @@ exports.submitAnswers = async (req, res) => {
     if (!quiz) {
       return res.status(201).send("Quiz was deleted during attempt!");
     }
-    const { grade, totalMark } = quiz.gradeAnswers(req.body.answers);
+    const { grade, totalMark, fullyGraded } = quiz.gradeAnswers(
+      req.body.answers
+    );
     const record = await Record.findOne({
       quiz: req.body.quizID,
       owner: req.user._id
@@ -108,6 +110,7 @@ exports.submitAnswers = async (req, res) => {
     latestAttempt.submission_date = new Date();
     latestAttempt.grade = grade;
     latestAttempt.total_mark = totalMark;
+    latestAttempt.fully_graded = fullyGraded;
     latestAttempt.view = req.body.answers;
     record.markModified("previous_attempts");
     await record.save();

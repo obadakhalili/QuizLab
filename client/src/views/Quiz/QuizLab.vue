@@ -72,7 +72,7 @@
           </template>
         </b-col>
       </b-row>
-      <b-row no-gutters  class="mb-2">
+      <b-row no-gutters class="mb-2">
         <b-col sm="3">
           Allowed attempts
         </b-col>

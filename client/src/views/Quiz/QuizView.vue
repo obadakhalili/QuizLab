@@ -6,7 +6,10 @@
           <h5>{{ quiz.title }}</h5>
         </b-col>
         <b-col v-if="options.timeLimit" cols="4" class="text-right">
-          <CountdownTimer @timeUp="submitAnswers" :timeLimit="options.timeLimit" />
+          <CountdownTimer
+            @timeUp="submitAnswers"
+            :timeLimit="options.timeLimit"
+          />
         </b-col>
       </b-row>
       <div v-if="path.length" class="noselect my-2">

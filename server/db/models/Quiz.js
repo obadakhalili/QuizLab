@@ -89,7 +89,8 @@ class QuizMethods {
   }
   gradeAnswers(answers) {
     let grade = 0,
-      totalMark = 0;
+      totalMark = 0,
+      fullyGraded = true;
     const { lab_content } = this;
     const labContent = parse(lab_content);
     answers = parse(answers);
@@ -135,6 +136,9 @@ class QuizMethods {
         }
         totalMark += question.isBonus ? 0 : weight;
       } else {
+        if (question.solution !== undefined) {
+          fullyGraded = false;
+        }
         totalMark += question.isBonus ? 0 : weight;
       }
     };
@@ -150,7 +154,8 @@ class QuizMethods {
     markContent(answers.content);
     return {
       grade,
-      totalMark
+      totalMark,
+      fullyGraded
     };
   }
   toJSON() {
