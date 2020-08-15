@@ -19,7 +19,6 @@ recordSchema.methods.toJSON = function () {
     recordObject.quiz.show_results = undefined;
     recordObject.quiz._id = undefined;
     if (recordObject.quiz.owner) {
-      // This is not necessary since a quiz can't exists without its owner, just in case account was deleted from DB not the UI
       recordObject.quiz.owner._id = undefined;
     }
   }

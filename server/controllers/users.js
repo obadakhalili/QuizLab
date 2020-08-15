@@ -78,7 +78,9 @@ exports.updateAccount = async (req, res) => {
 
 exports.deleteAccount = async (req, res) => {
   try {
-    await Quiz.deleteMany({ owner: req.user._id });
+    if (req.headers.deleteaccountquizzes === 'true') {
+      await Quiz.deleteMany({ owner: req.user._id });
+    }
     await req.user.remove();
     res.end();
   } catch {

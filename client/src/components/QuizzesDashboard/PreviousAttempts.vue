@@ -36,7 +36,6 @@
                 {{ record.quiz.title }}
               </b-th>
               <b-th class="text-muted">
-                <!-- This is not necessary since a quiz can't exists without its owner, just in case account was deleted from DB not the UI -->
                 {{
                   record.quiz.owner
                     ? record.quiz.owner.name
