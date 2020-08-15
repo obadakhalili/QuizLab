@@ -45,7 +45,11 @@
               </b-th>
             </template>
             <template v-else>
-              <b-th colspan="2">
+              <b-th
+                v-if="index === 0"
+                :rowspan="record.previous_attempts.length"
+                colspan="2"
+              >
                 <span class="text-muted">
                   [DELETED]
                 </span>
