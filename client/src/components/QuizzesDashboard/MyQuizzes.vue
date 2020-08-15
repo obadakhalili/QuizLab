@@ -86,6 +86,11 @@
           {{ data.item._id }}
         </a>
       </template>
+      <template v-slot:cell(Results)="data">
+        <router-link :to="'/results/' + data.item._id">
+          <a :href="'/results/' + data.item._id">Results</a>
+        </router-link>
+      </template>
       <template v-slot:cell(createdAt)="data">
         {{ humanizeDate(data, "createdAt") }}
       </template>
@@ -94,7 +99,7 @@
       </template>
       <template v-slot:cell(Edit)="data">
         <router-link :to="'/edit/' + data.item._id">
-          <a href="#">Go to Lab</a>
+          <a :href="'/edit/' + data.item._id">Go to Lab</a>
         </router-link>
       </template>
       <template v-slot:cell(Selected)="data">
@@ -123,6 +128,7 @@ export default {
           key: "title"
         },
         "ID",
+        "Results",
         {
           key: "createdAt",
           label: "Created At"

@@ -1,5 +1,4 @@
 const Quiz = require("../db/models/Quiz.js");
-const Record = require("../db/models/Record.js");
 
 exports.addQuiz = async (req, res) => {
   try {

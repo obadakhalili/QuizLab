@@ -43,6 +43,13 @@ export default [
     }
   },
   {
+    path: "/results/:id",
+    component: () => import("@/components/RecordsTable"),
+    meta: {
+      private: true
+    }
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFound")
   }

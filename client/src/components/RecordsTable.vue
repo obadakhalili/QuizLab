@@ -14,12 +14,12 @@
       </caption>
       <b-thead head-variant="dark">
         <b-tr>
-          <b-th>Quiz</b-th>
-          <b-th>Exam by</b-th>
+          <b-th v-if="isMyRecordsTable">Quiz</b-th>
+          <b-th>{{ isMyRecordsTable ? "Quiz by" : "Attempt by" }}</b-th>
           <b-th colspan="6">Attempts Summary</b-th>
         </b-tr>
         <b-tr>
-          <b-th colspan="2"></b-th>
+          <b-th :colspan="isMyRecordsTable ? 2 : 1"></b-th>
           <b-th>Started on</b-th>
           <b-th>Submission Date</b-th>
           <b-th>Time Taken</b-th>
@@ -35,7 +35,7 @@
           >
             <template v-if="record.quiz">
               <b-th
-                v-if="index === 0"
+                v-if="isMyRecordsTable && index === 0"
                 :rowspan="record.previous_attempts.length"
               >
                 {{ record.quiz.title }}
@@ -44,19 +44,29 @@
                 v-if="index === 0"
                 :rowspan="record.previous_attempts.length"
               >
-                <template v-if="record.quiz.owner">
-                  {{ record.quiz.owner.name }}
+                <template v-if="isMyRecordsTable">
+                  <template v-if="record.quiz.owner">
+                    {{ record.quiz.owner.name }}
+                  </template>
+                  <span v-else class="text-muted">
+                    [ACCOUNT DELETED]
+                  </span>
                 </template>
-                <span v-else class="text-muted">
-                  [ACCOUNT DELETED]
-                </span>
+                <template v-else>
+                  <template v-if="record.owner">
+                    {{ record.owner.name }}
+                  </template>
+                  <span v-else class="text-muted">
+                    [ACCOUNT DELETED]
+                  </span>
+                </template>
               </b-th>
             </template>
             <template v-else>
               <b-th
                 v-if="index === 0"
                 :rowspan="record.previous_attempts.length"
-                colspan="2"
+                :colspan="isMyRecordsTable ? 2 : 1"
               >
                 <span class="text-muted">
                   [DELETED]
@@ -99,10 +109,33 @@
 
 <script>
 import ContentLoading from "./ContentLoading";
+import API from "@/api";
 
 export default {
   name: "PreviousAttempts",
-  props: ["records"],
+  async created() {
+    if (this.isMyRecordsTable) {
+      this.records = (await API("/records/my-records", "get")).data;
+    } else {
+      try {
+        const response = await API("/records/my-quiz-records", "get", {
+          headers: { quizID: this.$route.params.id }
+        });
+        this.records = response.data;
+      } catch (e) {
+        this.$router.push("/quizzes");
+        this.$store.dispatch("updateAlerts", {
+          message: e.response.data,
+          color: "danger"
+        });
+      }
+    }
+  },
+  data() {
+    return {
+      records: null
+    };
+  },
   methods: {
     humanizeDate(date) {
       return new Date(date).toLocaleString();
@@ -136,6 +169,11 @@ export default {
         return "success";
       }
       return "danger";
+    }
+  },
+  computed: {
+    isMyRecordsTable() {
+      return this.$route.path === "/quizzes";
     }
   },
   components: {

@@ -22,7 +22,9 @@ recordSchema.methods.toJSON = function () {
       recordObject.quiz.owner._id = undefined;
     }
   }
-  recordObject.owner._id = undefined;
+  if (recordObject.owner) {
+    recordObject.owner._id = undefined;
+  }
   recordObject.__v = undefined;
   return recordObject;
 };

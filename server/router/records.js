@@ -1,7 +1,8 @@
 const {
   attemptQuiz,
   submitAnswers,
-  getMyRecords
+  getMyRecords,
+  getMyQuizRecords
 } = require("../controllers/records.js");
 const {
   auth,
@@ -18,6 +19,14 @@ router.get(
   validatePseudorandom,
   setHeaderAndPayloadCookie,
   getMyRecords
+);
+
+router.get(
+  "/my-quiz-records",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  getMyQuizRecords
 );
 
 router.post(
