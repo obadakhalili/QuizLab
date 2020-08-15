@@ -13,7 +13,7 @@
         <template v-if="isMyRecordsTable">
           Previous Attempts
         </template>
-        <template>
+        <template v-else>
           Results of:
           <strong>
             {{ quizTitle }}
