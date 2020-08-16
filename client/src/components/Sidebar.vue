@@ -38,9 +38,9 @@ export default {
   },
   computed: {
     name() {
-      return `${this.$store.getters.userField(
-        "firstname"
-      )} ${this.$store.getters.userField("lastname")}`;
+      const firstname = this.$store.getters.userField("firstname");
+      const lastname = this.$store.getters.userField("lastname");
+      return firstname ? `${firstname} ${lastname}` : "";
     }
   },
   methods: {
