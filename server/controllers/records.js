@@ -20,10 +20,6 @@ exports.getMyRecords = async (req, res) => {
 
 exports.getMyQuizRecords = async (req, res) => {
   try {
-    const quiz = await Quiz.findOne({ _id: req.headers.quizid }, { title: true, _id: false })
-    if (!quiz) {
-      throw "Quiz not found";
-    }
     const quizRecords = await Record.find({ quiz: req.headers.quizid });
     for (let i = 0, l = quizRecords.length; i < l; i++) {
       await quizRecords[i]
@@ -34,10 +30,7 @@ exports.getMyQuizRecords = async (req, res) => {
     if (quizRecords.length && quizRecords[0].quiz.owner.toString() !== req.user._id.toString()) {
       throw "Quiz not found";
     }
-    res.json({
-      quizRecords,
-      quizTitle: quiz.title
-    });
+    res.json(quizRecords);
   } catch (e) {
     if (e === "Quiz not found") {
       return res.status(400).send(e);
