@@ -1,7 +1,7 @@
 <template>
   <form class="mx-auto">
     <h3>Delete Account</h3>
-    <b-form-group>
+    <b-form-group class="noselect">
       <b-checkbox v-model="deleteAccountQuizzes">Delete my quizzes</b-checkbox>
     </b-form-group>
     <b-button @click="confirm" variant="danger">Delete</b-button>
