@@ -80,8 +80,8 @@
       <template v-slot:cell(ID)="data">
         <a
           v-b-tooltip.hover
-          title="Copy exam attendance link"
-          v-clipboard="data.item._id"
+          title="Copy quiz attempt link"
+          v-clipboard="getAttemptLink(data.item._id)"
         >
           {{ data.item._id }}
         </a>
@@ -163,6 +163,9 @@ export default {
     }
   },
   methods: {
+    getAttemptLink(id) {
+      return document.location.origin + "/attempt/" + id;
+    },
     toggleSelectedQuizzes() {
       if (this.selectedQuizzesLength === 0) {
         this.myQuizzes.forEach(quiz => {
