@@ -41,8 +41,7 @@ exports.setPseudorandomAndSignatureCookies = (req, res, next) => {
 exports.setHeaderAndPayloadCookie = (req, res, next) => {
   res.cookie("token-header.payload", req.tokenHeaderAndPayload, {
     sameSite: true,
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 1000 * 60 * 60 // 60 mins
+    secure: process.env.NODE_ENV === "production"
   });
   next();
 };
