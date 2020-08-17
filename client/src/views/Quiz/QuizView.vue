@@ -166,7 +166,7 @@ export default {
     nameSection(title) {
       if (!title) {
         return "Unnamed section";
-      } else if (title === this.quizTitle) {
+      } else if (title === this.quiz.title) {
         return "Main";
       }
       return title;

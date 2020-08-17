@@ -50,6 +50,13 @@ export default [
     }
   },
   {
+    path: "/review/:id/:index",
+    component: () => import("@/views/Quiz/QuizView"),
+    meta: {
+      private: true
+    }
+  },
+  {
     path: "*",
     component: () => import("@/views/NotFound")
   }

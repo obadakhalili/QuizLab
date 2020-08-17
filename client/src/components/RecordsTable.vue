@@ -93,7 +93,11 @@
                 >
                   {{ attempt.grade + "/" + attempt.total_mark }}
                 </b-td>
-                <b-td><a href="#">Review</a></b-td>
+                <b-td>
+                  <router-link :to="'/review/' + record._id + '/' + index">
+                    <a :href="'/review/' + record._id + '/' + index">Review</a>
+                  </router-link>
+                </b-td>
               </template>
               <template v-else>
                 <b-td colspan="2" class="text-muted">Not Permited</b-td>
