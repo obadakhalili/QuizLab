@@ -46,14 +46,24 @@
       <h6 v-if="viewedSection.content.length === 0">
         No sections or questions to show
       </h6>
-      <b-button
-        @click="confirmSubmission"
-        variant="dark"
-        size="sm"
-        class="my-3"
-      >
-        Submit Answers
-      </b-button>
+      <div class="my-3">
+        <b-button
+          @click="confirmSubmission"
+          variant="dark"
+          size="sm"
+          class="mr-1"
+        >
+          Submit Answers
+        </b-button>
+        <router-link to="/quizzes">
+          <b-button
+            variant="secondary"
+            size="sm"
+          >
+            Leave
+          </b-button>
+        </router-link>
+      </div>
     </b-col>
     <b-col lg="9">
       <b-row>
@@ -116,7 +126,8 @@ export default {
       quiz: null,
       options: null,
       viewedSection: null,
-      viewedQuestion: null
+      viewedQuestion: null,
+      answersSubmitted: false
     };
   },
   computed: {
@@ -187,11 +198,23 @@ export default {
         quizID: this.$route.params.id,
         answers: stringify(this.quiz)
       });
+      this.answersSubmitted = true;
       this.$router.push("/quizzes");
       this.$store.dispatch("updateAlerts", {
         message: response.data,
         color: response.status === 200 ? "success" : "info"
       });
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!this.answersSubmitted) {
+      this.$store.dispatch("updateModalInfo", {
+        message: "Do you really want to leave? answers won't be submitted",
+        procedure: next
+      });
+      this.$bvModal.show("confirm-modal");
+    } else {
+      next();
     }
   },
   components: {
