@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import ObjectId from "bson-objectid";
+
 export default {
   name: "QuizSection",
   props: ["section", "isNotFirstSection"],
@@ -45,8 +47,8 @@ export default {
       this.section.content.unshift({
         title: "",
         content: [],
-        id: this.section.content.length,
-        parentSection: this.section
+        parentSection: this.section,
+        id: ObjectId.generate()
       });
       this.$parent.$forceUpdate();
     },
@@ -55,22 +57,22 @@ export default {
         title: "",
         weight: "",
         isBonus: false,
-        answered: false,
+        viewed: false,
         choices: [
           {
             title: "",
             correct: false,
-            id: 0
+            id: ObjectId.generate()
           },
           {
             title: "",
             correct: true,
-            id: 1
+            id: ObjectId.generate()
           }
         ],
+        id: ObjectId.generate(),
         selected: null,
         isMultipleAnswer: false,
-        id: this.section.content.length,
         parentSection: this.section
       });
       this.$parent.$forceUpdate();

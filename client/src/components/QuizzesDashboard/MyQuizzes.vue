@@ -5,6 +5,7 @@
         <b-col md="8">
           <b-button
             @click="toggleSelectedQuizzes"
+            :disabled="!myQuizzes.length"
             size="sm"
             variant="secondary"
             class="mr-1"
@@ -13,9 +14,9 @@
           </b-button>
           <b-button
             @click="confirmDeleteSelectedQuizzes"
+            :disabled="selectedQuizzesLength === 0"
             size="sm"
             variant="danger"
-            :disabled="selectedQuizzesLength === 0"
           >
             Delete Selected
           </b-button>
@@ -164,7 +165,8 @@ export default {
   },
   methods: {
     getAttemptLink(id) {
-      return document.location.origin + "/attempt/" + id;
+      // return document.location.origin + "/attempt/" + id;
+      return id; // temporary
     },
     toggleSelectedQuizzes() {
       if (this.selectedQuizzesLength === 0) {

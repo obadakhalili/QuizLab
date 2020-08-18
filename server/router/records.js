@@ -2,7 +2,9 @@ const {
   attemptQuiz,
   submitAnswers,
   getMyRecords,
-  getMyQuizRecords
+  getMyQuizRecords,
+  getAttemptReview,
+  gradeAttempt
 } = require("../controllers/records.js");
 const {
   auth,
@@ -12,6 +14,22 @@ const {
 const { Router } = require("express");
 
 const router = new Router();
+
+router.post(
+  "/attempt-quiz",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  attemptQuiz
+);
+
+router.post(
+  "/submit-answers",
+  auth,
+  validatePseudorandom,
+  setHeaderAndPayloadCookie,
+  submitAnswers
+);
 
 router.get(
   "/my-records",
@@ -29,20 +47,20 @@ router.get(
   getMyQuizRecords
 );
 
-router.post(
-  "/attempt-quiz",
+router.get(
+  "/attempt-review/:id/:index",
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
-  attemptQuiz
+  getAttemptReview
 );
 
 router.post(
-  "/submit-answers",
+  "/grade-attempt/:id/:index",
   auth,
   validatePseudorandom,
   setHeaderAndPayloadCookie,
-  submitAnswers
+  gradeAttempt
 );
 
 module.exports = router;

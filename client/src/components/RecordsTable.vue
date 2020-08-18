@@ -86,11 +86,7 @@
                 }}
               </b-td>
               <template v-if="attempt.grade !== undefined">
-                <b-td
-                  :variant="computeVariant(attempt, record.quiz)"
-                  v-b-tooltip.hover
-                  :title="attempt.fully_graded ? undefined : 'Not fully graded'"
-                >
+                <b-td :variant="computeVariant(attempt, record.quiz)">
                   {{ attempt.grade + "/" + attempt.total_mark }}
                 </b-td>
                 <b-td>
@@ -166,9 +162,7 @@ export default {
       return formatted ? formatted : "0 secs";
     },
     computeVariant(attempt, quiz) {
-      if (!attempt.fully_graded) {
-        return "warning";
-      } else if (!quiz || quiz.pass_grade === null) {
+      if (!quiz || quiz.pass_grade === null) {
         return "";
       } else if (attempt.grade >= quiz.pass_grade) {
         return "success";

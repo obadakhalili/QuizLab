@@ -19,7 +19,7 @@
           <h6>Quizzes</h6>
         </li>
       </router-link>
-      <li @click="signout">
+      <li @click="startLogoutProcess">
         <h6>Sign out</h6>
       </li>
     </ul>
@@ -44,10 +44,7 @@ export default {
     }
   },
   methods: {
-    async signout() {
-      await startLogoutProcess();
-      location.reload();
-    }
+    startLogoutProcess
   }
 };
 </script>

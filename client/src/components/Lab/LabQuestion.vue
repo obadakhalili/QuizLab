@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import ObjectId from "bson-objectid";
+
 export default {
   name: "QuizQuestion",
   props: ["question"],
@@ -97,12 +99,12 @@ export default {
           {
             title: "",
             correct: false,
-            id: 0
+            id: ObjectId.generate()
           },
           {
             title: "",
             correct: true,
-            id: 1
+            id: ObjectId.generate()
           }
         ];
         this.question.isMultipleAnswer = false;
@@ -129,7 +131,7 @@ export default {
       choices.push({
         title: "",
         correct: false,
-        id: choices.length
+        id: ObjectId.generate()
       });
       this.$forceUpdate();
     },

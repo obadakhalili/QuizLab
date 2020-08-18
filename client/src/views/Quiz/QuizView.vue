@@ -47,7 +47,7 @@
         No sections or questions to show
       </h6>
       <div class="my-3">
-        <b-button
+        <b-button v-if="isAttempt"
           @click="confirmSubmission"
           variant="dark"
           size="sm"
@@ -55,6 +55,7 @@
         >
           Submit Answers
         </b-button>
+        <b-button v-else-if="isAuthor" @click="gradeAttempt" variant="success" size="sm" class="mr-1">Grade</b-button>
         <router-link to="/quizzes">
           <b-button
             variant="secondary"
@@ -76,17 +77,20 @@
           />
         </b-col>
         <b-col v-if="viewedQuestion" cols="2" class="text-center p-0">
-          <div class="question-details-container">
-            <div class="details--viewed-question-number text-white">
-              Q. {{ viewedQuestionNumber }}
+          <div class="question-sidebar">
+            <div class="question-details">
+              <div class="details--viewed-question-number text-white">
+                Q. {{ viewedQuestionNumber }}
+              </div>
+              <h1 class="display-4 m-0">
+                {{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}
+              </h1>
+              <label>Weight</label>
             </div>
-            <h1 class="display-4 m-0">
-              {{ viewedQuestion.weight ? viewedQuestion.weight : 0 }}
-            </h1>
-            <label>Weight</label>
-          </div>
-          <div v-if="viewedQuestion.isBonus" class="details--bonus-question">
-            Bonus
+            <div v-if="viewedQuestion.isBonus" class="bonus-question">
+              Bonus
+            </div>
+            <b-input v-if="isAuthor" v-model="viewedQuestion.grade" class="mt-3" type="number" placeholder="Grade"></b-input>
           </div>
         </b-col>
       </b-row>
@@ -101,19 +105,30 @@ import ContentLoading from "@/components/ContentLoading";
 import API from "@/api";
 
 export default {
-  async beforeCreate() {
+  async created() {
     try {
-      const response = await API("/records/attempt-quiz", "post", {
-        quizID: this.$route.params.id
-      });
-      if (response.status === 201) {
-        throw { response, color: "info" };
+      let view;
+      if (this.isAttempt) {
+        const response = await API("/records/attempt-quiz", "post", {
+          quizID: this.$route.params.id
+        });
+        if (response.status === 201) {
+          throw { response, color: "info" };
+        }
+        this.options = response.data.options;
+        view = response.data.viewContent;
+      } else {
+        this.confirmLeave = false;
+        const { id, index } = this.$route.params;
+        const response = await API(`/records/attempt-review/${id}/${index}`, "get");
+        this.isAuthor = response.data.isAuthor;
+        view = response.data.attemptView;
       }
-      this.quiz = parse(response.data.viewContent);
-      this.options = response.data.options;
+      this.quiz = parse(view);
       this.viewedSection = this.quiz;
       this.viewedQuestion = this.nestedQuestions[0];
     } catch (e) {
+      this.confirmLeave = false;
       this.$router.push("/quizzes");
       this.$store.dispatch("updateAlerts", {
         message: e.response.data,
@@ -123,11 +138,13 @@ export default {
   },
   data() {
     return {
+      options: {},
       quiz: null,
-      options: null,
       viewedSection: null,
       viewedQuestion: null,
-      answersSubmitted: false
+      confirmLeave: true,
+      isAuthor: false,
+      isAttempt: this.$route.path.startsWith("/attempt")
     };
   },
   computed: {
@@ -167,12 +184,7 @@ export default {
   methods: {
     changeViewedSection(section) {
       this.viewedSection = section;
-      const nextToAnswer = this.nestedQuestions.find(
-        question => question.answered === false
-      );
-      this.viewedQuestion = nextToAnswer
-        ? nextToAnswer
-        : this.nestedQuestions[this.nestedQuestions.length - 1];
+      this.viewedQuestion = this.nestedQuestions.find(question => question.viewed === false);
     },
     nameSection(title) {
       if (!title) {
@@ -183,7 +195,7 @@ export default {
       return title;
     },
     viewNextQuestion() {
-      this.viewedQuestion.answered = true;
+      this.viewedQuestion.viewed = true;
       this.viewedQuestion = this.nestedQuestions[this.viewedQuestionNumber];
     },
     confirmSubmission() {
@@ -198,18 +210,36 @@ export default {
         quizID: this.$route.params.id,
         answers: stringify(this.quiz)
       });
-      this.answersSubmitted = true;
+      this.confirmLeave = false;
       this.$router.push("/quizzes");
       this.$store.dispatch("updateAlerts", {
         message: response.data,
         color: response.status === 200 ? "success" : "info"
       });
+    },
+    async gradeAttempt() {
+      try {
+        const { id, index } = this.$route.params;
+        const response = await API(`/records/grade-attempt/${id}/${index}`, "post", {
+          attemptReview: stringify(this.quiz)
+        });
+        this.$store.dispatch("updateAlerts", {
+          message: response.data,
+          color: "success"
+        });
+      } catch (e) {
+        this.$router.push("/quizzes");
+        this.$store.dispatch("updateAlerts", {
+          message: response.data,
+          color: "danger"
+        });
+      }
     }
   },
   beforeRouteLeave(to, from, next) {
-    if (!this.answersSubmitted) {
+    if (this.confirmLeave) {
       this.$store.dispatch("updateModalInfo", {
-        message: "Do you really want to leave? answers won't be submitted",
+        message: "Do you really want to leave? answers won't be submitted.",
         procedure: next
       });
       this.$bvModal.show("confirm-modal");
@@ -235,7 +265,7 @@ export default {
 .path--viewed-question-number {
   color: #17a2b8;
 }
-.question-details-container {
+.question-details {
   background-color: #e9e9e9;
   height: 125px;
 }
@@ -243,12 +273,11 @@ export default {
   background-color: #4e6b9f;
   padding: 2.5px 0;
 }
-.details--bonus-question {
+.bonus-question {
   background-color: #81e081;
   padding-bottom: 1px;
 }
-.question-details-container,
-.details--bonus-question {
+.question-sidebar {
   width: 85%;
 }
 </style>
