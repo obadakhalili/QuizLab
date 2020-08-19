@@ -3,7 +3,7 @@
     <b-navbar-brand>{{ firstname }}</b-navbar-brand>
     <a class="ml-auto">
       <h1>
-        <BIconList v-b-toggle.sidebar-backdrop />
+        <BurgerIcon v-b-toggle.sidebar-backdrop />
       </h1>
     </a>
   </b-navbar>

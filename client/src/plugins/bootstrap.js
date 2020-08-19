@@ -4,5 +4,5 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import { BootstrapVue, BIconList, BIconArrowRightShort } from "bootstrap-vue";
 
 Vue.use(BootstrapVue);
-Vue.component("BIconList", BIconList);
+Vue.component("BurgerIcon", BIconList);
 Vue.component("RightArrow", BIconArrowRightShort);
