@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="updateAccount" class="mx-auto">
+  <form @submit.prevent="updateAccount">
     <h3>Account Info</h3>
     <b-form-group>
       <label>Name</label>
@@ -83,15 +83,13 @@ export default {
   methods: {
     async updateAccount() {
       try {
-        const {
-          data: { userIsModified, user }
-        } = await API("/users", "patch", {
+        const response = await API("/users", "patch", {
           name: `${this.firstnameInput} ${this.lastnameInput}`,
           email: this.emailInput,
           password: this.passwordInput || undefined
         });
-        if (userIsModified) {
-          this.$store.dispatch("updateUserInfo", user);
+        if (response.data.userIsModified) {
+          this.$store.dispatch("updateUserInfo", response.data.user);
           this.$store.dispatch("updateAlerts", {
             message: "Updates were taken",
             color: "success"
