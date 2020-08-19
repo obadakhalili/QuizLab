@@ -150,7 +150,9 @@ exports.getAttemptReview = async (req, res) => {
     const record = await Record.findOne(
       { _id: req.params.id },
       { quiz: true, owner: true, _id: false }
-    ).select({ previous_attempts: { $elemMatch: { id: Number(req.params.index) } } });
+    ).select({
+      previous_attempts: { $elemMatch: { id: Number(req.params.index) } }
+    });
     const attempt = record?.previous_attempts[0];
     if (!record || !attempt.review) {
       throw "Attempt not found";
