@@ -88,7 +88,8 @@ class QuizMethods {
     return stringify(viewContent);
   }
   gradeAnswers(reqBody) {
-    let grade = 0, totalMark = 0;
+    let grade = 0,
+      totalMark = 0;
     const { lab_content } = this;
     const labContent = parse(lab_content);
     const answers = parse(reqBody.answers);
@@ -110,26 +111,38 @@ class QuizMethods {
     const markQuestion = question => {
       const path = generatePath(question, []);
       const originalQuestion = getOriginalQuestion(path);
-      const weight = Number(originalQuestion.weight);      
+      const weight = Number(originalQuestion.weight);
       question.grade = 0;
       if (originalQuestion.isMultipleAnswer) {
         const selectedChoices = question.selected?.sort() || [];
-        const correctChoices = originalQuestion
-          .choices
-          .reduce((array, choice) => (choice.correct ? [...array, choice.id] : array), [])
+        const correctChoices = originalQuestion.choices
+          .reduce(
+            (array, choice) => (choice.correct ? [...array, choice.id] : array),
+            []
+          )
           .sort();
-        const answeredCorrectly = correctChoices.every((id, index) => id === selectedChoices[index]);
-        question.grade =  weight && answeredCorrectly ? weight : 0;
-        const respectiveCorrectChoices = question.choices.reduce((array, choice) => correctChoices.includes(choice.id) ? [...array, choice] : array, []);
+        const answeredCorrectly = correctChoices.every(
+          (id, index) => id === selectedChoices[index]
+        );
+        question.grade = weight && answeredCorrectly ? weight : 0;
+        const respectiveCorrectChoices = question.choices.reduce(
+          (array, choice) =>
+            correctChoices.includes(choice.id) ? [...array, choice] : array,
+          []
+        );
         respectiveCorrectChoices.forEach(choice => {
           choice.html = `<span class="text-success">${choice.title}<span>`;
           delete choice.title;
         });
       } else if (originalQuestion.isMultipleAnswer === false) {
-        let correctChoice = originalQuestion.choices.find(choice => choice.correct)?.id;
+        let correctChoice = originalQuestion.choices.find(
+          choice => choice.correct
+        )?.id;
         const answeredCorrectly = question.selected == correctChoice;
-        question.grade =  weight && answeredCorrectly ? weight : 0;
-        const respectiveCorrectChoice = question.choices.find(choice => choice.id === correctChoice);
+        question.grade = weight && answeredCorrectly ? weight : 0;
+        const respectiveCorrectChoice = question.choices.find(
+          choice => choice.id === correctChoice
+        );
         if (respectiveCorrectChoice) {
           respectiveCorrectChoice.html = `<span class="text-success">${respectiveCorrectChoice.title}<span>`;
           delete respectiveCorrectChoice.title;

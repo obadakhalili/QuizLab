@@ -44,7 +44,10 @@ exports.attemptQuiz = async (req, res) => {
     } else {
       record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
-    record.previous_attempts.push({ start_date: entranceDate, id: record.previous_attempts.length });
+    record.previous_attempts.push({
+      start_date: entranceDate,
+      id: record.previous_attempts.length
+    });
     await record.save();
     let timeLimit;
     if (quiz.time_limit || quiz.start_date) {
@@ -127,7 +130,10 @@ exports.getMyQuizRecords = async (req, res) => {
         .populate("owner", "name")
         .execPopulate();
     }
-    if (quizRecords.length && quizRecords[0].quiz.owner.toString() !== req.user._id.toString()) {
+    if (
+      quizRecords.length &&
+      quizRecords[0].quiz.owner.toString() !== req.user._id.toString()
+    ) {
       throw "Quiz not found";
     }
     res.json(quizRecords);
@@ -142,7 +148,10 @@ exports.getMyQuizRecords = async (req, res) => {
 exports.getAttemptReview = async (req, res) => {
   const { id, index } = req.params;
   try {
-    const record = await Record.findOne({ _id: id }, { quiz: true, owner: true, _id: false }).select({ previous_attempts: { $elemMatch: { id: Number(index) } }});
+    const record = await Record.findOne(
+      { _id: id },
+      { quiz: true, owner: true, _id: false }
+    ).select({ previous_attempts: { $elemMatch: { id: Number(index) } } });
     await record.populate("quiz", "owner").execPopulate();
     const userID = req.user._id.toString();
     const authorID = record.quiz?.owner.toString();
@@ -168,15 +177,21 @@ exports.getAttemptReview = async (req, res) => {
 exports.gradeAttempt = async (req, res) => {
   const { id, index } = req.params;
   try {
-    const record = await Record.findOne({ _id: id }, { previous_attempts: true, quiz: true });
+    const record = await Record.findOne(
+      { _id: id },
+      { previous_attempts: true, quiz: true }
+    );
     await record.populate("quiz", "owner").execPopulate();
-    if (!record.quiz || record.quiz.owner.toString() !== req.user._id.toString()) {
+    if (
+      !record.quiz ||
+      record.quiz.owner.toString() !== req.user._id.toString()
+    ) {
       throw "Not Authorized";
     }
     const attempt = record.previous_attempts[index];
     if (!record || !record.previous_attempts.length || !attempt.review) {
       throw "Attempt not found";
-    } 
+    }
     const grade = Record.gradeAttempt(req.body);
     attempt.grade = grade;
     attempt.review = req.body.attemptReview;

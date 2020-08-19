@@ -1,6 +1,4 @@
 import API from "@/api";
-import store from "@/store";
-import router from "@/router";
 
 export function findCookie(name) {
   const cookies = document.cookie.split(";").map(cookie => cookie.trim());

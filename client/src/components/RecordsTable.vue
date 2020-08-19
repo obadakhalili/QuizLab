@@ -10,7 +10,9 @@
       class="text-center"
     >
       <caption>
-        {{ isMyRecordsTable ? "Previous Attempts" : "Quiz results" }}
+        {{
+          isMyRecordsTable ? "Previous Attempts" : "Quiz results"
+        }}
         <template v-if="!records.length">(Nothing to show)</template>
       </caption>
       <b-thead head-variant="dark">
@@ -119,9 +121,11 @@ export default {
       this.records = (await API("/records/my-records", "get")).data;
     } else {
       try {
-        this.records = (await API("/records/my-quiz-records", "get", {
-          headers: { quizID: this.$route.params.id }
-        })).data;
+        this.records = (
+          await API("/records/my-quiz-records", "get", {
+            headers: { quizID: this.$route.params.id }
+          })
+        ).data;
       } catch (e) {
         this.$router.push("/quizzes");
         this.$store.dispatch("updateAlerts", {

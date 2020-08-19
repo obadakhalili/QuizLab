@@ -47,7 +47,8 @@
         No sections or questions to show
       </h6>
       <div class="my-3">
-        <b-button v-if="isAttempt"
+        <b-button
+          v-if="isAttempt"
           @click="confirmSubmission"
           variant="dark"
           size="sm"
@@ -55,12 +56,16 @@
         >
           Submit Answers
         </b-button>
-        <b-button v-else-if="isAuthor" @click="gradeAttempt" variant="success" size="sm" class="mr-1">Grade</b-button>
+        <b-button
+          v-else-if="isAuthor"
+          @click="gradeAttempt"
+          variant="success"
+          size="sm"
+          class="mr-1"
+          >Grade</b-button
+        >
         <router-link to="/quizzes">
-          <b-button
-            variant="secondary"
-            size="sm"
-          >
+          <b-button variant="secondary" size="sm">
             Leave
           </b-button>
         </router-link>
@@ -90,7 +95,13 @@
             <div v-if="viewedQuestion.isBonus" class="bonus-question">
               Bonus
             </div>
-            <b-input v-if="isAuthor" v-model="viewedQuestion.grade" class="mt-3" type="number" placeholder="Grade"></b-input>
+            <b-input
+              v-if="isAuthor"
+              v-model="viewedQuestion.grade"
+              class="mt-3"
+              type="number"
+              placeholder="Grade"
+            ></b-input>
           </div>
         </b-col>
       </b-row>
@@ -120,7 +131,10 @@ export default {
       } else {
         this.confirmLeave = false;
         const { id, index } = this.$route.params;
-        const response = await API(`/records/attempt-review/${id}/${index}`, "get");
+        const response = await API(
+          `/records/attempt-review/${id}/${index}`,
+          "get"
+        );
         this.isAuthor = response.data.isAuthor;
         view = response.data.attemptView;
       }
@@ -184,7 +198,9 @@ export default {
   methods: {
     changeViewedSection(section) {
       this.viewedSection = section;
-      this.viewedQuestion = this.nestedQuestions.find(question => question.viewed === false);
+      this.viewedQuestion = this.nestedQuestions.find(
+        question => question.viewed === false
+      );
     },
     nameSection(title) {
       if (!title) {
@@ -220,9 +236,13 @@ export default {
     async gradeAttempt() {
       try {
         const { id, index } = this.$route.params;
-        const response = await API(`/records/grade-attempt/${id}/${index}`, "post", {
-          attemptReview: stringify(this.quiz)
-        });
+        const response = await API(
+          `/records/grade-attempt/${id}/${index}`,
+          "post",
+          {
+            attemptReview: stringify(this.quiz)
+          }
+        );
         this.$store.dispatch("updateAlerts", {
           message: response.data,
           color: "success"
@@ -230,7 +250,7 @@ export default {
       } catch (e) {
         this.$router.push("/quizzes");
         this.$store.dispatch("updateAlerts", {
-          message: response.data,
+          message: e.response.data,
           color: "danger"
         });
       }
