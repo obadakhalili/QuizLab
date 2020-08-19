@@ -123,7 +123,7 @@ export default {
       if (this.isAttempt) {
         const response = await API("/records/attempt-quiz", "post", {
           quizID: this.$route.params.id,
-          entranceDate: new Date()
+          timezoneOffset: new Date().getTimezoneOffset()
         });
         if (response.status === 201) {
           throw { response, color: "info" };
