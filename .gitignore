@@ -1,15 +1,13 @@
 .DS_Store
 
 server/node_modules
-server/package-lock.json
-client/node_modules
-client/package-local.json
-server/dist
+server/config
+# server/dist
+client
 
 # local env files
 .env.local
 .env.*.local
-server/config
 
 # Log files
 npm-debug.log*
@@ -25,5 +23,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-
-todo.md
