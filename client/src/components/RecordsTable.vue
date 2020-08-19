@@ -115,7 +115,7 @@ import ContentLoading from "./ContentLoading";
 import API from "@/api";
 
 export default {
-  name: "PreviousAttempts",
+  name: "RecordsTable",
   async created() {
     if (this.isMyRecordsTable) {
       this.records = (await API("/records/my-records", "get")).data;
@@ -138,7 +138,8 @@ export default {
   data() {
     return {
       records: null,
-      quizTitle: ""
+      quizTitle: "",
+      isMyRecordsTable: this.$route.path === "/quizzes"
     };
   },
   methods: {
@@ -172,11 +173,6 @@ export default {
         return "success";
       }
       return "danger";
-    }
-  },
-  computed: {
-    isMyRecordsTable() {
-      return this.$route.path === "/quizzes";
     }
   },
   components: {
