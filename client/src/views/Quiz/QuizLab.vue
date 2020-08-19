@@ -101,7 +101,7 @@
     <LabContent :labContent="labContent" />
     <b-button
       @click="submitQuiz"
-      :variant="routeIsNew ? 'dark' : 'success'"
+      :variant="isNew ? 'dark' : 'success'"
       class="float-right mt-3"
     >
       Submit
@@ -118,7 +118,7 @@ import API from "@/api";
 export default {
   name: "QuizLab",
   created() {
-    if (this.routeIsNew) {
+    if (this.isNew) {
       this.resetLabContent();
     } else {
       this.setQuiz();
@@ -127,13 +127,9 @@ export default {
   data() {
     return {
       labContent: null,
-      showQuizOptions: true
+      showQuizOptions: true,
+      isNew: this.$route.path === "/new"
     };
-  },
-  computed: {
-    routeIsNew() {
-      return this.$route.path === "/new";
-    }
   },
   methods: {
     async setQuiz() {
@@ -158,7 +154,7 @@ export default {
         labContent: stringify(this.labContent)
       };
       try {
-        if (this.routeIsNew) {
+        if (this.isNew) {
           await API("/quizzes", "post", submitBody);
           this.$store.dispatch("updateAlerts", {
             message: "Quiz was submitted successfully",
