@@ -17,15 +17,15 @@ exports.attemptQuiz = async (req, res) => {
     if (!quiz) {
       throw "Quiz not found";
     }
-    const entranceDate = new Date();
+    req.body.entranceDate = new Date(req.body.entranceDate);
     if (quiz.start_date) {
-      if (entranceDate < quiz.start_date) {
+      if (req.body.entranceDate < quiz.start_date) {
         return res
           .status(201)
           .send(
             "You are early, exam starts at " + quiz.start_date.toLocaleString()
           );
-      } else if (entranceDate > quiz.close_date) {
+      } else if (req.body.entranceDate > quiz.close_date) {
         return res
           .status(201)
           .send(
@@ -45,13 +45,13 @@ exports.attemptQuiz = async (req, res) => {
       record = new Record({ quiz: req.body.quizID, owner: req.user._id });
     }
     record.previous_attempts.push({
-      start_date: entranceDate,
+      start_date: req.body.entranceDate,
       id: record.previous_attempts.length
     });
     await record.save();
     let timeLimit;
     if (quiz.time_limit || quiz.start_date) {
-      const difference = quiz.close_date - entranceDate;
+      const difference = quiz.close_date - req.body.entranceDate;
       if (difference > quiz.time_limit || !quiz.start_date) {
         timeLimit = quiz.time_limit;
       } else {
