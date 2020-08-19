@@ -21,9 +21,9 @@ exports.attemptQuiz = async (req, res) => {
     let entranceDate = now;
     if (now.getTimezoneOffset() === 0) {
       if (req.body.timezoneOffset < 0) {
-        entranceDate = new Date(new Date().getTime() + Math.abs(new Date().getTimezoneOffset()) * 60000);
+        entranceDate = new Date(new Date().getTime() + Math.abs(req.body.timezoneOffset) * 60000);
       } else {
-        entranceDate = new Date(new Date().getTime() + new Date().getTimezoneOffset() * -60000);
+        entranceDate = new Date(new Date().getTime() + req.body.timezoneOffset * -60000);
       }
     }
     if (quiz.start_date) {
