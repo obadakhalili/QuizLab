@@ -9,7 +9,7 @@
         </router-link>
       </b-col>
       <b-col md="4">
-        <b-form-row class="attend-quiz-section">
+        <b-form-row class="attempt-quiz-section">
           <b-col cols="8">
             <b-input
               v-model="quizID"
@@ -47,7 +47,7 @@ export default {
   padding-bottom: 5px;
 }
 @media only screen and (max-width: 767px) {
-  .attend-quiz-section {
+  .attempt-quiz-section {
     margin-top: 5px;
   }
 }
