@@ -62,8 +62,9 @@
           variant="success"
           size="sm"
           class="mr-1"
-          >Grade</b-button
         >
+          Grade
+        </b-button>
         <router-link to="/quizzes">
           <b-button variant="secondary" size="sm">
             Leave

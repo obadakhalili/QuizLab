@@ -146,20 +146,19 @@ exports.getMyQuizRecords = async (req, res) => {
 };
 
 exports.getAttemptReview = async (req, res) => {
-  const { id, index } = req.params;
   try {
     const record = await Record.findOne(
-      { _id: id },
+      { _id: req.params.id },
       { quiz: true, owner: true, _id: false }
-    ).select({ previous_attempts: { $elemMatch: { id: Number(index) } } });
+    ).select({ previous_attempts: { $elemMatch: { id: Number(req.params.index) } } });
+    const attempt = record?.previous_attempts[0];
+    if (!record || !attempt.review) {
+      throw "Attempt not found";
+    }
     await record.populate("quiz", "owner").execPopulate();
     const userID = req.user._id.toString();
     const authorID = record.quiz?.owner.toString();
     if (userID !== record.owner.toString() && userID !== authorID) {
-      throw "Attempt not found";
-    }
-    const [attempt] = record.previous_attempts;
-    if (!record || !record.previous_attempts.length || !attempt.review) {
       throw "Attempt not found";
     }
     res.json({
@@ -175,12 +174,15 @@ exports.getAttemptReview = async (req, res) => {
 };
 
 exports.gradeAttempt = async (req, res) => {
-  const { id, index } = req.params;
   try {
     const record = await Record.findOne(
-      { _id: id },
+      { _id: req.params.id },
       { previous_attempts: true, quiz: true }
     );
+    const attempt = record?.previous_attempts[req.params.index];
+    if (!record || !attempt.review) {
+      throw "Attempt not found";
+    }
     await record.populate("quiz", "owner").execPopulate();
     if (
       !record.quiz ||
@@ -188,17 +190,13 @@ exports.gradeAttempt = async (req, res) => {
     ) {
       throw "Not Authorized";
     }
-    const attempt = record.previous_attempts[index];
-    if (!record || !record.previous_attempts.length || !attempt.review) {
-      throw "Attempt not found";
-    }
     const grade = Record.gradeAttempt(req.body);
     attempt.grade = grade;
     attempt.review = req.body.attemptReview;
     record.markModified("previous_attempts");
     await record.save();
     res.send("Graded");
-  } catch {
+  } catch (e) {
     if (e.name === "CastError" || e === "Attempt not found") {
       return res.status(400).send("Attempt not found");
     } else if (e === "Not Authorized") {
