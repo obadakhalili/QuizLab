@@ -165,8 +165,7 @@ export default {
   },
   methods: {
     getAttemptLink(id) {
-      // return document.location.origin + "/attempt/" + id;
-      return id; // temporary
+      return document.location.origin + "/attempt/" + id;
     },
     toggleSelectedQuizzes() {
       if (this.selectedQuizzesLength === 0) {
