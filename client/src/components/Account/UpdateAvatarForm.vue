@@ -1,16 +1,16 @@
 <template>
-  <form @submit.prevent="updateAvatar" class="mx-auto">
+  <form @submit.prevent="updateAvatar">
     <h3>Update Avatar</h3>
-    <b-form-file v-model="avatar" class="mt-2 mb-2"></b-form-file>
-    <b-row>
-      <b-col cols="lg-3">
+    <b-form-file v-model="avatar" class="my-2"></b-form-file>
+    <b-row no-gutters>
+      <b-col cols="6">
         <b-button type="submit" variant="secondary">
-          <b-spinner v-if="avatarIsUpdating" label="Spinning" small></b-spinner>
+          <b-spinner v-if="avatarIsUpdating" small></b-spinner>
           <span v-if="!avatarIsUpdating">Upload</span>
         </b-button>
       </b-col>
-      <b-col cols="lg-9">
-        <small class="img-criteria">
+      <b-col cols="6">
+        <small>
           1.5 mb maximum, and .png, .jpg or .jpeg only
         </small>
       </b-col>
@@ -55,14 +55,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.img-criteria {
-  float: right;
-}
-@media only screen and (max-width: 991px) {
-  .img-criteria {
-    float: none;
-  }
-}
-</style>
