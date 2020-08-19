@@ -1,5 +1,9 @@
 export default [
   {
+    path: "/",
+    component: () => import("@/views/LandingPage")
+  },
+  {
     path: "/signup",
     component: () => import("@/views/Signup")
   },
