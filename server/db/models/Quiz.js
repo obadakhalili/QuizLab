@@ -21,10 +21,6 @@ const quizSchema = new Schema(
       type: Number,
       min: [0, "Time limit should be an integer thats at least 0"]
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    },
     close_date: {
       type: Date,
       validate: {
@@ -33,6 +29,10 @@ const quizSchema = new Schema(
         },
         message: "Close date should be greater than start date"
       }
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
     },
     start_date: Date,
     show_results: Boolean,
