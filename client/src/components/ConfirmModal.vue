@@ -1,5 +1,5 @@
 <template>
-  <b-modal @ok="modalProcedure" size="sm" hide-header id="confirm-modal">
+  <b-modal @ok="modalProcedure" hide-header size="sm" id="confirm-modal">
     <h5>{{ modalMessage }}</h5>
     <template v-slot:modal-footer="{ ok, hide }">
       <b-button size="sm" variant="success" @click="ok">
