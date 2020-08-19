@@ -1,0 +1,2 @@
+# QuizLab
+QuizLab is a full-fledged web application, for creating, sharing, attending, and reviewing quizzes. It allows users to create quizzes with several diverse options and shapes that will cover anyone's needs.
