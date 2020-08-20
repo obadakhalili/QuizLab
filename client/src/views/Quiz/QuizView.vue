@@ -226,6 +226,7 @@ export default {
     async submitAnswers() {
       const response = await API("/records/submit-answers", "post", {
         quizID: this.$route.params.id,
+        timezoneOffset: new Date().getTimezoneOffset(),
         answers: stringify(this.quiz)
       });
       this.confirmLeave = false;
