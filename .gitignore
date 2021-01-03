@@ -1,31 +1,3 @@
-.DS_Store
-
 server/node_modules
-client/node_modules
-
 server/package-lock.json
-client/package-local.json
-
 server/dist
-
-# local env files
-.env.local
-.env.*.local
-server/config
-
-# Log files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-todo.md
