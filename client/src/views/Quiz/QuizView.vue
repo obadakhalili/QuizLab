@@ -123,7 +123,7 @@ export default {
       if (this.isAttempt) {
         const response = await API("/records/attempt-quiz", "post", {
           quizID: this.$route.params.id,
-          timezoneOffset: new Date().getTimezoneOffset()
+          date: new Date().toLocaleString()
         });
         if (response.status === 201) {
           throw { response, color: "info" };
@@ -226,7 +226,6 @@ export default {
     async submitAnswers() {
       const response = await API("/records/submit-answers", "post", {
         quizID: this.$route.params.id,
-        timezoneOffset: new Date().getTimezoneOffset(),
         answers: stringify(this.quiz)
       });
       this.confirmLeave = false;
